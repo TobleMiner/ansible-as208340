@@ -1,0 +1,11 @@
+---
+- name: Ensure bridge-utils are installed
+  apt:
+    name: bridge-utils
+    state: present
+
+- name: Ensure interface configuration is deployed
+  template:
+    src: '{{ "etc/network/interfaces.d/{{ ifname }}.conf" }}'
+    dest: '/etc/network/interfaces.d/{{ ifname }}.conf'
+  notify: Restart interface
