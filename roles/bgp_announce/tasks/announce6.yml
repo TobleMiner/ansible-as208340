@@ -1,0 +1,8 @@
+---
+- name: Ensure IPv6 announcement config is preset
+  template:
+    src: '{{ "etc/bird/bird6/conf.d/100-announce-{{ net_sanitized }}.conf.j2" }}'
+    dest: '/etc/bird/bird6/conf.d/100-announce-{{ net_sanitized }}.conf'
+  vars:
+    net_sanitized: '{{ ipv6.net | regex_replace("/", "_") }}'
+  notify: Reload bird6 config

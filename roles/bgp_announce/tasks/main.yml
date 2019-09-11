@@ -1,0 +1,12 @@
+---
+- name: Announce an IPv4 network
+  include_tasks:
+    file: announce4.yml
+  when: ipv4 is defined
+  tags: bgp_announce, bgp_announce4
+
+- name: Announce an IPv6 network
+  include_tasks:
+    file: announce6.yml
+  when: ipv6 is defined
+  tags: bgp_announce, bgp_announce6
