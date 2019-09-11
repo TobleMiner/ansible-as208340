@@ -7,6 +7,8 @@
   roles:
     - base
     - bgp
+    - { role: bgp_announce, vars: { ipv4: { net: '{{ ipv4_net }}' } } }
+    - { role: bgp_announce, vars: { ipv6: { net: '{{ ipv6_net }}' } } }
   
 - hosts: vultr
   vars:
