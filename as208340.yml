@@ -1,0 +1,10 @@
+---
+- hosts: pops
+  vars:
+    asn: 208340
+    ipv4_net: 44.190.22.0/24
+    ipv6_net: 2a06:e881:5608::/48
+  roles:
+    - base
+    - bgp
+  
