@@ -5,6 +5,11 @@
     path: /etc/bird/bird6
     state: directory
 
+- name: Ensure bird6 define dir exists
+  file:
+    path: /etc/bird/bird6/defines
+    state: directory
+
 - name: Ensure bird6 config dir exists
   file:
     path: /etc/bird/bird6/conf.d
@@ -23,8 +28,8 @@
 # Place config files
 - name: Ensure bird6 config file is present
   copy:
-    src: etc/bird/bird.conf
-    dest: /etc/bird/bird.conf
+    src: etc/bird/bird6.conf
+    dest: /etc/bird/bird6.conf
   notify: Reload bird6 config
 
 - name: Ensure bird6 base filters are present
@@ -33,10 +38,16 @@
     dest: /etc/bird/bird6/filters/010-base.conf
   notify: Reload bird6 config
 
-- name: Ensure bird6 local config is present
+- name: Ensure bird6 base defines is present
+  copy:
+    src: etc/bird/bird6/defines/010-base.conf
+    dest: /etc/bird/bird6/defines/010-base.conf
+  notify: Reload bird6 config
+
+- name: Ensure bird6 local defines is present
   template:
-    src: etc/bird/bird6/conf.d/010-local.conf.j2
-    dest: /etc/bird/bird6/conf.d/010-local.conf
+    src: etc/bird/bird6/defines/010-local.conf.j2
+    dest: /etc/bird/bird6/defines/010-local.conf
   notify: Reload bird6 config
 
 # Handle service
