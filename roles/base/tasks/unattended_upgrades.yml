@@ -1,0 +1,12 @@
+---
+- name: Ensure unattended upgrades is enabled
+  debconf:
+    name: unattended-upgrades
+    question: unattended-upgrades/enable_auto_updates
+    value: 'True'
+    vtype: boolean
+
+- name: Ensure unattended upgrades is installed
+  apt:
+    name: unattended-upgrades
+    state: present  

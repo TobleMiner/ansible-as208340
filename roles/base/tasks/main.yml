@@ -1,0 +1,11 @@
+---
+- name: Install aptitude
+  apt:
+    name: aptitude
+    state: present
+  tags: base
+
+- name: Enable unattended upgrades
+  include_tasks:
+    file: unattended_upgrades.yml
+  tags: base, unattended_upgrades
