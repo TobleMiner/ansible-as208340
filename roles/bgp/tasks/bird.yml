@@ -1,0 +1,47 @@
+---
+# Build directory structure
+- name: Ensure bird dir exists
+  file:
+    path: /etc/bird/bird4
+    state: directory
+
+- name: Ensure bird config dir exists
+  file:
+    path: /etc/bird/bird4/conf.d
+    state: directory
+
+- name: Ensure bird filter dir exists
+  file:
+    path: /etc/bird/bird4/filters
+    state: directory
+
+- name: Ensure bird peer dir exists
+  file:
+    path: /etc/bird/bird4/peers
+    state: directory
+    
+# Place config files
+- name: Ensure bird config file is present
+  copy:
+    src: etc/bird/bird.conf
+    dest: /etc/bird/bird.conf
+  notify: Reload bird config
+
+- name: Ensure bird base filters are present
+  copy:
+    src: etc/bird/bird4/filters/010-base.conf
+    dest: /etc/bird/bird4/filters/010-base.conf
+  notify: Reload bird config
+
+- name: Ensure bird local config is present
+  template:
+    src: etc/bird/bird4/conf.d/010-local.conf.j2
+    dest: /etc/bird/bird4/conf.d/010-local.conf
+  notify: Reload bird config
+
+# Handle service
+- name: Ensure bird service is enabled and started
+  service:
+    name: bird
+    enabled: yes
+    state: started

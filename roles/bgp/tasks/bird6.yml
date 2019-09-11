@@ -1,0 +1,47 @@
+---
+# Build directory structure
+- name: Ensure bird6 dir exists
+  file:
+    path: /etc/bird/bird6
+    state: directory
+
+- name: Ensure bird6 config dir exists
+  file:
+    path: /etc/bird/bird6/conf.d
+    state: directory
+
+- name: Ensure bird6 filter dir exists
+  file:
+    path: /etc/bird/bird6/filters
+    state: directory
+
+- name: Ensure bird6 peer dir exists
+  file:
+    path: /etc/bird/bird6/peers
+    state: directory
+    
+# Place config files
+- name: Ensure bird6 config file is present
+  copy:
+    src: etc/bird/bird.conf
+    dest: /etc/bird/bird.conf
+  notify: Reload bird6 config
+
+- name: Ensure bird6 base filters are present
+  copy:
+    src: etc/bird/bird6/filters/010-base.conf
+    dest: /etc/bird/bird6/filters/010-base.conf
+  notify: Reload bird6 config
+
+- name: Ensure bird6 local config is present
+  template:
+    src: etc/bird/bird6/conf.d/010-local.conf.j2
+    dest: /etc/bird/bird6/conf.d/010-local.conf
+  notify: Reload bird6 config
+
+# Handle service
+- name: Ensure bird6 service is enabled and started
+  service:
+    name: bird6
+    enabled: yes
+    state: started

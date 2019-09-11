@@ -1,0 +1,16 @@
+---
+- name: Ensure bird is installed
+  apt:
+    name: bird
+    state: present
+  tags: bgp, bird
+
+- name: Configure bird (IPv4)
+  include_tasks:
+    file: bird.yml
+  tags: bgp, bird, bird4
+
+- name: Configure bird6 (IPv6)
+  include_tasks:
+    file: bird6.yml
+  tags: bgp, bird, bird6
