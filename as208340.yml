@@ -21,6 +21,7 @@
         ipv6_primary: '{{ interfaces["as" ~ asn].ipv6 }}'
       with_items: '{{ groups["pops"] }}'
       when: item != inventory_hostname
+      tags: peering_ibgp
   
 - hosts: vultr
   vars:
