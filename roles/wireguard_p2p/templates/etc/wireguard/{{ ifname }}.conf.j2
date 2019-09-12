@@ -1,0 +1,11 @@
+[Interface]
+PrivateKey = {{ wg_self.key.private }}
+ListenPort = {{ wg_self.port }}
+
+[Peer]
+PublicKey = {{ wg_peer.key.public }}
+AllowedIPs = 0.0.0.0/0, ::/0
+{% if wg_peer.endpoint is defined and wg_peer.endpoint != False %}
+Endpoint = {{wg_peer.endpoint}}:{{ wg_peer.port }}
+{% endif %}
+PersistentKeepalive = 25

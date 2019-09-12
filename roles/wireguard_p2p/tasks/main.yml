@@ -1,0 +1,43 @@
+---
+#- name: Ensure wireguard related firewall config is set up
+#  block:
+#  - name: Ensure input chain for wireguard is set up
+#    template:
+#      src: '{{ "etc/iptables.d/001-CHAINS-input_wg-{{ site.code }}.j2" }}'
+#      dest: /etc/iptables.d/001-CHAINS-input_wg-{{ site.code }}
+#    notify: restart firewall
+#
+#  - name: Ensure delegation to wireguard input chain is set up
+#    template:
+#      src: '{{ "etc/iptables.d/100-device-wg-{{ site.code }}.j2" }}'
+#      dest: /etc/iptables.d/100-device-wg-{{ site.code }}
+#    notify: restart firewall
+#  when: 'wireguard is defined'
+#  tags: wireguard_p2p, firewall
+
+- name: Ensure wireguard cofig directory exists
+  file:
+    path: /etc/wireguard
+    state: directory
+  tags: wireguard_p2p
+
+- name: Ensure wireguard config is deployed
+  vars:
+    ifname: '{{ wg_self.iface }}'
+  template:
+    src: '{{ "etc/wireguard/{{ ifname }}.conf.j2" }}'
+    dest: '/etc/wireguard/{{ ifname }}.conf'
+  notify: Restart wireguard interface
+  tags: wireguard_p2p
+
+- name: Ensure wireguard interface config is deployed
+  vars:
+    ifname: '{{ wg_self.iface }}'
+  template:
+    src: '{{ "etc/network/interfaces.d/{{ ifname }}.j2" }}'
+    dest: '/etc/network/interfaces.d/{{ ifname }}'
+  notify: Restart wireguard interface
+  tags: wireguard_p2p
+
+- name: Force execution of handlers
+  meta: flush_handlers

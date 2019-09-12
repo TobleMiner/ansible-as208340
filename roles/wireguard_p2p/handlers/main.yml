@@ -1,0 +1,7 @@
+---
+- name: Restart wireguard interface
+  vars:
+    ifname: '{{ wg_self.iface }}'
+  shell: |
+    ifdown {{ ifname }} || ( ip link set down {{ ifname }} && ip link del {{ ifname }} ) || true
+    ifup {{ ifname }}
