@@ -6,6 +6,6 @@
 
 - name: Ensure interface configuration is deployed
   template:
-    src: '{{ "etc/network/interfaces.d/{{ ifname }}.conf" }}'
-    dest: '/etc/network/interfaces.d/{{ ifname }}.conf'
+    src: '{{ "etc/network/interfaces.d/{{ ifname }}.j2" }}'
+    dest: '/etc/network/interfaces.d/{{ ifname }}'
   notify: Restart interface
