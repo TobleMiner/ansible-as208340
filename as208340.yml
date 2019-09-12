@@ -10,6 +10,17 @@
     - { role: bgp_announce, vars: { ipv4: { net: '{{ ipv4_net }}' } } }
     - { role: bgp_announce, vars: { ipv6: { net: '{{ ipv6_net }}' } } }
     - { role: asn_interface, vars: { ifname: 'br-as{{ asn }}', iface: '{{ interfaces.as208340 }}' } }
+
+  tasks:
+    - name: Establish ibgp peerings
+      include_role:
+        name: peering_ibgp
+      vars:
+        peername: '{{ item }}'
+        ipv4_primary: '{{ interfaces["as" ~ asn].ipv4 }}'
+        ipv6_primary: '{{ interfaces["as" ~ asn].ipv6 }}'
+      with_items: '{{ groups["pops"] }}'
+      when: item != inventory_hostname
   
 - hosts: vultr
   vars:
