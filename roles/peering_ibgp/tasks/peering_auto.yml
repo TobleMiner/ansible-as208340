@@ -4,12 +4,39 @@
     - name: Ensure wireguard is set up
       include_role:
         name: wireguard_p2p
+
+    - name: Ensure bgp peering is configured (IPv4)
+      vars:
+        friendly_name: '{{ peer.friendly_name }}'
+        peer_address: '{{ ipv4_address_peer | strip_prefixlen }}'
+      template:
+        src: '{{ "etc/bird/bird4/peers/ibgp-{{ friendly_name }}.conf.j2" }}'
+        dest: '/etc/bird/bird4/peers/ibgp-{{ friendly_name }}.conf'
+      notify: Reload bird config
+
+    - name: Ensure bgp peering is configured (IPv6)
+      vars:
+        friendly_name: '{{ peer.friendly_name }}'
+        peer_address: '{{ ipv6_address_peer | strip_prefixlen }}'
+      template:
+        src: '{{ "etc/bird/bird6/peers/ibgp-{{ friendly_name }}.conf.j2" }}'
+        dest: '/etc/bird/bird6/peers/ibgp-{{ friendly_name }}.conf'
+      notify: Reload bird6 config
+
   vars:
     peer: '{{ hostvars[peername] }}'
     master: '{{ (inventory_hostname | hashnum) > (peername | hashnum) }}'
-    ip_index4: '{% if master %}0{% else %}1{% endif %}'
-    ip_index6: '{% if master %}1{% else %}2{% endif %}'
+    ipv4_index_self: '{% if master %}0{% else %}1{% endif %}'
+    ipv6_index_self: '{% if master %}1{% else %}2{% endif %}'
+    ipv4_index_peer: '{% if master %}1{% else %}0{% endif %}'
+    ipv6_index_peer: '{% if master %}2{% else %}1{% endif %}'
     ip_id: '{% if master %}{{ inventory_hostname | ippoolid(peername) }}{% else %}{{ peername | ippoolid(inventory_hostname) }}{% endif %}'
+    ipv4_net: '{{ ip_id  | ippool4(ippool.global, ippool.transfer, 31) }}'
+    ipv6_net: fe80::/64
+    ipv4_address_self: '{{ ipv4_net | ipaddr(ipv4_index_self) }}'
+    ipv6_address_self: '{{ ipv6_net | ipaddr(ipv6_index_self) }}'
+    ipv4_address_peer: '{{ ipv4_net | ipaddr(ipv4_index_peer) }}'
+    ipv6_address_peer: '{{ ipv6_net | ipaddr(ipv6_index_peer) }}'
     wg_self:
       iface: '{{ ("wg-" ~ peer.friendly_name) | trunc(15) }}'
       key: '{{ wireguard.key }}'
@@ -17,10 +44,10 @@
       mtu: '{{ wireguard.mtu }}'
       ipv4:
         - '{{ ipv4_primary }}'
-        - '{{ ip_id  | ippool4(ippool.global, ippool.transfer, 31) | ipaddr(ip_index4) }}'
+        - '{{ ipv4_address_self }}'
       ipv6:
         - '{{ ipv6_primary }}'
-        - '{{ "fe80::/64" | ipaddr(ip_index6) }}'
+        - '{{ ipv6_address_self }}'
     wg_peer:
       key: '{{ peer.wireguard.key }}'
       port: '{{ (peername ~ inventory_hostname) | hashnum(wireguard.port_range.start, wireguard.port_range.end) }}'
