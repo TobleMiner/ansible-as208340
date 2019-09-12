@@ -1,0 +1,17 @@
+---
+- name: Ensure routing rule directory exists
+  file:
+    path: /etc/routing-rules.d/
+    state: directory
+
+- name: Ensure routing rule setup script is deployed
+  copy:
+    src:  usr/local/sbin/routing-rulesd
+    dest: /usr/local/sbin/routing-rulesd
+
+- name: Ensure routing rule setup script is executable
+  file:
+    path: /usr/local/sbin/routing-rulesd
+    type: file
+    mode: '755'
+  
