@@ -1,0 +1,12 @@
+---
+- name: Ensure reverse path filtering is disabled
+  copy:
+    src: etc/sysctl.d/10-disable-rp-filter.conf
+    dest: /etc/sysctl.d/10-disable-rp-filter.conf
+  notify: Reload sysctl
+
+- name: Ensure IP forwarding is enabled
+  copy:
+    src: etc/sysctl.d/10-enable-forwarding.conf
+    dest: /etc/sysctl.d/10-enable-forwarding.conf
+  notify: Reload sysctl

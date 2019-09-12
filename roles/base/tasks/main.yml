@@ -9,3 +9,8 @@
   include_tasks:
     file: unattended_upgrades.yml
   tags: base, unattended_upgrades
+
+- name: Set sysctl settings
+  include_tasks:
+    file: sysctl.yml
+  tags: base, sysctl
