@@ -1,0 +1,4 @@
+---
+- name: Set up ibgp peering with automatic address config
+  include_tasks:
+    file: peering_auto.yml

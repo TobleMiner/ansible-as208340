@@ -1,0 +1,27 @@
+---
+- name: Configure ibg peering
+  block:
+    - name: Ensure wireguard is set up
+      include_role:
+        name: wireguard_p2p
+  vars:
+    peer: '{{ hostvars[peername] }}'
+    master: '{{ (inventory_hostname | hashnum) > (peername | hashnum) }}'
+    ip_index4: '{% if master %}0{% else %}1{% endif %}'
+    ip_index6: '{% if master %}1{% else %}2{% endif %}'
+    ip_id: '{% if master %}{{ inventory_hostname | ippoolid(peername) }}{% else %}{{ peername | ippoolid(inventory_hostname) }}{% endif %}'
+    wg_self:
+      iface: '{{ ("wg-" ~ peer.friendly_name) | trunc(15) }}'
+      key: '{{ wireguard.key }}'
+      port: '{{ (inventory_hostname ~ peername) | hashnum(wireguard.port_range.start, wireguard.port_range.end) }}'
+      mtu: '{{ wireguard.mtu }}'
+      ipv4:
+        - '{{ ipv4_primary }}'
+        - '{{ ip_id  | ippool4(ippool.global, ippool.transfer, 31) | ipaddr(ip_index4) }}'
+      ipv6:
+        - '{{ ipv6_primary }}'
+        - '{{ "fe80::/64" | ipaddr(ip_index6) }}'
+    wg_peer:
+      key: '{{ peer.wireguard.key }}'
+      port: '{{ (peername ~ inventory_hostname) | hashnum(wireguard.port_range.start, wireguard.port_range.end) }}'
+      endpoint: '{% if (peer.wireguard.float | default(False)) %}False{% else %}{{ peer.interfaces.wan.ipv4 }}{% endif %}'
