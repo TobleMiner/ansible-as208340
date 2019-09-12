@@ -1,0 +1,10 @@
+[Unit]
+Description="Initialize routing rules for %I"
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/routing-rules-%I start
+ExecStop=/usr/local/sbin/routing-rules-%I stop
+
+[Install]
+WantedBy=network-pre.target
