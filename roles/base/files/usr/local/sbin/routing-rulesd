@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+set -e -o pipefail
+
+RULE_DIR='/etc/routing-rules.d'
+
+warn() {
+  ( 1>&2 echo $@ )
+}
+
+iprule4() {
+  ip -4 rule "$@"
+}
+
+iprule6() {
+  ip -6 rule "$@"
+}
+
+iprule46() {
+  iprule4 "$@"
+  iprule6 "$@"
+}
+
+if ! [ -d "$RULE_DIR" ]; then
+  warn Rule directory "\"$RULE_DIR\"" does not exist
+  exit 1
+fi
+
+ip -4 rule flush
+ip -4 rule add pref 32766 lookup main
+ip -4 rule add pref 32767 lookup default
+
+ip -6 rule flush
+ip -6 rule add pref 32766 lookup main
+
+for file in "$RULE_DIR"/*.conf; do
+  echo Running rules file "\"$file\""
+  if ! (. "$file"); then
+    warn Execution of rules from "\"$file\"" failed
+  fi
+done

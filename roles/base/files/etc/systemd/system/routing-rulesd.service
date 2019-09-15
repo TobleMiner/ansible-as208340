@@ -1,0 +1,9 @@
+[Unit]
+Description="Initialize routing rules"
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/routing-rulesd
+
+[Install]
+WantedBy=network-pre.target

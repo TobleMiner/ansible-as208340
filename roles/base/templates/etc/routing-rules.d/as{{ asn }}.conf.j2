@@ -1,0 +1,9 @@
+iprule4 add pref 30000 to {{ ipv4_net }} lookup {{ asn }}
+iprule4 add pref 31000 to {{ ipv4_net }} unreachable
+iprule4 add pref 30000 from {{ ipv4_net }} lookup {{ asn }}
+iprule4 add pref 31000 from {{ ipv4_net }} unreachable
+
+iprule6 add pref 30000 to {{ ipv6_net }} lookup {{ asn }}
+iprule6 add pref 31000 to {{ ipv6_net }} unreachable
+iprule6 add pref 30000 from {{ ipv6_net }} lookup {{ asn }}
+iprule6 add pref 31000 from {{ ipv6_net }} unreachable

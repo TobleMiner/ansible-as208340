@@ -1,3 +1,13 @@
 ---
 - name: Reload sysctl
   command: sysctl --system
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+  listen: Restart routing rule daemon
+
+- name: Restart routing rule daemon
+  service:
+    name: routing-rulesd
+    state: restarted

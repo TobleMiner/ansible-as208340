@@ -14,3 +14,8 @@
   include_tasks:
     file: sysctl.yml
   tags: base, sysctl
+
+- name: Setup routing
+  import_tasks:
+    file: routing.yml
+  tags: base, routing

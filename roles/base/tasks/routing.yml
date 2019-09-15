@@ -12,6 +12,24 @@
 - name: Ensure routing rule setup script is executable
   file:
     path: /usr/local/sbin/routing-rulesd
-    type: file
+    state: file
     mode: '755'
   
+- name: Ensure default routing rules for as are deployed
+  template:
+    src: '{{ "etc/routing-rules.d/as{{ asn }}.conf.j2" }}'
+    dest: /etc/routing-rules.d/as{{ asn }}.conf
+  notify: Restart routing rule daemon
+
+- name: Ensure routing rule daemon service file is deployed
+  copy:
+    src: etc/systemd/system/routing-rulesd.service
+    dest: /etc/systemd/system/routing-rulesd.service
+  notify: Restart routing rule daemon
+
+- name: Ensure routing rule daemon is started
+  service:
+    name: routing-rulesd
+    enabled: yes
+    state: started
+
