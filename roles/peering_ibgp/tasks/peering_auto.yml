@@ -18,6 +18,7 @@
       vars:
         friendly_name: '{{ peer.friendly_name }}'
         peer_address: '{{ ipv6_address_peer | strip_prefixlen }}'
+        peer_interface: '{{ wg_iface }}'
       template:
         src: '{{ "etc/bird/bird6/peers/ibgp-{{ friendly_name }}.conf.j2" }}'
         dest: '/etc/bird/bird6/peers/ibgp-{{ friendly_name }}.conf'
@@ -37,8 +38,9 @@
     ipv6_address_self: '{{ ipv6_net | ipaddr(ipv6_index_self) }}'
     ipv4_address_peer: '{{ ipv4_net | ipaddr(ipv4_index_peer) }}'
     ipv6_address_peer: '{{ ipv6_net | ipaddr(ipv6_index_peer) }}'
+    wg_iface: '{{ ("wg-" ~ peer.friendly_name) | trunc(15) }}'
     wg_self:
-      iface: '{{ ("wg-" ~ peer.friendly_name) | trunc(15) }}'
+      iface: '{{ wg_iface }}'
       key: '{{ wireguard.key }}'
       port: '{{ (inventory_hostname ~ peername) | hashnum(wireguard.port_range.start, wireguard.port_range.end) }}'
       mtu: '{{ wireguard.mtu }}'
