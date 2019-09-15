@@ -5,3 +5,8 @@ define OWN_AS={{ asn }};
 function is_own_net() {
   return net ~ [ {{ ipv4_net }}+ ];
 }
+
+filter kernel_export {
+  krt_prefsrc = {{ interfaces["as" ~ asn].ipv4 | strip_prefixlen }};
+  accept;
+};
