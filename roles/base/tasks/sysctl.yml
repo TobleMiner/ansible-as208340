@@ -10,3 +10,9 @@
     src: etc/sysctl.d/10-enable-forwarding.conf
     dest: /etc/sysctl.d/10-enable-forwarding.conf
   notify: Reload sysctl
+
+- name: Ensure ICMP errors are sent from ingress interface
+  copy:
+    src: etc/sysctl.d/10-icmp-errors-use-inbound-interface-address.conf
+    dest: /etc/sysctl.d/10-icmp-errors-use-inbound-interface-address.conf
+  notify: Reload sysctl
