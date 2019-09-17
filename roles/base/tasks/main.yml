@@ -19,3 +19,8 @@
   import_tasks:
     file: routing.yml
   tags: base, routing
+
+- name: Setup interfaces
+  import_tasks:
+    file: interfaces.yml
+  tags: base, interfaces

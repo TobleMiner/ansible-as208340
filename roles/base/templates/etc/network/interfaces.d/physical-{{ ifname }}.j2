@@ -1,0 +1,15 @@
+auto {{ ifname }}
+allow-hotplug {{ ifname }}
+
+iface {{ ifname }} inet static
+  address {{ ipv4_primary }}
+
+{% for ipv4_address in ipv4_addresses %}
+iface {{ ifname }} inet static
+  address {{ ipv4_address }}
+{% endfor %}
+
+{% for ipv6_address in ipv6_addresses %}
+iface {{ ifname }} inet6 static
+  address {{ ipv6_address }}
+{% endfor %}

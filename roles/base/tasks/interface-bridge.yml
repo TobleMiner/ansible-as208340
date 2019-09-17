@@ -1,0 +1,20 @@
+---
+- name: Ensure bridge-utils are installed
+  apt:
+    name: bridge-utils
+    state: present
+  tags: base, interfaces
+
+- name: Set up bridge {{ ifname }}
+  template:
+    src: '{{ "etc/network/interfaces.d/bridge-{{ ifname }}.j2" }}'
+    dest: '/etc/network/interfaces.d/bridge-{{ ifname }}'
+  register: bridge
+  tags: base, interfaces
+
+- name: Restart bridge {{ ifname }}
+  shell: |
+    ifdown --force {{ ifname }} || ( ip link set down {{ ifname }} && ip link del {{ ifname }} ) || true
+    ifup {{ ifname }}
+  when: bridge.changed
+  tags: base, interfaces
