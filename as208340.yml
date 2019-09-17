@@ -9,7 +9,7 @@
     - bgp
     - { role: bgp_announce, vars: { ipv4: { net: '{{ ipv4_net }}' } } }
     - { role: bgp_announce, vars: { ipv6: { net: '{{ ipv6_net }}' } } }
-    - { role: asn_interface, vars: { ifname: 'br-as{{ asn }}', iface: '{{ interfaces.as208340 }}' } }
+    - { role: asn_interface }
 
   tasks:
     - name: Establish ibgp peerings
