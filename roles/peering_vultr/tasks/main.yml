@@ -1,10 +1,10 @@
 ---
 - name: Ensure IPv4 peering with vultr is set up
-  include_tasks:
+  import_tasks:
     file: vultr4.yml
   tags: peering_vultr, peering_vultr4
 
 - name: Ensure IPv6 peering with vultr is set up
-  include_tasks:
+  import_tasks:
     file: vultr6.yml
   tags: peering_vultr, peering_vultr6

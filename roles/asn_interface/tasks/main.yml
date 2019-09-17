@@ -1,15 +1,15 @@
 ---
 - name: Ensure interface is configured
-  include_tasks:
+  import_tasks:
     file: iface.yml
   tags: asn_interface
 
 - name: Ensure IPv4 device routes are advertised by bird
-  include_tasks:
+  import_tasks:
     file: advertise4.yml
   tags: asn_interface
 
 - name: Ensure IPv6 device routes are advertised by bird
-  include_tasks:
+  import_tasks:
     file: advertise6.yml
   tags: asn_interface
