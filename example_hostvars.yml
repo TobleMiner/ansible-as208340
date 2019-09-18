@@ -5,9 +5,15 @@ interfaces:
     ipv4: <wan ipv4 address>
     ipv6: <wan ipv6 address>
 
-  as<asn>:
+  # Creates bridge interface "br-as<asn>" and configures a static address
+  br-as<asn>:
     managed: True
     type: bridge
+    ipv4: <ipv4 address in as/prefixlen>
+    ipv6: <ipv6 address in as/prefixlen>
+
+addresses:
+  as<asn>: # This name MUST be "as<asn>"
     ipv4: <ipv4 address in as/prefixlen>
     ipv6: <ipv6 address in as/prefixlen>
 
