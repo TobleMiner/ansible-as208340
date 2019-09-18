@@ -53,4 +53,4 @@
     wg_peer:
       key: '{{ peer.wireguard.key }}'
       port: '{{ (peername ~ inventory_hostname) | hashnum(wireguard.port_range.start, wireguard.port_range.end) }}'
-      endpoint: '{% if (peer.wireguard.float | default(False)) %}False{% else %}{{ peer.interfaces.wan.ipv4 }}{% endif %}'
+      endpoint: '{% if (peer.wireguard.float | default(False)) %}False{% else %}{{ peer.interfaces.wan.ipv4 | strip_prefixlen }}{% endif %}'
