@@ -1,0 +1,8 @@
+protocol bgp '{{ peername }}' from bgp_transit {
+  neighbor {{ peering.peer.ipv6 }} as {{ peering.peer.asn }};
+{% if peering.password is defined %}
+  password "{{ peering.password }}";
+{% endif %}
+  direct;
+};
+

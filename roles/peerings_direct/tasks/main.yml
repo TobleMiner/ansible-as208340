@@ -1,0 +1,10 @@
+---
+- name: Ensure direct peerings are set up
+  vars:
+    peername: '{{ item.key }}'
+    peering: '{{ item.value }}'
+  include_tasks:
+    file: peering.yml
+  with_items: '{{ (peerings if peerings is defined else { }) | dict2items }}'
+  when: peerings is defined
+  tags: peerings_direct

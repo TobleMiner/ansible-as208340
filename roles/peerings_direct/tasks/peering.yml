@@ -1,0 +1,12 @@
+---
+- name: Ensure IPv4 direct peering with {{ peername }} is set up
+  import_tasks:
+    file: direct4.yml
+  when: peering.peer.ipv4 is defined
+  tags: peerings_direct, peering_direct4
+
+- name: Ensure IPv6 direct peering with {{ peername }} is set up
+  import_tasks:
+    file: direct6.yml
+  when: peering.peer.ipv6 is defined
+  tags: peerings_direct, peering_direct6

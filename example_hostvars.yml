@@ -1,10 +1,13 @@
 ---
 interfaces:
   wan:
+    managed: False
     ipv4: <wan ipv4 address>
     ipv6: <wan ipv6 address>
 
   as<asn>:
+    managed: True
+    type: bridge
     ipv4: <ipv4 address in as/prefixlen>
     ipv6: <ipv6 address in as/prefixlen>
 
@@ -31,3 +34,13 @@ vultr: # Optional
     gateway: <ipv6 address of gateway for multihop>
 
   password: <MD5 auth password>
+
+peerings: # Optional
+  <name>:
+    peer:
+      asn: <asn of peer>
+      ipv4: <ipv4 address of peer> # optional
+      ipv6: <ipv6 address of peer> # optional
+    self:
+      ipv4: <ipv4 source address> # optional, required only if peer.ipv4 is set
+    password: <MD5 auth password> # optional

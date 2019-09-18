@@ -1,0 +1,7 @@
+---
+- name: Ensure IPv4 peering with {{ peername }} is set up
+  template:
+    src: '{{ "etc/bird/bird4/peers/direct-{{ peername }}.conf.j2" }}'
+    dest: /etc/bird/bird4/peers/direct-{{ peername }}.conf
+  notify: Reload bird config
+  tags: peerings_direct

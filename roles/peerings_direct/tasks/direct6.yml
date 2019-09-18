@@ -1,0 +1,7 @@
+---
+- name: Ensure IPv6 peering with {{ peername }} is set up
+  template:
+    src: '{{ "etc/bird/bird6/peers/direct-{{ peername }}.conf.j2" }}'
+    dest: /etc/bird/bird6/peers/direct-{{ peername }}.conf
+  notify: Reload bird6 config
+  tags: peerings_direct
