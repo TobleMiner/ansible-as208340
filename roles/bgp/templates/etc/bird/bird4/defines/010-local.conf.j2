@@ -7,6 +7,6 @@ function is_own_net() {
 }
 
 filter kernel_export {
-  krt_prefsrc = {{ interfaces["as" ~ asn].ipv4 | strip_prefixlen }};
+  krt_prefsrc = {{ addresses["as" ~ asn].ipv4 | strip_prefixlen }};
   accept;
 };
