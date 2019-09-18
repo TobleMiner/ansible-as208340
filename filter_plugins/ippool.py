@@ -13,12 +13,17 @@ class IPPool():
     with open(fname) as file:
       pools = yaml.safe_load(file)
 
+    if not poolname in pools:
+      raise Exception('IPPool {} does not exist'.format(poolname))
     pool = pools[poolname]
+
+    if not 'ranges' in pool:
+      raise Exception('IPPool {} has no associated IP ranges'.format(poolname))
     ranges = map(ipaddress.ip_network, pool['ranges'])
 
     pool_alloc = pool['allocated'] if 'allocated' in pool else { 'addresses': {}, 'networks': {} }
-    alloc_addrs = { k: ipaddress.ip_address(v) for k, v in pool_alloc['addresses'].items() }
-    alloc_nets = { k: ipaddress.ip_network(v) for k, v in pool_alloc['networks'].items() }
+    alloc_addrs = { k: ipaddress.ip_address(v) for k, v in (pool_alloc['addresses'].items() if 'addresses' in pool_alloc else []) }
+    alloc_nets = { k: ipaddress.ip_network(v) for k, v in (pool_alloc['networks'].items() if 'networks' in pool_alloc else []) }
 
     pool_reserved = pool['reserved'] if 'reserved' in pool else []
     reserved_addrs = [ ]
