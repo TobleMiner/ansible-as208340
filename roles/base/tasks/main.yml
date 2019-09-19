@@ -20,6 +20,11 @@
     file: routing.yml
   tags: base, routing
 
+- name: Setup iptables
+  import_tasks:
+    file: iptables.yml
+  tags: base, iptables
+
 - name: Setup interfaces
   import_tasks:
     file: interfaces.yml

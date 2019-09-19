@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -e -o pipefail
+
+RULE_DIR='/etc/iptables.d'
+
+warn() {
+  ( 1>&2 echo $@ )
+}
+
+iptables4() {
+  iptables "$@"
+}
+
+iptables6() {
+  ip6tables "$@"
+}
+
+iprule46() {
+  iptables4 "$@"
+  iptables6 "$@"
+}
+
+if ! [ -d "$RULE_DIR" ]; then
+  warn Rule directory "\"$RULE_DIR\"" does not exist
+  exit 1
+fi
+
+iptables -t raw --flush
+iptables -t filter --flush
+iptables -t nat --flush
+iptables -t mangle --flush
+iptables -t security --flush
+
+ip6tables -t raw --flush
+ip6tables -t filter --flush
+ip6tables -t nat --flush
+ip6tables -t mangle --flush
+ip6tables -t security --flush
+
+for file in "$RULE_DIR"/*.conf; do
+  echo Running rules file "\"$file\""
+  if ! (. "$file"); then
+    warn Execution of rules from "\"$file\"" failed
+  fi
+done

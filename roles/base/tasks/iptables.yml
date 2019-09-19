@@ -1,0 +1,28 @@
+---
+- name: Ensure iptables rule directory exists
+  file:
+    path: /etc/iptables.d
+    state: directory
+
+- name: Ensure iptables setup script is installed
+  copy:
+    src: usr/local/sbin/iptablesd
+    dest: /usr/local/sbin/iptablesd
+
+- name: Ensure iptables setup script is executable
+  file:
+    path: /usr/local/sbin/iptablesd
+    mode: '7555'
+    state: file
+
+- name: Ensure iptables daemon service file is deployed
+  copy:
+    src: etc/systemd/system/iptablesd.service
+    dest: /etc/systemd/system/iptablesd.service
+  notify: Restart iptables daemon
+
+- name: Ensure iptables daemon is started
+  service:
+    name: iptablesd
+    enabled: yes
+    state: started

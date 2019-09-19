@@ -11,3 +11,8 @@
   service:
     name: routing-rulesd
     state: restarted
+
+- name: Restart iptables daemon
+  service:
+    name: iptablesd
+    state: restarted

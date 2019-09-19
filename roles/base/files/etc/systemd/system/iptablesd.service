@@ -1,0 +1,11 @@
+[Unit]
+Description="Initialize iptables rules"
+Before=network-pre.target
+Wants=network-pre.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/iptablesd
+
+[Install]
+WantedBy=network.target
