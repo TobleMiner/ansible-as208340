@@ -19,4 +19,5 @@ iface {{ ifname }} inet static
 {% for ipv6_address in ipv6_addresses %}
 iface {{ ifname }} inet6 static
   address {{ ipv6_address }}
+  post-up ip -6 addr change {{ ipv6_address }} home dev $IFACE
 {% endfor %}
