@@ -1,0 +1,5 @@
+---
+- name: Ensure munin is installed
+  import_tasks:
+    file: munin.yml
+  tags: munin-node

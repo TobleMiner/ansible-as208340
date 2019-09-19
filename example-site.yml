@@ -1,12 +1,12 @@
 ---
 - hosts: pops
   vars:
-    asn: 208340
-    ipv4_net: 44.190.22.0/24
-    ipv6_net: 2a06:e881:5608::/48
+    asn: <asn here>
+    ipv4_net: <ipv4 net here>
+    ipv6_net: <ipv6 net here>
     monitoring_hosts:
-      - 127.0.0.1
-      - ::1
+      - <host 1>
+      - <host 2>
   roles:
     - base
     - bgp
@@ -19,8 +19,8 @@
 
 - hosts: vultr
   vars:
-    asn: 208340
-    ipv4_net: 44.190.22.0/24
-    ipv6_net: 2a06:e881:5608::/48
+    asn: <asn here>
+    ipv4_net: <ipv4 net here>
+    ipv6_net: <ipv6 net here>
   roles:
     - peering_vultr
