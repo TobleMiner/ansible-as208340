@@ -12,7 +12,11 @@
     - { role: asn_interface }
     - peerings_direct
     - peerings_ibgp
-  
+    - role: munin
+      vars: 
+        allow: [138.201.47.81/32, 2a01:4f8:171:2bec::81/128]
+      tags: 'munin'
+
 - hosts: vultr
   vars:
     asn: 208340

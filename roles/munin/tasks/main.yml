@@ -1,0 +1,41 @@
+---
+
+- name: Ensure munin-node is installed
+  apt:
+    name: munin-node
+    state: present
+
+- name: Ensure libnet-cidr-perl is installed
+  apt:
+    name: libnet-cidr-perl
+    state: present
+
+- name: Ensure libcommon-sense-perl is installed
+  apt:
+    name: libcommon-sense-perl
+    state: present
+
+- name: Configure munin-node
+  template:
+    src: munin-node.conf.j2
+    dest: /etc/munin/munin-node.conf
+    mode: 0700
+
+- name: Install bird munin plugin
+  template:
+    src: bird
+    dest: /etc/munin/plugins/bird
+    mode: 0755
+
+- name: Symlink bird to bird6 plugin 
+  file:
+   src: /etc/munin/plugins/bird
+   dest: /etc/munin/plugins/bird6
+   state: link
+
+- name: Configure bird munin plugin
+  template:
+    src: plugin-conf
+    dest: /etc/munin/plugin-conf.d/bird
+    mode: 0700
+  notify: Restart munin-node

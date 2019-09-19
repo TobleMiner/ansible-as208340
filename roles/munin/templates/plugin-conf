@@ -1,0 +1,9 @@
+[bird]
+user root
+env.protocols BGP
+env.socket /var/run/bird/bird.ctl
+
+[bird6]
+user root
+env.protocols BGP
+env.socket /var/run/bird/bird6.ctl
