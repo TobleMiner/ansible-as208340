@@ -5,6 +5,12 @@
       include_role:
         name: wireguard_p2p
 
+    - name: Ensure bgp connections via IPv4 from peering interface are allowed
+      template:
+        src:  '{{ "etc/iptables.d/500-allow-BGP4-ibgp-{{ peername }}.conf.j2" }}'
+        dest: '/etc/iptables.d/500-allow-BGP4-ibgp-{{ peername }}.conf'
+      notify: Restart iptables daemon
+
     - name: Ensure bgp peering is configured (IPv4)
       vars:
         friendly_name: '{{ peer.friendly_name }}'
@@ -13,6 +19,12 @@
         src: '{{ "etc/bird/bird4/peers/ibgp-{{ friendly_name }}.conf.j2" }}'
         dest: '/etc/bird/bird4/peers/ibgp-{{ friendly_name }}.conf'
       notify: Reload bird config
+
+    - name: Ensure bgp connections via IPv6 from peering interface are allowed
+      template:
+        src:  '{{ "etc/iptables.d/500-allow-BGP6-ibgp-{{ peername }}.conf.j2" }}'
+        dest: '/etc/iptables.d/500-allow-BGP6-ibgp-{{ peername }}.conf'
+      notify: Restart iptables daemon
 
     - name: Ensure bgp peering is configured (IPv6)
       vars:
