@@ -2,6 +2,8 @@ transfer:
   allocated:
     addresses: {}
     networks:
+      fallback.ams1.backbone.as208340.netfallback.kel1.backbone.as208340.net_4: 100.80.0.0/31
+      fallback.fra1.backbone.as208340.netfallback.ams1.backbone.as208340.net_4: 100.96.0.0/31
       fallback.fra1.backbone.as208340.netfallback.kel1.backbone.as208340.net_4: 100.64.0.0/31
   ranges:
   - 100.64.0.0/10

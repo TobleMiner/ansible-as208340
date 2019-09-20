@@ -1,6 +1,8 @@
 [pops]
 fallback.fra1.backbone.as208340.net
+fallback.ams1.backbone.as208340.net
 fallback.kel1.backbone.as208340.net
 
 [vultr]
 fallback.fra1.backbone.as208340.net
+fallback.ams1.backbone.as208340.net
