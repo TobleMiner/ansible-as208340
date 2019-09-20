@@ -1,4 +1,10 @@
 ---
+- name: Ensure IPv4 BGP connections from vultr are allowed
+  template:
+    src:  etc/iptables.d/500-allow-BGP4-vultr.conf
+    dest: /etc/iptables.d/500-allow-BGP4-vultr.conf
+  notify: Restart iptables daemon
+
 - name: Ensure IPv4 vultr peering is set up
   template:
     src: etc/bird/bird4/peers/vultr.conf.j2

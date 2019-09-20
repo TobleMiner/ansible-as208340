@@ -29,6 +29,7 @@ wireguard:
   mtu: <internal wireguard mtu> # optional
 
 vultr: # Optional
+  ifname: <name of peering interface>
   ipv4:
     address: <local ipv4 address on peering interface>
     peer: <ipv4 address of peer>
