@@ -1,7 +1,7 @@
 ---
 - name: Ensure IPv4 BGP connections from vultr are allowed
   template:
-    src:  etc/iptables.d/500-allow-BGP4-vultr.conf
+    src:  etc/iptables.d/500-allow-BGP4-vultr.conf.j2
     dest: /etc/iptables.d/500-allow-BGP4-vultr.conf
   notify: Restart iptables daemon
 

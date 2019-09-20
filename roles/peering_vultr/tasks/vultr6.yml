@@ -1,7 +1,7 @@
 ---
 - name: Ensure IPv6 BGP connections from vultr are allowed
   template:
-    src:  etc/iptables.d/500-allow-BGP6-vultr.conf
+    src:  etc/iptables.d/500-allow-BGP6-vultr.conf.j2
     dest: /etc/iptables.d/500-allow-BGP6-vultr.conf
   notify: Restart iptables daemon
 
