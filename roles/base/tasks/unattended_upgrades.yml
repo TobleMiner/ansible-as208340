@@ -6,6 +6,11 @@
     value: 'True'
     vtype: boolean
 
+- name: Ensure checking for metered connections is disabled
+  copy:
+    src:  etc/apt/apt.conf.d/51unattended-upgrades-metered
+    dest: /etc/apt/apt.conf.d/51unattended-upgrades-metered
+
 - name: Ensure unattended upgrades is installed
   apt:
     name: unattended-upgrades
