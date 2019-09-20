@@ -1,4 +1,11 @@
 ---
+# Install BGP firewall filter
+- name: Ensure IPv6 BGP firwall filter is deployed
+  copy:
+    src: etc/iptables.d/900-block-BGP6.conf
+    dest: /etc/iptables.d/900-block-BGP6.conf
+  notify: Restart iptables daemon
+
 # Build directory structure
 - name: Ensure bird6 dir exists
   file:

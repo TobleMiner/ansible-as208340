@@ -49,5 +49,6 @@ peerings: # Optional
       ipv4: <ipv4 address of peer> # optional
       ipv6: <ipv6 address of peer> # optional
     self:
+      ifname: <name of peering interface>
       ipv4: <ipv4 source address> # optional, required only if peer.ipv4 is set
     password: <MD5 auth password> # optional

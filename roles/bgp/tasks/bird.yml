@@ -1,4 +1,11 @@
 ---
+# Install BGP firewall filter
+- name: Ensure IPv4 BGP firwall filter is deployed
+  copy:
+    src: etc/iptables.d/900-block-BGP4.conf
+    dest: /etc/iptables.d/900-block-BGP4.conf
+  notify: Restart iptables daemon
+
 # Build directory structure
 - name: Ensure bird dir exists
   file:
