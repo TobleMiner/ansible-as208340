@@ -1,0 +1,2 @@
+# Allow incoming BGP connections from {{ peername }} via IPv6
+ip6tables -A INPUT -p tcp --dport 179 -i {{ peering.self.ifname }} -s {{ peering.peer.ipv6 }}/32 -j ACCEPT -m comment --comment "Accept BGP from {{ peername }}"

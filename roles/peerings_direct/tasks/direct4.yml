@@ -1,4 +1,10 @@
 ---
+- name: Ensure IPv4 BGP connections from {{ peername }} are allowed
+  template:
+    src:  '{{ "etc/iptables.d/500-allow-BGP4-peering-{{ peername }}.conf.j2" }}'
+    dest: '/etc/iptables.d/500-allow-BGP4-peering-{{ peername }}.conf'
+  notify: Restart iptables daemon
+
 - name: Ensure IPv4 peering with {{ peername }} is set up
   template:
     src: '{{ "etc/bird/bird4/peers/direct-{{ peername }}.conf.j2" }}'

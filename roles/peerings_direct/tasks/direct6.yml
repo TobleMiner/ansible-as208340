@@ -1,4 +1,10 @@
 ---
+- name: Ensure IPv6 BGP connections from {{ peername }} are allowed
+  template:
+    src:  '{{ "etc/iptables.d/500-allow-BGP6-peering-{{ peername }}.conf.j2" }}'
+    dest: '/etc/iptables.d/500-allow-BGP6-peering-{{ peername }}.conf'
+  notify: Restart iptables daemon
+
 - name: Ensure IPv6 peering with {{ peername }} is set up
   template:
     src: '{{ "etc/bird/bird6/peers/direct-{{ peername }}.conf.j2" }}'
