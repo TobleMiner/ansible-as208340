@@ -19,6 +19,7 @@
     src: etc/munin/munin-node.conf.j2
     dest: /etc/munin/munin-node.conf
     mode: 0700
+  notify: Restart munin-node
 
 - name: Ensure /usr/local/share/munin/plugins exists
   file:
@@ -30,18 +31,21 @@
     src: usr/local/share/munin/plugins/bird
     dest: /usr/local/share/munin/plugins/bird
     mode: 0755
+  notify: Restart munin-node
 
 - name: Symlink bird plugin
   file:
    src: /usr/local/share/munin/plugins/bird
    dest: /etc/munin/plugins/bird
    state: link
+  notify: Restart munin-node
 
 - name: Symlink bird6 plugin
   file:
    src: /usr/local/share/munin/plugins/bird
    dest: /etc/munin/plugins/bird6
    state: link
+  notify: Restart munin-node
 
 - name: Configure bird munin plugin
   copy:
