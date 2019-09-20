@@ -1,0 +1,9 @@
+---
+- name: Ensure packages for {{ release_tag }} are pinned
+  template:
+    src:  '{{ "etc/apt/preferences.d/{{ pkgname }}.j2" }}'
+    dest: '/etc/apt/preferences.d/{{ pkgname }}'
+  loop_control:
+    loop_var: pkgname
+  loop: '{{ packages }}'
+  notify: Update apt lists

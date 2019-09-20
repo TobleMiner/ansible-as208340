@@ -1,0 +1,15 @@
+---
+- name: Ensure standard pin config is deployed
+  copy:
+    src:  etc/apt/preferences.d/releases
+    dest: /etc/apt/preferences.d/releases
+
+- name: Ensure package pins are in place
+  vars:
+    release_tag: '{{ pin.key }}'
+    packages: '{{ pin.value if pin.value | is_list else [ pin.value ] }}'
+  include_tasks:
+    file: pin.yml
+  loop_control:
+    loop_var: pin
+  loop: '{{ pins | dict2items }}'

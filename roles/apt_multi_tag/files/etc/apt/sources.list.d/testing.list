@@ -1,0 +1,2 @@
+deb https://debian.netcologne.de/debian/ testing main
+deb-src https://debian.netcologne.de/debian/ testing main

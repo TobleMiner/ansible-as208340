@@ -1,0 +1,21 @@
+---
+- name: Ensure apt-transport-https is installed
+  apt:
+    name: apt-transport-https
+    state: present
+  tags: apt_multi_tag
+  notify: Update apt lists
+
+- name: Ensure pins are set
+  import_tasks:
+    file: pins.yml
+  tags: apt_multi_tag
+
+- name: Ensure additional release tags are configured
+  import_tasks:
+    file: tags.yml
+  tags: apt_multi_tag
+
+- name: Force execution of handlers
+  meta: flush_handlers
+  tags: apt_multi_tag

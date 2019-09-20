@@ -1,0 +1,14 @@
+---
+- name: Ensure testing release tag config is deployed
+  copy:
+    src: etc/apt/sources.list.d/testing.list
+    dest: /etc/apt/sources.list.d/testing.list
+  when: '"testing" in pins'
+  notify: Update apt lists
+
+- name: Ensure unstable release tag config is deployed
+  copy:
+    src: etc/apt/sources.list.d/unstable.list
+    dest: /etc/apt/sources.list.d/unstable.list
+  when: '"unstable" in pins or "sid" in pins'
+  notify: Update apt lists
