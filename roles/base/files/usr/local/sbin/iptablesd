@@ -4,19 +4,22 @@ set -e -o pipefail
 
 RULE_DIR='/etc/iptables.d'
 
+IPTABLES="$(command -v iptables)"
+IP6TABLES="$(command -v ip6tables)"
+
 warn() {
   ( 1>&2 echo $@ )
 }
 
-iptables4() {
-  iptables "$@"
+ip4tables() {
+  "$IPTABLES" "$@"
 }
 
-iptables6() {
-  ip6tables "$@"
+ip6tables() {
+  "$IP6TABLES" "$@"
 }
 
-iprule46() {
+ip46tables() {
   iptables4 "$@"
   iptables6 "$@"
 }

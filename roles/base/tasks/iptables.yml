@@ -12,7 +12,7 @@
 - name: Ensure iptables setup script is executable
   file:
     path: /usr/local/sbin/iptablesd
-    mode: '7555'
+    mode: '755'
     state: file
 
 - name: Ensure iptables daemon service file is deployed
