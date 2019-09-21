@@ -24,3 +24,10 @@
     ipv6_net: <ipv6 net here>
   roles:
     - peering_vultr
+
+- hosts: dhcp
+  vars: 
+    dns_nameservers: [2001:4860:4860::8888, 2001:4860:4860::8844]
+    dns_searchlist_domain: "<dns searchdomain here>"
+  roles:
+    - radvd
