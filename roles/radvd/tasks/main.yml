@@ -1,0 +1,5 @@
+---
+- name: Ensure radvd is installed
+  import_tasks:
+    file: radvd.yml
+  tags: radvd

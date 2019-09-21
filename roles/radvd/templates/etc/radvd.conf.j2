@@ -1,0 +1,50 @@
+{% for ifname in interfaces.keys() %}
+    {%- set iface = interfaces[ifname] %}
+    {%- if iface.radvd is defined and iface.radvd %}
+interface {{ ifname }}
+{
+    AdvSendAdvert on;
+    MinRtrAdvInterval 3;
+    MaxRtrAdvInterval 10;
+    AdvManagedFlag off;
+    AdvOtherConfigFlag off;
+    AdvReachableTime 0;
+    AdvRetransTimer 0;
+    AdvCurHopLimit 64;
+    AdvDefaultLifetime 1800;
+    AdvHomeAgentFlag off;
+    AdvDefaultPreference medium;
+    AdvSourceLLAddress on;
+{% if iface.mtu is defined %}
+    AdvLinkMTU {{ iface.mtu }};
+{% endif %}
+    AdvIntervalOpt on;
+
+    prefix {{ iface.ipv6 | ipaddr('0') }}
+    {
+            AdvValidLifetime 7200;
+            AdvPreferredLifetime 7200;
+            AdvOnLink on;
+            AdvAutonomous on;
+            AdvRouterAddr off;
+    }; # End of prefix definition
+
+
+{% if dns_nameservers is defined %}
+{% set nameservers = dns_nameservers if dns_nameservers | is_list else [dns_nameservers] %}
+    RDNSS {% for nameserver in nameservers %}{{nameserver}} {% endfor %}
+    {
+            AdvRDNSSLifetime 6000;
+    }; # End of RDNSS definition
+{% endif %}
+
+{% if dns_searchlist_domain is defined %}
+    DNSSL {{dns_searchlist_domain}}
+    {
+            AdvDNSSLLifetime 6000;
+    }; # End of DNSSL definition
+{% endif %}
+
+}; # End of interface definition
+    {%- endif %}
+{% endfor %}

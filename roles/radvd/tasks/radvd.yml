@@ -1,0 +1,19 @@
+---
+- name: Ensure radvd is installed
+  apt:
+    name: radvd
+    state: present
+
+- name: Ensure radvd is configured
+  template:
+    src: etc/radvd.conf.j2
+    dest: /etc/radvd.conf
+    mode: 0644
+  notify: Restart radvd
+
+# Handle service
+- name: Ensure radvd service is enabled and started
+  service:
+    name: radvd
+    enabled: yes
+    state: started
