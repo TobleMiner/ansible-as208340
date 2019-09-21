@@ -2,9 +2,9 @@
 - name: Ensure IPv4 device routes are advertised by bird
   import_tasks:
     file: advertise4.yml
-  tags: asn_interface
+  tags: asn_interfaces
 
 - name: Ensure IPv6 device routes are advertised by bird
   import_tasks:
     file: advertise6.yml
-  tags: asn_interface
+  tags: asn_interfaces

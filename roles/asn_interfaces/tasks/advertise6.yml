@@ -1,0 +1,11 @@
+---
+- name: Ensure static protocol (IPv6) is deployed
+  vars:
+    ifname: '{{ item.key }}'
+    ipv6_addresses: '{{ item.value.ipv6 if item.value.ipv6 | is_list else [ item.value.ipv6 ] }}'
+  template:
+    src:  '{{ "etc/bird/bird6/conf.d/100-announce-{{ ifname }}.conf.j2" }}'
+    dest: '/etc/bird/bird6/conf.d/100-announce-{{ ifname }}.conf'
+  notify: Reload bird6 config
+  loop: '{{ interfaces | dict2items }}'
+  when: item.value.announce is defined and item.value.announce

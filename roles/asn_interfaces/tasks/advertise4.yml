@@ -1,0 +1,11 @@
+---
+- name: Ensure static protocol (IPv4) is deployed
+  vars:
+    ifname: '{{ item.key }}'
+    ipv4_addresses: '{{ item.value.ipv4 if item.value.ipv4 | is_list else [ item.value.ipv4 ] }}'
+  template:
+    src:  '{{ "etc/bird/bird4/conf.d/100-announce-{{ ifname }}.conf.j2" }}'
+    dest: '/etc/bird/bird4/conf.d/100-announce-{{ ifname }}.conf'
+  notify: Reload bird config
+  loop: '{{ interfaces | dict2items }}'
+  when: item.value.announce is defined and item.value.announce

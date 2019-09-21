@@ -1,0 +1,8 @@
+protocol static 'announce_{{ ifname }}' {
+  table t_fulltable;
+  import all;
+{% for address in ipv6_addresses %}
+  route {{ address | ipaddr('0') }} via "{{ ifname }}";
+{% endfor %}
+}
+
