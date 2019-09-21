@@ -53,3 +53,9 @@
     dest: /etc/munin/plugin-conf.d/bird
     mode: 0700
   notify: Restart munin-node
+
+- name: Ensure munin-node service is enabled and started
+  service:
+    name: munin-node
+    enabled: yes
+    state: started
