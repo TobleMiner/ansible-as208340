@@ -10,3 +10,10 @@
     dest: /etc/radvd.conf
     mode: 0700
   notify: Restart radvd
+
+# Handle service
+- name: Ensure radvd service is enabled and started
+  service:
+    name: radvd
+    enabled: yes
+    state: started
