@@ -7,6 +7,7 @@ interfaces:
 
   # Creates bridge interface "br-as<asn>" and configures a static address
   br-as<asn>:
+    announce: yes # Controls wether addresses on this interface will be announced via BGP
     managed: True
     type: bridge
     ipv4: <ipv4 address in as/prefixlen>
