@@ -4,7 +4,7 @@
     name: radvd
     state: present
 
-- name: Configure radvd
+- name: Ensure radvd is configured
   template:
     src: etc/radvd.conf.j2
     dest: /etc/radvd.conf
