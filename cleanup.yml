@@ -1,0 +1,24 @@
+- name: Remove configuration
+  hosts: pops
+  tasks:
+    - name: Remove bird config
+      shell: |
+        rm -rf /etc/bird/bird4
+        rm -rf /etc/bird/bird6
+
+    - name: Remove interface config
+      shell: |
+        [ -d /etc/network/interfaces.d/ ] && rm -f /etc/network/interfaces.d/*
+
+    - name: Remove wireguard config
+      shell: |
+        if [ -d /etc/wireguard ]; then rm -f /etc/wireguard/*; fi
+
+    - name: Remove firewall config
+      shell: |
+        if [ -d /etc/iptables.d ]; then rm -f /etc/iptables.d/*; fi
+
+    - name: Remove routing config
+      shell: |
+        if [ -d /etc/routing-rules.d ]; then rm -f /etc/routing-rules.d/*; fi
+  tags: cleanup
