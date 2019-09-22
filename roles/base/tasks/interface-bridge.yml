@@ -6,15 +6,19 @@
   tags: base, interfaces
 
 - name: Set up bridge {{ ifname }}
-  template:
-    src: '{{ "etc/network/interfaces.d/bridge-{{ ifname }}.j2" }}'
-    dest: '/etc/network/interfaces.d/bridge-{{ ifname }}'
-  register: bridge
-  tags: base, interfaces
-
-- name: Restart bridge {{ ifname }}
-  shell: |
-    ifdown --force {{ ifname }} || ( ip link set down {{ ifname }} && ip link del {{ ifname }} ) || true
-    ifup {{ ifname }}
-  when: bridge.changed
+  vars:
+    slaves: '{{ iface.slaves | default([]) if iface.slaves | default([]) | is_list else [ iface.slaves ] }}'
+    slave_str: '{% if not slaves %}none{% else %}{% for slave in slaves %} {{ slave }}{% endfor %}{% endif %}'
+    interface:
+      name: '{{ ifname }}'
+      virtual: yes
+      ipv4: '{{ iface.ipv4 if iface.ipv4 is defined else [] }}'
+      ipv6: '{{ iface.ipv6 if iface.ipv6 is defined else [] }}'
+      inet_options:
+        bridge_ports: '{{ slave_str }}'
+        bridge_stp: 0
+        bridge_waitport: 0
+        bridge_fd: 0
+  import_role:
+    name: interface
   tags: base, interfaces

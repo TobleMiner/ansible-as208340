@@ -1,14 +1,10 @@
 ---
 - name: Set up physical interface {{ ifname }}
-  template:
-    src: '{{ "etc/network/interfaces.d/physical-{{ ifname }}.j2" }}'
-    dest: '/etc/network/interfaces.d/physical-{{ ifname }}'
-  register: phyiface
-  tags: base, interfaces
-
-- name: Restart physical interface {{ ifname }}
-  shell: |
-    ifdown --force {{ ifname }} || ip link set down {{ ifname }} || true
-    ifup {{ ifname }}
-  when: phyiface.changed
+  vars:
+    interface:
+      name: '{{ ifname }}'
+      ipv4: '{{ iface.ipv4 if iface.ipv4 is defined else [] }}'
+      ipv6: '{{ iface.ipv6 if iface.ipv6 is defined else [] }}'
+  import_role:
+    name: interface
   tags: base, interfaces

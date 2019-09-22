@@ -3,10 +3,6 @@
   vars:
     ifname: '{{ item.key }}'
     iface: '{{ item.value }}'
-    ipv4_primary: '{{ iface.ipv4[0] if iface.ipv4 | is_list else iface.ipv4 }}'
-    ipv4_addresses: '{{ iface.ipv4[1:] if iface.ipv4 | is_list else [] }}'
-    ipv6_primary: '{{ iface.ipv6[0] if iface.ipv6 | is_list else iface.ipv6 }}'
-    ipv6_addresses: '{{ iface.ipv6[1:] if iface.ipv6 | is_list else [] }}'
   include_tasks:
     file: interface-{{ item.value.type }}.yml
   with_items: '{{ interfaces | dict2items }}'
