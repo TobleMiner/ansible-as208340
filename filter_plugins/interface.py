@@ -19,8 +19,14 @@ def normalize_addresses(addrs):
 
   return (primary, others)
 
+def set_home_flag(addr):
+  if not 'home' in addr['flags']:
+    addr['flags'].append('home')
+  return addr
+
 class FilterModule(object):
   def filters(self):
     return {
-      'interface_normalize_addresses': normalize_addresses
+      'interface_normalize_addresses': normalize_addresses,
+      'interface_set_home_flag': set_home_flag
     }
