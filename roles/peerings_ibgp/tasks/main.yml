@@ -4,8 +4,8 @@
     name: peering_ibgp
   vars:
     peername: '{{ item }}'
-    ipv4_primary: '{{ addresses["as" ~ asn].ipv4 }}'
-    ipv6_primary: '{{ addresses["as" ~ asn].ipv6 }}'
+    ipv4_primary: '{{ addresses["as" ~ asn].ipv4 | strip_prefixlen }}/32'
+    ipv6_primary: '{{ addresses["as" ~ asn].ipv6 | strip_prefixlen }}/128'
   with_items: '{{ groups["pops"] }}'
   when: item != inventory_hostname
   tags: peerings_ibgp
