@@ -1,0 +1,7 @@
+- name: Remove configuration
+  hosts: pops
+  tasks:
+    - name: Reboot machine
+      reboot:
+        reboot_timeout: 300
+        connect_timeout: 10
