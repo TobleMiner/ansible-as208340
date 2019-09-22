@@ -1,10 +1,12 @@
 ---
-- name: Ensure interface {{ ifname }} is configured
+- name: Ensure interface {{ interface.name }} is configured
+  vars:
+    ifname: '{{ interface.name }}'
   template:
     src:  '{{ "etc/network/interfaces.d/{{ ifname }}.j2" }}'
     dest: '/etc/network/interfaces.d/{{ ifname }}'
+  notify: '{{ "Restart virtual interface" if interface.virtual is defined and interface.virtual else "Restart physical interface" }}'
   tags: interface
-  notify: '{{ "Restart virtual interface" if virtual is defined and virtual else "Restart physical interface" }}'
 
 - name: Force execution of handlers
   meta: flush_handlers

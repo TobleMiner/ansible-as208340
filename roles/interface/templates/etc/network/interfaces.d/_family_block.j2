@@ -1,5 +1,5 @@
 
-iface {{ ifname }} {{ entry_family }} {{ entry_method }}
+iface {{ interface.name }} {{ entry_family }} {{ entry_method }}
 {% if address.address is defined %}
   address {{ address.address }}
 {%- endif %}

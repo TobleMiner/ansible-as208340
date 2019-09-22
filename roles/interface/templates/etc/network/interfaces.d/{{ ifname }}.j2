@@ -1,36 +1,37 @@
 {#
-  ifname: <name of interface>
-  ipv4: <list of IPv4 addresses /w flags and options>
-  ipv6: <list of IPv6 addresses /w flags and options>
-  method: <a valid ifupdown method> # Optional, defaults to static
-  family: inet | inet6 # Optional, defaults to inet
-  inet_options: <dict of options, each option may be a list. Applied to primary entry> # Optional
-  inet6_options: <dict of options, each option may be a list. Applied to primary entry> # Optional
+  interface:
+    name: <name of interface>
+    ipv4: <list of IPv4 addresses /w flags and options>
+    ipv6: <list of IPv6 addresses /w flags and options>
+    method: <a valid ifupdown method> # Optional, defaults to static
+    family: inet | inet6 # Optional, defaults to inet
+    inet_options: <dict of options, each option may be a list. Applied to primary entry> # Optional
+    inet6_options: <dict of options, each option may be a list. Applied to primary entry> # Optional
 #}
 
 {# Prepare variables #}
 {% set has_ipv4 = False %}
 {% set has_ipv6 = False %}
-{% if ipv4 is defined and ipv4 %}
+{% if interface.ipv4 is defined and interface.ipv4 %}
   {%- set has_ipv4 = True %}
   {# Normalize ipv4 addresses #}
-  {%- set (ipv4_primary, ipv4_addresses) = ipv4 | interface_normalize_addresses %}
+  {%- set (ipv4_primary, ipv4_addresses) = interface.ipv4 | interface_normalize_addresses %}
 {% endif %}
-{% if ipv6 is defined and ipv6 %}
+{% if interface.ipv6 is defined and interface.ipv6 %}
   {%- set has_ipv6 = True %}
   {# Normalize ipv6 addresses #}
-  {%- set (ipv6_primary, ipv6_addresses) = ipv6 | interface_normalize_addresses %}
+  {%- set (ipv6_primary, ipv6_addresses) = interface.ipv6 | interface_normalize_addresses %}
   {# Ensure home flag is set on primary ipv6 address #}
   {%- set ipv6_primary = ipv6_primary | interface_set_home_flag %}
 {% endif %}
 
-{% set method = method if method is defined else 'static' %}
-{% set family = family if family is defined else 'inet' %}
-{% set inet_options = inet_options if inet_options is defined else { } %}
-{% set inet6_options = inet6_options if inet6_options is defined else { } %}
+{% set method = interface.method if interface.method is defined else 'static' %}
+{% set family = interface.family if interface.family is defined else 'inet' %}
+{% set inet_options = interface.inet_options if interface.inet_options is defined else { } %}
+{% set inet6_options = interface.inet6_options if interface.inet6_options is defined else { } %}
 
-auto {{ ifname }}
-allow-hotplug {{ ifname }}
+auto {{ interface.name }}
+allow-hotplug {{ interface.name }}
 
 {# Handle primary method #}
 {% set entry_family = family %}
