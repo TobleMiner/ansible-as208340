@@ -11,12 +11,12 @@
 {# Prepare variables #}
 {% set has_ipv4 = False %}
 {% set has_ipv6 = False %}
-{% if ipv4 is defined %}
+{% if ipv4 is defined and ipv4 %}
   {%- set has_ipv4 = True %}
   {# Normalize ipv4 addresses #}
   {%- set (ipv4_primary, ipv4_addresses) = ipv4 | interface_normalize_addresses %}
 {% endif %}
-{% if ipv6 is defined %}
+{% if ipv6 is defined and ipv6 %}
   {%- set has_ipv6 = True %}
   {# Normalize ipv6 addresses #}
   {%- set (ipv6_primary, ipv6_addresses) = ipv6 | interface_normalize_addresses %}
