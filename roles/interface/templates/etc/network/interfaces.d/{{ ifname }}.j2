@@ -20,6 +20,8 @@
   {%- set has_ipv6 = True %}
   {# Normalize ipv6 addresses #}
   {%- set (ipv6_primary, ipv6_addresses) = ipv6 | interface_normalize_addresses %}
+  {# Ensure home flag is set on primary ipv6 address #}
+  {%- set ipv6_primary = ipv6_primary | interface_set_home_flag %}
 {% endif %}
 
 {% set method = method if method is defined else 'static' %}
