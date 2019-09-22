@@ -1,5 +1,0 @@
----
-- name: Restart interface
-  shell: |
-    ifdown {{ ifname }} || ip link set down {{ ifname }} || true
-    ifup {{ ifname }}
