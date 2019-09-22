@@ -11,9 +11,10 @@ iface {{ ifname }} {{ entry_family }} {{ entry_method }}
   {{ option }} {{ value }}
     {%- endfor %}
   {%- endfor %}
-  {%- if address.flags %}
+{% endif %}
+{% if address.flags %}
+{% set entry_flags = address.flags if address.flags | is_list else [ address.flags ] %}
 
-  post-up ip addr change {{ address.address }} dev $IFACE{% for flag in address.flags %} {{ flag }}{% endfor %}
-  {%- endif %}
+post-up ip addr change {{ address.address }} dev $IFACE{% for flag in entry_flags %} {{ flag }}{% endfor %}
 {% endif %}
 
