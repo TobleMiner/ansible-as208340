@@ -32,6 +32,7 @@
 
 - name: Ensure wireguard interface config is deployed
   vars:
+    virtual: yes
     ifname: '{{ wg_iface }}'
     ipv4: '{{ wg_self.ipv4 | default([]) }}'
     ipv6: '{{ wg_self.ipv6 | default([]) }}'
