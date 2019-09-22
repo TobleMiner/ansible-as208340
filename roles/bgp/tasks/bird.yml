@@ -34,8 +34,8 @@
     
 # Place config files
 - name: Ensure bird config file is present
-  copy:
-    src: etc/bird/bird.conf
+  template:
+    src: etc/bird/bird.conf.j2
     dest: /etc/bird/bird.conf
   notify: Reload bird config
 

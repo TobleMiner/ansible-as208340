@@ -33,7 +33,21 @@ template bgp 'bgp_transit' {
 
 template bgp 'bgp_internal' {
   local as OWN_AS;
+{% if bgp.route_reflection is defined and bgp.route_reflection %}
+  {%- if bgp.route_reflection == 'off' %}
+  {# Same as false and not defined, don't do anything #}
+  {%- endif %}
+  {%- if bgp.route_reflection == 'client' %}
   rr client;
+  {%- endif %}
+  {%- if bgp.route_reflection == 'server' %}
+  rs client;
+  {%- endif %}
+  {%- if bgp.route_reflection | ipv4 %}
+  rs client;
+  rr cluster id {{ bgp.route_reflection }};
+  {%- endif %}
+{% endif %}
   table t_fulltable;
   import keep filtered;
   import filter ibgp_import;
