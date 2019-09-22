@@ -23,21 +23,32 @@
 
 - name: Ensure wireguard config is deployed
   vars:
-    ifname: '{{ wg_self.iface }}'
+    ifname: '{{ wg_iface }}'
   template:
     src: '{{ "etc/wireguard/{{ ifname }}.conf.j2" }}'
     dest: '/etc/wireguard/{{ ifname }}.conf'
-  notify: Restart wireguard interface
+  notify: Restart virtual interface
   tags: wireguard_p2p
 
 - name: Ensure wireguard interface config is deployed
   vars:
-    ifname: '{{ wg_self.iface }}'
-  template:
-    src: '{{ "etc/network/interfaces.d/{{ ifname }}.j2" }}'
-    dest: '/etc/network/interfaces.d/{{ ifname }}'
-  notify: Restart wireguard interface
+    ifname: '{{ wg_iface }}'
+    ipv4: '{{ wg_self.ipv4 | default([]) }}'
+    ipv6: '{{ wg_self.ipv6 | default([]) }}'
+    method: '{{ "static" if wg_self.ipv4 is defined else "manual" }}'
+    family: inet
+    inet_options:
+      pre-up:
+        - ip link add $IFACE type wireguard || true
+        - wg setconf $IFACE /etc/wireguard/{{ ifname }}.conf
+        - '{{ "ip link set $IFACE mtu " ~ wg_self.mtu if wg_self.mtu is defined else "true" }}'
+      post-down:
+        - ip link del $IFACE || true
+  import_role:
+    name: interface
   tags: wireguard_p2p
 
 - name: Force execution of handlers
+  vars:
+    ifname: '{{ wg_iface }}'
   meta: flush_handlers
