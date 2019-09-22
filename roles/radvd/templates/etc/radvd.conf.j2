@@ -20,7 +20,9 @@ interface {{ ifname }}
 {% endif %}
     AdvIntervalOpt on;
 
-    prefix {{ iface.ipv6 | ipaddr('0') }}
+{% set ipv6addresses = iface.ipv6 if iface.ipv6 | is_list else [iface.ipv6] %}
+{% for ipv6address in ipv6addresses %}
+    prefix {{ ipv6address | ipaddr('0') }}
     {
             AdvValidLifetime 7200;
             AdvPreferredLifetime 7200;
@@ -28,7 +30,8 @@ interface {{ ifname }}
             AdvAutonomous on;
             AdvRouterAddr off;
     }; # End of prefix definition
-
+    
+{% endfor %}
 
 {% if dns_nameservers is defined %}
 {% set nameservers = dns_nameservers if dns_nameservers | is_list else [dns_nameservers] %}
