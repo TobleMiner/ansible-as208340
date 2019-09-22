@@ -1,0 +1,19 @@
+
+iface {{ ifname }} {{ entry_family }} {{ entry_method }}
+{% if address.address is defined %}
+  address {{ address.address }}
+{%- endif %}
+{% if address.options is defined -%}
+  {%- for option in address.options.keys() -%}
+    {%- set option_values = address.options[option] if address.options[option] | is_list else [ address.options[option] ] -%}
+    {%- for value in option_values %}
+
+  {{ option }} {{ value }}
+    {%- endfor %}
+  {%- endfor %}
+  {%- if address.flags %}
+
+  post-up ip addr change {{ address.address }} dev $IFACE{% for flag in address.flags %} {{ flag }}{% endfor %}
+  {%- endif %}
+{% endif %}
+

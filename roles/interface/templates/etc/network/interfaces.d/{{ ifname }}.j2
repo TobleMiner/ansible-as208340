@@ -1,0 +1,92 @@
+{#
+  ifname: <name of interface>
+  ipv4: <list of IPv4 addresses /w flags and options>
+  ipv6: <list of IPv6 addresses /w flags and options>
+  method: <a valid ifupdown method> # Optional, defaults to static
+  family: inet | inet6 # Optional, defaults to inet
+  inet_options: <dict of options, each option may be a list. Applied to primary entry> # Optional
+  inet6_options: <dict of options, each option may be a list. Applied to primary entry> # Optional
+#}
+
+{# Prepare variables #}
+{% set has_ipv4 = False %}
+{% set has_ipv6 = False %}
+{% if ipv4 is defined %}
+  {%- set has_ipv4 = True %}
+  {# Normalize ipv4 addresses #}
+  {%- set (ipv4_primary, ipv4_addresses) = ipv4 | interface_normalize_addresses %}
+{% endif %}
+{% if ipv6 is defined %}
+  {%- set has_ipv6 = True %}
+  {# Normalize ipv6 addresses #}
+  {%- set (ipv6_primary, ipv6_addresses) = ipv6 | interface_normalize_addresses %}
+{% endif %}
+
+{% set method = method if method is defined else 'static' %}
+{% set family = family if family is defined else 'inet' %}
+{% set inet_options = inet_options if inet_options is defined else { } %}
+{% set inet6_options = inet6_options if inet6_options is defined else { } %}
+
+auto {{ ifname }}
+allow-hotplug {{ ifname }}
+
+{# Handle primary method #}
+{% set entry_family = family %}
+{% set entry_method = method %}
+{% if family == 'inet' %}
+  {%- set address = { } %}
+  {%- if has_ipv4 %}
+    {%- set address = ipv4_primary %}
+  {%- endif %}
+  {%- if inet_options is defined %}
+    {%- set address = address | merge({ 'options': inet_options }) %}
+  {%- endif %}
+  {%- include '_family_block.j2' %}
+
+  {%- if has_ipv6 %}
+    {%- set entry_family = 'inet6' %}
+    {%- set entry_method = 'static' %}
+    {%- set address = ipv6_primary %}
+    {%- if inet6_options is defined %}
+      {%- set address = address | merge({ 'options': inet6_options }) %}
+    {%- endif %}
+  {%- include '_family_block.j2' %}
+  {%- endif %} 
+{%- else %}
+  {%- set address = { } %}
+  {%- if has_ipv6 %}
+    {%- set address = ipv6_primary %}
+  {%- endif %}
+  {%- if inet6_options is defined %}
+    {%- set address = address | merge({ 'options': inet6_options }) %}
+  {%- endif %}
+  {%- include '_family_block.j2' %}
+
+  {%- if has_ipv4 %}
+    {%- set entry_family = 'inet' %}
+    {%- set entry_method = 'static' %}
+    {%- set address = ipv4_primary %}
+    {%- if inet_options is defined %}
+      {%- set address = address | merge({ 'options': inet_options }) %}
+    {%- endif %}
+  {%- include '_family_block.j2' %}
+  {%- endif %} 
+{%- endif %}
+
+{# Handle all secondary IPv4 addresses #}
+{% if has_ipv4 %}
+  {%- set entry_family = 'inet' %}
+  {%- set entry_method = 'static' %}
+  {%- for address in ipv4_addresses %}
+    {%- include '_family_block.j2' %}
+  {%- endfor %}
+{%- endif %}
+
+{# Handle all secondary IPv6 addresses #}
+{% if has_ipv6 %}
+  {%- set entry_family = 'inet6' %}
+  {%- set entry_method = 'static' %}
+  {%- for address in ipv6_addresses %}
+    {%- include '_family_block.j2' %}
+  {%- endfor %}
+{%- endif %}
