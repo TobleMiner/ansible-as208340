@@ -1,2 +1,2 @@
 # Allow incoming BGP connections from {{ peername }} via IPv4
-ip4tables -A INPUT -p tcp --dport 179 -i {{ wg_iface }} -j ACCEPT -m comment --comment "Accept BGP from {{ peername }}"
+ip4tables -A INPUT -p tcp --dport 179 -i {{ wg_iface }} -s {{ ipv4_address_peer | strip_prefixlen }}/32 -j ACCEPT -m comment --comment "Accept BGP from {{ peername }}"

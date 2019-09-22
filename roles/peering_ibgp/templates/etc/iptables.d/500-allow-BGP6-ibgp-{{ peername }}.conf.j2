@@ -1,2 +1,2 @@
 # Allow incoming BGP connections from {{ peername }} via IPv6
-ip6tables -A INPUT -p tcp --dport 179 -i {{ wg_iface }} -j ACCEPT -m comment --comment "Accept BGP from {{ peername }}"
+ip6tables -A INPUT -p tcp --dport 179 -i {{ wg_iface }} -s {{ ipv6_address_peer | strip_prefixlen }}/128 -j ACCEPT -m comment --comment "Accept BGP from {{ peername }}"
