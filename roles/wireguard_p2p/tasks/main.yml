@@ -32,19 +32,20 @@
 
 - name: Ensure wireguard interface config is deployed
   vars:
-    virtual: yes
-    ifname: '{{ wg_iface }}'
-    ipv4: '{{ wg_self.ipv4 | default([]) }}'
-    ipv6: '{{ wg_self.ipv6 | default([]) }}'
-    method: '{{ "static" if wg_self.ipv4 is defined else "manual" }}'
-    family: inet
-    inet_options:
-      pre-up:
-        - ip link add $IFACE type wireguard || true
-        - wg setconf $IFACE /etc/wireguard/{{ ifname }}.conf
-        - '{{ "ip link set $IFACE mtu " ~ wg_self.mtu if wg_self.mtu is defined else "true" }}'
-      post-down:
-        - ip link del $IFACE || true
+    interface:
+      name: '{{ wg_iface }}'
+      virtual: yes
+      ipv4: '{{ wg_self.ipv4 | default([]) }}'
+      ipv6: '{{ wg_self.ipv6 | default([]) }}'
+      method: '{{ "static" if wg_self.ipv4 is defined else "manual" }}'
+      family: inet
+      inet_options:
+        pre-up:
+          - ip link add $IFACE type wireguard || true
+          - wg setconf $IFACE /etc/wireguard/{{ wg_iface }}.conf
+          - '{{ "ip link set $IFACE mtu " ~ wg_self.mtu if wg_self.mtu is defined else "true" }}'
+        post-down:
+          - ip link del $IFACE || true
   import_role:
     name: interface
   tags: wireguard_p2p

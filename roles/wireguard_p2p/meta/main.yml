@@ -1,4 +1,4 @@
 ---
 dependencies:
   - { role: wireguard_dkms }
-  - { role: restart_interface }
+  - { role: restart_interface, vars: { ifname: '{{ wg_iface }}' } }
