@@ -21,7 +21,9 @@ addresses:
 # friendly name, don't exceed length of 12 character for readability
 friendly_name: <friendly name>
 
-router_id: <router id>
+bgp:
+  router_id: <router id>
+  route_reflection: off|client|server|<cluster_id> # Optional, defaults to off
 
 wireguard:
   key:
