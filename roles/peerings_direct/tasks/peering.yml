@@ -1,4 +1,12 @@
 ---
+- name: Ensure peering firewall is set up
+  vars:
+    peering:
+      ifname: '{{ peering.self.ifname }}'
+  import_role:
+    name: peering
+  tags: peerings_direct, peering_direct4, peering_direct6  
+
 - name: Ensure IPv4 direct peering with {{ peername }} is set up
   import_tasks:
     file: direct4.yml
