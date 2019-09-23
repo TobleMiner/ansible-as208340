@@ -11,6 +11,13 @@
         dest: '/etc/iptables.d/500-allow-BGP4-ibgp-{{ peername }}.conf'
       notify: Restart iptables daemon
 
+    - name: Ensure peering firewall is set up
+      vars:
+        peering:
+          ifname: '{{ wg_iface }}'
+      import_role:
+        name: peering
+
     - name: Ensure bgp peering is configured (IPv4)
       vars:
         friendly_name: '{{ peer.friendly_name }}'
