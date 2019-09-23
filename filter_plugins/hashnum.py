@@ -5,8 +5,10 @@ def sha256digest(s):
   return hashlib.sha256(str(s).encode('utf-8'))
 
 def hashnum(s, min=0, max=None):
+  min = int(min)
   val = int(sha256digest(s).hexdigest(), 16)
   if max != None:
+    max = int(max)
     val %= (max - min)
   return val + min
 
