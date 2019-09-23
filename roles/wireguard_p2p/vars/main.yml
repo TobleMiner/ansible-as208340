@@ -1,5 +1,5 @@
 ---
-wireguard:
+wireguard_defaults:
   port_range:
     start: 20000
     end:   30000
