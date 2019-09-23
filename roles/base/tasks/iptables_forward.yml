@@ -1,0 +1,24 @@
+---
+- name: Ensure forward chain for as{{ asn }} exists
+  template:
+    src:  '{{ "etc/iptables.d/100-chain-as{{ asn }}-forward.conf.j2" }}'
+    dest: '/etc/iptables.d/100-chain-as{{ asn }}-forward.conf'
+  notify: Restart iptables daemon
+
+- name: Ensure drop rule for as{{ asn }}-forward exists
+  template:
+    src:  '{{ "etc/iptables.d/900-drop-as{{ asn }}-forward.conf.j2" }}'
+    dest: '/etc/iptables.d/900-drop-as{{ asn }}-forward.conf'
+  notify: Restart iptables daemon
+
+- name: Ensure gerneral forwarding rules are installed
+  copy:
+    src:  'etc/iptables.d/200-FORWARD-init.conf'
+    dest: '/etc/iptables.d/200-FORWARD-init.conf'
+  notify: Restart iptables daemon
+
+- name: Ensure jump to drop-martian as{{ asn }}-forward exists
+  template:
+    src:  '{{ "etc/iptables.d/300-drop-martians-as{{ asn }}-forward.conf.j2" }}'
+    dest: '/etc/iptables.d/300-drop-martians-as{{ asn }}-forward.conf'
+  notify: Restart iptables daemon

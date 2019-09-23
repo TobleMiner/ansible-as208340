@@ -1,0 +1,2 @@
+# Drop martians in as{{ asn }} forward
+ip46tables -A as{{ asn }}-forward -j drop-martians -m comment --comment 'Filter out martian src/dest'

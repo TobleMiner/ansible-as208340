@@ -1,0 +1,3 @@
+# Ensure non-matching forward traffic for as{{ asn }} is dropped
+ip46tables -A as{{ asn }}-forward -j DROP -m comment --comment 'Drop remaining traffic'
+

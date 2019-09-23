@@ -25,6 +25,16 @@
     file: iptables.yml
   tags: base, iptables
 
+- name: Setup martian filtering
+  import_tasks:
+    file: iptables_martians.yml
+  tags: base, iptables
+
+- name: Setup forwarding firewall
+  import_tasks:
+    file: iptables_forward.yml
+  tags: base, iptables
+
 - name: Setup interfaces
   import_tasks:
     file: interfaces.yml

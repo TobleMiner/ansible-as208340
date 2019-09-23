@@ -1,0 +1,12 @@
+---
+- name: Ensure chain for filtering martian IPv4 src/dest addresses exists
+  copy:
+    src:  etc/iptables.d/100-chain-drop-martians4.conf
+    dest: /etc/iptables.d/100-chain-drop-martians4.conf
+  notify: Restart iptables daemon
+
+- name: Ensure chain for filtering martian IPv6 src/dest addresses exists
+  copy:
+    src:  etc/iptables.d/100-chain-drop-martians6.conf
+    dest: /etc/iptables.d/100-chain-drop-martians6.conf
+  notify: Restart iptables daemon
