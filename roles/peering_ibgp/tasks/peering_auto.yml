@@ -14,7 +14,8 @@
     - name: Ensure peering firewall is set up
       vars:
         peering:
-          ifname: '{{ wg_iface }}'
+          self:
+            ifname: '{{ wg_iface }}'
       import_role:
         name: peering
 

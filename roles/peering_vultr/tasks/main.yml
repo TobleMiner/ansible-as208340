@@ -2,7 +2,8 @@
 - name: Ensure peering firewall is set up
   vars:
     peering:
-      ifname: '{{ vultr.ifname }}'
+      self:
+        ifname: '{{ vultr.ifname }}'
   import_role:
     name: peering
   tags: peering_vultr, peering_vultr4, peering_vultr6  

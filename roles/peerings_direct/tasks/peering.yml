@@ -1,8 +1,5 @@
 ---
 - name: Ensure peering firewall is set up
-  vars:
-    peering:
-      ifname: '{{ peering.self.ifname }}'
   import_role:
     name: peering
   tags: peerings_direct, peering_direct4, peering_direct6  
