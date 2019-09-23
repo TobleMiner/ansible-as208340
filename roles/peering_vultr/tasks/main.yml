@@ -1,4 +1,12 @@
 ---
+- name: Ensure peering firewall is set up
+  vars:
+    peering:
+      ifname: '{{ vultr.ifname }}'
+  import_role:
+    name: peering
+  tags: peering_vultr, peering_vultr4, peering_vultr6  
+
 - name: Ensure IPv4 peering with vultr is set up
   import_tasks:
     file: vultr4.yml
