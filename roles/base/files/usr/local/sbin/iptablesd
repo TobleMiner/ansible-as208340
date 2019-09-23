@@ -20,8 +20,8 @@ ip6tables() {
 }
 
 ip46tables() {
-  iptables4 "$@"
-  iptables6 "$@"
+  ip4tables "$@"
+  ip6tables "$@"
 }
 
 if ! [ -d "$RULE_DIR" ]; then
