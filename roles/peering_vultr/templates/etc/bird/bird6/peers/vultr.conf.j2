@@ -5,7 +5,7 @@ protocol static vultr_gw {
 
 protocol bgp vultr from bgp_transit {
   source address {{ vultr.ipv6.address }};
-  neighbor {{ vultr.ipv6.peer }} as {{ vultr.asn }};
+  neighbor {{ vultr.ipv6.peer }} as {{ vultr_asn }};
   password "{{ vultr.password }}";
   multihop 2;
 };

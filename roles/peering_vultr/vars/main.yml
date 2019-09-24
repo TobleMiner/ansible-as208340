@@ -1,2 +1,2 @@
-vultr:
+vultr_defaults:
   asn: 64515

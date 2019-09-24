@@ -9,11 +9,15 @@
   tags: peering_vultr, peering_vultr4, peering_vultr6  
 
 - name: Ensure IPv4 peering with vultr is set up
+  vars:
+    vultr_asn: '{{ vultr.asn | default(vultr_defaults.asn) }}'
   import_tasks:
     file: vultr4.yml
   tags: peering_vultr, peering_vultr4
 
 - name: Ensure IPv6 peering with vultr is set up
+  vars:
+    vultr_asn: '{{ vultr.asn | default(vultr_defaults.asn) }}'
   import_tasks:
     file: vultr6.yml
   tags: peering_vultr, peering_vultr6
