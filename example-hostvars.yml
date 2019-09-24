@@ -28,6 +28,7 @@ interfaces:
     managed: True
     ipv4: <ipv4 address> # Supports lists of addresses
     ipv6: <ipv6 address> # Supports lists of addresses
+    forwarding: yes|no # Optional, allow forwarding of asn traffic
     mtu: <mtu of interface> # Optional
     dhcp:
       address: <ip address for dhcp server> # Optional, defaults to primary ipv4 address of interface
