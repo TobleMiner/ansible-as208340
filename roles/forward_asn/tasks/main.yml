@@ -1,0 +1,38 @@
+---
+# Allow traffic to pass
+- name: Ensure traffic from interface {{ forwarding.ifname }} is pushed to forwarding chain
+  vars:
+    ifname: '{{ forwarding.ifname }}'
+  template:
+    src:  '{{ "etc/iptables.d/400-jump-as{{ asn }}-forward-{{ ifname }}.conf.j2" }}'
+    dest: '/etc/iptables.d/400-jump-as{{ asn }}-forward-{{ ifname }}.conf'
+  notify: Restart iptables daemon
+  when: forwarding.allowed
+
+- name: Ensure traffic from as to interface {{ forwarding.ifname }} is accepted
+  vars:
+    ifname: '{{ forwarding.ifname }}'
+  template:
+    src:  '{{ "etc/iptables.d/500-allow-as{{ asn }}-forward-to-{{ ifname }}.conf.j2" }}'
+    dest: '/etc/iptables.d/500-allow-as{{ asn }}-forward-to-{{ ifname }}.conf'
+  notify: Restart iptables daemon
+  when: forwarding.allowed
+
+# Block traffic
+- name: Ensure traffic from interface {{ forwarding.ifname }} is not pushed to forwarding chain
+  vars:
+    ifname: '{{ forwarding.ifname }}'
+  file:
+    path: '/etc/iptables.d/400-jump-as{{ asn }}-forward-{{ ifname }}.conf'
+    state: absent
+  notify: Restart iptables daemon
+  when: not forwarding.allowed
+
+- name: Ensure traffic from as to interface {{ forwarding.ifname }} is dropped
+  vars:
+    ifname: '{{ forwarding.ifname }}'
+  file:
+    path: '/etc/iptables.d/500-allow-as{{ asn }}-forward-to-{{ ifname }}.conf'
+    state: absent
+  notify: Restart iptables daemon
+  when: not forwarding.allowed
