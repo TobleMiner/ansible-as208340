@@ -1,17 +1,9 @@
 ---
-- name: Ensure traffic from peering interface is pushed to forwarding chain
+- name: Ensure forwarding for peering is configured
   vars:
-    ifname: '{{ peering.self.ifname }}'
-  template:
-    src:  '{{ "etc/iptables.d/400-jump-as{{ asn }}-forward-{{ ifname }}.conf.j2" }}'
-    dest: '/etc/iptables.d/400-jump-as{{ asn }}-forward-{{ ifname }}.conf'
-  notify: Restart iptables daemon
-
-- name: Ensure traffic from as to peering interface is accepted
-  vars:
-    ifname: '{{ peering.self.ifname }}'
-  template:
-    src:  '{{ "etc/iptables.d/500-allow-as{{ asn }}-forward-to-{{ ifname }}.conf.j2" }}'
-    dest: '/etc/iptables.d/500-allow-as{{ asn }}-forward-to-{{ ifname }}.conf'
-  notify: Restart iptables daemon
-
+    forwarding:
+      ifname: '{{ peering.self.ifname }}'
+      allowed: yes
+  import_role:
+    name: forward_asn
+  tags: peering

@@ -1,2 +1,0 @@
-# Enter forwarding table for as{{ asn }} on ingress from {{ ifname }}
-ip46tables -A FORWARD -i {{ ifname }} -j as{{ asn }}-forward -m comment --comment 'Handle forward ingress from {{ ifname }} as as{{ asn }} traffic'

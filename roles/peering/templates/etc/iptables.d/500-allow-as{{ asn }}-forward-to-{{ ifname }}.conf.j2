@@ -1,2 +1,0 @@
-# Allow forward of as{{ asn }} traffic through {{ ifname }}
-ip46tables -A as{{ asn }}-forward -o {{ ifname }} -j ACCEPT -m comment --comment 'Allow forward to {{ ifname }} for as{{ asn }}'
