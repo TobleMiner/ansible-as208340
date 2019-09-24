@@ -12,6 +12,7 @@ interfaces:
     type: bridge
     ipv4: <ipv4 address in as/prefixlen>
     ipv6: <ipv6 address in as/prefixlen>
+    mtu: <mtu of interface>
 
 addresses:
   as<asn>: # This name MUST be "as<asn>"
