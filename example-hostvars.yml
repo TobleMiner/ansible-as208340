@@ -12,7 +12,14 @@ interfaces:
     type: bridge
     ipv4: <ipv4 address in as/prefixlen>
     ipv6: <ipv6 address in as/prefixlen>
-    mtu: <mtu of interface>
+    mtu: <mtu of interface> # Optional
+
+  # Configures the physical interface <ifname>
+  <ifname>:
+    managed: True
+    ipv4: <ipv4 address> # Supports lists of addresses
+    ipv6: <ipv6 address> # Supports lists of addresses
+    mtu: <mtu of interface> # Optional
 
 addresses:
   as<asn>: # This name MUST be "as<asn>"
