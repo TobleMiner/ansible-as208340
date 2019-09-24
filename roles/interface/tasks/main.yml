@@ -5,9 +5,14 @@
   template:
     src:  '{{ "etc/network/interfaces.d/{{ ifname }}.j2" }}'
     dest: '/etc/network/interfaces.d/{{ ifname }}'
-  notify: '{{ "Restart virtual interface" if interface.virtual is defined and interface.virtual else "Restart physical interface" }}'
+  register: ensure_interface
   tags: interface
 
-- name: Force execution of handlers
-  meta: flush_handlers
+- name: Restart {{ interface.name }}
+  vars:
+    ifname: '{{ interface.name }}'
+    virtual: '{{ interface.virtual | default(False) }}'
+  import_role:
+    name: restart_interface
+  when: ensure_interface.changed
   tags: interface

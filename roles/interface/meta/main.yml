@@ -1,3 +1,0 @@
----
-dependencies:
-  - { role: restart_interface, vars: { ifname: '{{ interface.name }}' } }

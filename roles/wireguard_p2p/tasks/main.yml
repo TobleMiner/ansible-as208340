@@ -27,7 +27,7 @@
   template:
     src: '{{ "etc/wireguard/{{ ifname }}.conf.j2" }}'
     dest: '/etc/wireguard/{{ ifname }}.conf'
-  notify: Restart virtual interface
+  register: ensure_wg_config
   tags: wireguard_p2p
 
 - name: Ensure wireguard interface config is deployed
@@ -49,6 +49,15 @@
   import_role:
     name: interface
   tags: wireguard_p2p
+
+- name: Restart {{ interface.name }}
+  vars:
+    ifname: '{{ wg_iface }}'
+    virtual: True
+  import_role:
+    name: restart_interface
+  when: ensure_wg_config.changed
+  tags: interface
 
 - name: Force execution of handlers
   vars:
