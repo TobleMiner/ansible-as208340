@@ -5,6 +5,8 @@
       name: '{{ ifname }}'
       ipv4: '{{ iface.ipv4 if iface.ipv4 is defined else [] }}'
       ipv6: '{{ iface.ipv6 if iface.ipv6 is defined else [] }}'
+      inet_options:
+        post-up: '{% if iface.mtu is defined %}ip link set $IFACE mtu {{ iface.mtu }}{% else %}"true"{% endif %}'
   import_role:
     name: interface
   tags: base, interfaces

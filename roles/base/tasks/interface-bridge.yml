@@ -19,6 +19,7 @@
         bridge_stp: 0
         bridge_waitport: 0
         bridge_fd: 0
+        post-up: '{% if iface.mtu is defined %}ip link set $IFACE mtu {{ iface.mtu }}{% else %}"true"{% endif %}'
   import_role:
     name: interface
   tags: base, interfaces
