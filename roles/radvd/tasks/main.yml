@@ -1,8 +1,8 @@
 ---
 - name: Ensure radvd is installed
   vars:
-    has_radvd: '{% for iface in (interfaces.values() | debug()) if (iface.radvd | default(False)) %}"True"{% endfor %}'
+    pyexp: 'functools.reduce(bool.__or__, [ (iface["radvd"] if "radvd" in iface else False) for iface in data ], False)'
+    has_radvd_iface: '{{ interfaces.values() | python(pyexp) }}'
   import_tasks:
     file: radvd.yml
   tags: radvd
-  when: (has_radvd | length) > 0
