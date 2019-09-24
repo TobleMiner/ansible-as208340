@@ -4,6 +4,7 @@
     asn: 208340
     ipv4_net: 44.190.22.0/24
     ipv6_net: 2a06:e881:5608::/48
+    mss: 1340
     monitoring_hosts:
       - 90.187.100.197/32
       - 2a02:8106:19:4900::/56
@@ -14,6 +15,7 @@
     - { role: bgp_announce, vars: { ipv6: { net: '{{ ipv6_net }}' } } }
     - asn_interfaces
     - { role: munin-node, vars: { allow: '{{ monitoring_hosts }}' } }
+    - clamp_mss
     - peerings_direct
     - peerings_ibgp
 
