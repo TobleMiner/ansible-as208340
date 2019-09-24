@@ -1,0 +1,13 @@
+---
+- name: Restart virtual interface {{ ifname }}
+  shell: |
+    ifdown --force {{ ifname }} || (ip link set down {{ ifname }} && ip link del {{ ifname }}) || true
+    ifup {{ ifname }}
+  when: virtual | default(False)
+
+- name: Restart physical interface {{ ifname }}
+  shell: |
+    ifdown --force {{ ifname }} || ip link set down {{ ifname }} || true
+    ifup {{ ifname }}
+  when: not (virtual | default(False))
+
