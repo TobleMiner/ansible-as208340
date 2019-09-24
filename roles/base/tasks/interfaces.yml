@@ -2,7 +2,7 @@
 - name: Setup interface
   vars:
     ifname: '{{ item.key }}'
-    iface: '{{ item.value }}'
+    iface: '{{ item.value | interface_mtu_fixup(ifname, interfaces) }}'
   include_tasks:
     file: interface-{{ item.value.type }}.yml
   with_items: '{{ interfaces | dict2items }}'

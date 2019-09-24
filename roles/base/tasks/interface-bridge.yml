@@ -9,6 +9,8 @@
   vars:
     slaves: '{{ iface.slaves | default([]) if iface.slaves | default([]) | is_list else [ iface.slaves ] }}'
     slave_str: '{% if not slaves %}none{% else %}{% for slave in slaves %} {{ slave }}{% endfor %}{% endif %}'
+    mtu_set_cmd: [ '{% if iface.mtu is defined %}ip link set $IFACE mtu {{ iface.mtu }}{% endif %}' ]
+    mtu_set_slaves: '{{ (slaves | list_format("ip link set {} mtu " ~ iface.mtu)) if iface.mtu is defined else [] }}'
     interface:
       name: '{{ ifname }}'
       virtual: yes
@@ -19,7 +21,7 @@
         bridge_stp: 0
         bridge_waitport: 0
         bridge_fd: 0
-        post-up: '{% if iface.mtu is defined %}ip link set $IFACE mtu {{ iface.mtu }}{% else %}"true"{% endif %}'
+        post-up: '{{ mtu_set_cmd + mtu_set_slaves }}'
   import_role:
     name: interface
   tags: base, interfaces
