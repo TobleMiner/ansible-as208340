@@ -24,9 +24,28 @@ def set_home_flag(addr):
     addr['flags'].append('home')
   return addr
 
+def mtu_fixup(interface, ifname, interfaces):
+  for iface in interfaces:
+    if not 'managed' in iface or not iface['managed']:
+      continue
+    if iface['type'] != 'bridge':
+      continue
+    if not mtu in iface:
+      continue
+    if not 'slaves' in iface:
+      continue
+    slaves = iface['slaves'] if isinstance(iface['slaves'], list) else [ iface['slaves'] ]
+    if not ifname in slaves:
+      continue
+    interface['mtu'] = iface['mtu']
+    break
+
+  return interface
+
 class FilterModule(object):
   def filters(self):
     return {
       'interface_normalize_addresses': normalize_addresses,
-      'interface_set_home_flag': set_home_flag
+      'interface_set_home_flag': set_home_flag,
+      'interface_mtu_fixup': mtu_fixup,
     }
