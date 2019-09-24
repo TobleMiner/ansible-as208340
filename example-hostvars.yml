@@ -13,6 +13,13 @@ interfaces:
     ipv4: <ipv4 address in as/prefixlen>
     ipv6: <ipv6 address in as/prefixlen>
     mtu: <mtu of interface> # Optional
+    dhcp:
+      address: <ip address for dhcp server> # Optional, defaults to primary ipv4 address of interface
+      range: # Optional
+        start: <first dhcp address> # Optional
+        end: <last dhcp address> # Optional
+      options: # Optional, can be used to override dhcp server options
+        <option_name>: <option_value>|[ <option_value>, ... ] # Any valid isc-dhcp-server option
 
   # Configures the physical interface <ifname>
   <ifname>:
@@ -20,6 +27,13 @@ interfaces:
     ipv4: <ipv4 address> # Supports lists of addresses
     ipv6: <ipv6 address> # Supports lists of addresses
     mtu: <mtu of interface> # Optional
+    dhcp:
+      address: <ip address for dhcp server> # Optional, defaults to primary ipv4 address of interface
+      range: # Optional
+        start: <first dhcp address> # Optional
+        end: <last dhcp address> # Optional
+      options: # Optional, can be used to override dhcp server options
+        <option_name>: <option_value>|[ <option_value>, ... ] # Any valid isc-dhcp-server option
 
 addresses:
   as<asn>: # This name MUST be "as<asn>"
