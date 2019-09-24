@@ -1,0 +1,45 @@
+- name: Ensure dhcp config for interface {{ ifname }} is in place
+  template:
+    src: "{{ 'etc/dhcp/dhcpd.conf.d/interface_{{ ifname }}.conf.j2' }}"
+    dest: /etc/dhcp/dhcpd.conf.d/interface_{{ ifname }}.conf
+  notify:
+    - restart dhcpd
+  tags: dhcp_server
+
+- name: Ensure dhcp config fragment for defaults is in place
+  template:
+    src: "{{ 'etc/dhcp/dhcpd.fragment.d/050-defaults.j2' }}"
+    dest: /etc/dhcp/dhcpd.fragment.d/050-defaults
+  notify:
+    - rebuild dhcpd config
+    - restart dhcpd
+  tags: dhcp_server
+
+- name: Ensure dhcp config fragment for interface {{ ifname }} is in place
+  template:
+    src: "{{ 'etc/dhcp/dhcpd.fragment.d/100-{{ ifname }}.j2' }}"
+    dest: /etc/dhcp/dhcpd.fragment.d/100-{{ ifname }}
+  notify:
+    - rebuild dhcpd config
+    - restart dhcpd
+  tags: dhcp_server
+
+- name: Ensure dhcpd interface config initializes INTERFACESv4
+  lineinfile:
+    path: /etc/default/isc-dhcp-server
+    regexp: '^INTERFACESv4=""\s.*'
+    line: 'INTERFACESv4=""'
+    state: present
+  notify:
+    - restart dhcpd
+  tags: dhcp_server
+
+- name: Ensure dhcpd interface config adds {{ ifname }} to INTERFACESv4
+  lineinfile:
+    path: /etc/default/isc-dhcp-server
+    regexp: '^INTERFACESv4="\$INTERFACESv4 {{ ifname }}"\s.*'
+    line: 'INTERFACESv4="$INTERFACESv4 {{ ifname }}"'
+    state: present
+  notify:
+    - restart dhcpd
+  tags: dhcp_server

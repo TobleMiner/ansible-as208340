@@ -1,0 +1,19 @@
+subnet {{ dhcp.address | ipaddr('network') }} netmask {{ dhcp.address | ipaddr('netmask') }} {
+  authoritative;
+  range {{ dhcp.range.start }} {{ dhcp.range.end }};
+
+  abandon-lease-time 86400;
+  adaptive-lease-time-threshold 75;
+  min-lease-time 600;       # 10 min
+  default-lease-time 43200; # 12 h
+  max-lease-time 86400;     # 24 h
+
+{% for option_name in dhcp.options.keys() %}
+{% set option = dhcp.options[option_name] %}
+{% if option | is_list %}
+  option {{ option_name }} {{ option[0] }}{% for value in option[1:] %}, {{ value }}{% endfor %};
+{% else %}
+  option {{ option_name }} {{ option }};
+{% endif %}
+{% endfor %}
+}
