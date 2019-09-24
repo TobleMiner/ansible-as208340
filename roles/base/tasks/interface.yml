@@ -3,9 +3,10 @@
   vars:
     forwarding:
       ifname: '{{ ifname }}'
-      allowed: '{{ iface.forwarding }}'
+      allowed: '{{ iface.forwarding | default(False) }}'
   import_role:
     name: forward_asn
+  when: not (ifname | interface_has_master(ansible_loop.allitems | items2dict)) and iface.forwarding is defined
   tags: base, interfaces, interface
 
 - name: Ensure config file for interface {{ ifname }} is deployed
