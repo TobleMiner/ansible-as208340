@@ -1,0 +1,7 @@
+---
+- name: Ensure mss clamping for as{{ asn }} is configured
+  template:
+    src:  '{{ "etc/iptables.d/200-as{{ asn }}-clamp-mss.conf" }}'
+    dest: '/etc/iptables.d/200-as{{ asn }}-clamp-mss.conf'
+  notify: Restart iptables daemon
+  tags: clamp_mss

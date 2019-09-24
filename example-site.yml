@@ -4,6 +4,7 @@
     asn: <asn here>
     ipv4_net: <ipv4 net here>
     ipv6_net: <ipv6 net here>
+    mss: <TCP mss that can be forwarded>
     monitoring_hosts:
       - <host 1>
       - <host 2>
@@ -14,6 +15,7 @@
     - { role: bgp_announce, vars: { ipv6: { net: '{{ ipv6_net }}' } } }
     - { role: asn_interface }
     - { role: munin-node, vars: { allow: '{{ monitoring_hosts }}' } }
+    - clamp_mss
     - peerings_direct
     - peerings_ibgp
 
