@@ -1,9 +1,12 @@
 ---
-- name: Setup interface
+- name: Setup interfaces
   vars:
     ifname: '{{ item.key }}'
-    iface: '{{ item.value | interface_mtu_fixup(ifname, interfaces) }}'
+    # Workaround for undefined magic and host variables in certain loop environments
+    iface: '{{ item.value | interface_mtu_fixup(ifname, ansible_loop.allitems | items2dict) }}'
   include_tasks:
-    file: interface-{{ item.value.type }}.yml
-  with_items: '{{ interfaces | dict2items }}'
+    file: interface.yml
+  loop: '{{ interfaces | dict2items }}'
+  loop_control:
+    extended: yes
   when: item.value.managed is defined and item.value.managed

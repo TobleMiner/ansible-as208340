@@ -1,0 +1,14 @@
+---
+- name: Ensure forwarding via {{ ifname }} is configured
+  vars:
+    forwarding:
+      ifname: '{{ ifname }}'
+      allowed: '{{ iface.forwarding }}'
+  import_role:
+    name: forward_asn
+  tags: base, interfaces, interface
+
+- name: Ensure config file for interface {{ ifname }} is deployed
+  import_tasks:
+    file: interface-{{ iface.type }}.yml
+  tags: base, interfaces

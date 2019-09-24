@@ -12,6 +12,7 @@ interfaces:
     type: bridge
     ipv4: <ipv4 address in as/prefixlen>
     ipv6: <ipv6 address in as/prefixlen>
+    forwarding: yes|no # Optional, allow forwarding of asn traffic
     mtu: <mtu of interface> # Optional
     dhcp:
       address: <ip address for dhcp server> # Optional, defaults to primary ipv4 address of interface
