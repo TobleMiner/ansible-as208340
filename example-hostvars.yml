@@ -22,6 +22,9 @@ interfaces:
       options: # Optional, can be used to override dhcp server options
         <option_name>: <option_value>|[ <option_value>, ... ] # Any valid isc-dhcp-server option
     radvd: yes|no # Optional, defaults to no, enables IPv6 RAs
+    all_knowing_dns: 
+      hostname: "%DIGITS%.<domain_name>" # Optional, hostname for IPv6 RDNS
+      upstream: "<IPv6 address>"  # Optional, upstream server for RDNS queries
 
 addresses:
   as<asn>: # This name MUST be "as<asn>"

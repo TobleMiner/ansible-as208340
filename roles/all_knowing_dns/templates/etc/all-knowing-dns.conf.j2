@@ -1,0 +1,28 @@
+# Configuration file for AllKnowingDNS v1.3
+
+{% for rdns_ip in all_knowing_dns.listen %}
+listen {{ rdns_ip | strip_prefixlen }}
+{% endfor %}
+{% for host in hostvars.values() if host.interfaces is defined %}
+  {%- for interface in host.interfaces.values() if interface.all_knowing_dns.hostname is defined %}
+
+network {{ interface.ipv6 | ipaddr('0') }}
+resolves to {{ interface.all_knowing_dns.hostname }}
+    {%- if interface.all_knowing_dns.upstream is defined %}
+
+with upstream {{ interface.all_knowing_dns.upstream }}
+    {%- endif %}
+  {%- endfor %}
+{%- endfor %}
+
+{% if all_knowing_dns.networks is defined %}
+  {%- for config in all_knowing_dns.networks if config.hostname is defined %}
+
+network {{ config.net }}
+resolves to {{ config.hostname }}
+    {%- if config.upstream is defined %}
+
+with upstream {{ config.upstream }}
+    {%- endif %}
+  {%- endfor %}
+{% endif %}
