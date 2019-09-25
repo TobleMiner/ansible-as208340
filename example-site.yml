@@ -33,3 +33,11 @@
     dns_searchlist_domain: "<dns searchdomain here>"
   roles:
     - radvd
+
+- hosts: dns
+  vars:
+    rdns_listen: 
+      - <ipv4 net here>
+      - <ipv6 net here>
+  roles: 
+    - all_knowing_dns
