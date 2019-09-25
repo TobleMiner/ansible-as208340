@@ -5,29 +5,13 @@ interfaces:
     ipv4: <wan ipv4 address>
     ipv6: <wan ipv6 address>
 
-  # Creates bridge interface "br-as<asn>" and configures a static address
-  br-as<asn>:
-    announce: yes # Controls wether addresses on this interface will be announced via BGP
-    managed: True
-    type: bridge
+  <inteface name>:
+    announce: yes # Optional, defaults to no, controls wether addresses on this interface will be announced via BGP
+    managed: yes|no # Optional, defaults to no, only interfaces with managed set to yes will be configured in /etc/network/interfaces.d
+    type: <physical|bridge|dummy> # Interface type, physical denotes interfaces
+    slaves: <list of slaves> # Optional, defaults to [], slave of this interface (currently only supported on bridges)
     ipv4: <ipv4 address in as/prefixlen>
     ipv6: <ipv6 address in as/prefixlen>
-    forwarding: yes|no # Optional, allow forwarding of asn traffic
-    mtu: <mtu of interface> # Optional
-    dhcp:
-      address: <ip address for dhcp server> # Optional, defaults to primary ipv4 address of interface
-      range: # Optional
-        start: <first dhcp address> # Optional
-        end: <last dhcp address> # Optional
-      options: # Optional, can be used to override dhcp server options
-        <option_name>: <option_value>|[ <option_value>, ... ] # Any valid isc-dhcp-server option
-    radvd: yes|no # Optional, defaults to no, enables IPv6 RAs
-
-  # Configures the physical interface <ifname>
-  <ifname>:
-    managed: True
-    ipv4: <ipv4 address> # Supports lists of addresses
-    ipv6: <ipv6 address> # Supports lists of addresses
     forwarding: yes|no # Optional, allow forwarding of asn traffic
     mtu: <mtu of interface> # Optional
     dhcp:
