@@ -1,71 +1,18 @@
 ---
-# Install packages
-- name: Ensure dhcpd is installed
-  apt:
-    name: isc-dhcp-server
-    state: present
-  notify:
-    - restart dhcpd
-  tags: dhcp_server
-
-# Deploy firwall rules
-#- name: Ensure firewall allows dhcp traffic
-#  template:
-#    src: '{{ "etc/iptables.d/500-Allow-dhcpd_{{ dhcp_iface }}.j2" }}'
-#    dest: /etc/iptables.d/500-Allow-dhcpd_{{ dhcp_iface }}
-#  notify:
-#    - restart firewall
-#  tags: dhcp_server, firewall
-
-# Configure dhcpd
-- name: Ensure dhcpd config directory exists
-  file:
-    path: /etc/dhcp/dhcpd.conf.d
-    state: directory
-  tags: dhcp_server
-
-- name: Ensure dhcpd config fragment directory exists
-  file:
-    path: /etc/dhcp/dhcpd.fragment.d
-    state: directory
-  tags: dhcp_server
-
-- name: Ensure dhcpd interface is configured
+- name: Confiure DHCP server
   vars:
-    interface: '{{ item.value }}'
-    primary_ipv4: '{{ interface.ipv4[0] if interface.ipv4 | is_list else interface.ipv4 }}'
-    dhcp_ipv4: '{{ interface.dhcp.address if interface.dhcp.address is defined else primary_ipv4 }}'
-    dhcp_start: '{{ interface.dhcp.range.start if interface.dhcp.range.start is defined else (dhcp_ipv4 | ipaddr(2)) }}'
-    dhcp_end: '{{ interface.dhcp.range.end if interface.dhcp.range.start is defined else (dhcp_ipv4 | ipaddr(-2)) }}'
-    default_options:
-      routers: '{{ dhcp_ipv4 | strip_prefixlen }}'
-      subnet-mask: '{{ dhcp_ipv4 | ipaddr("netmask") }}'
-      domain-name-servers: 8.8.8.8
-    dhcp_options: '{{ interface.dhcp.options if interface.dhcp.options is defined else { } }}'
-    ifname: '{{ item.key }}'
-    dhcp:
-      address: '{{ dhcp_ipv4 }}'
-      range:
-        start: '{{ dhcp_start | strip_prefixlen }}'
-        end: '{{ dhcp_end | strip_prefixlen }}'
-      options: '{{ default_options | merge(dhcp_options) }}'
-  include_tasks:
-    file: interface.yml
-  loop: '{{ interfaces | dict2items }}'
-  when: item.value.dhcp is defined
-  register: ensure_dhcp_iface
-  tags: dhcp_server
+    pyexp: 'functools.reduce(bool.__or__, [ ("dhcp" in iface) for iface in data ], False)'
+    has_dhcp_iface: '{{ interfaces.values() | python(pyexp) }}'
+  block:
+  - name: Ensure DHCP server is configured
+    import_tasks:
+      file: dhcp.yml
+    tags: dhcp_server
+    when: has_dhcp_iface
 
-- name: Ensure dhcpd config is rebuilt
-  assemble:
-    src: /etc/dhcp/dhcpd.fragment.d
-    dest: /etc/dhcp/dhcpd.conf
-  tags: dhcp_server
-#  when: ensure_dhcp_iface.changed
-
-- name: Ensure dhcpd service is enabled and started
-  service:
-    name: isc-dhcp-server.service
-    enabled: yes
-    state: started
-  tags: dhcp_server
+  - name: Ensure dhcp server is not installed
+    apt:
+      name: isc-dhcp-server
+      state: absent
+    tags: dhcp_server
+    when: not has_dhcp_iface
