@@ -1,0 +1,17 @@
+---
+- name: Ensure unbound is installed
+  apt:
+    name: unbound
+    state: present
+
+- name: Ensure unbound is configured
+  template:
+    src:  'etc/unbound/unbound.conf'
+    dest: '/etc/unbound/unbound.conf'
+  notify: Restart unbound
+
+- name: Ensure unbound is enabled and started
+  service:
+    name: unbound
+    state: started
+    enabled: yes

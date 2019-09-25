@@ -1,0 +1,5 @@
+---
+- name: Configure unbound
+  import_tasks:
+    file: unbound.yml
+  tags: unbound
