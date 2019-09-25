@@ -11,8 +11,8 @@
   roles:
     - base
     - bgp
-    - { role: bgp_announce, vars: { ipv4: { net: '{{ ipv4_net }}' } } }
-    - { role: bgp_announce, vars: { ipv6: { net: '{{ ipv6_net }}' } } }
+    - { role: bgp_announce, vars: { announce: { ipv4: { net: '{{ ipv4_net }}' } } } }
+    - { role: bgp_announce, vars: { announce: { ipv6: { net: '{{ ipv6_net }}' } } } }
     - { role: asn_interface }
     - { role: munin-node, vars: { allow: '{{ monitoring_hosts }}' } }
     - clamp_mss
