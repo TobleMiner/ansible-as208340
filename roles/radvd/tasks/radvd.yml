@@ -3,7 +3,6 @@
   apt:
     name: radvd
     state: present
-  when: has_radvd_iface
 
 - name: Ensure radvd is configured
   template:
@@ -11,7 +10,6 @@
     dest: /etc/radvd.conf
     mode: 0644
   notify: Restart radvd
-  when: has_radvd_iface
 
 # Handle service
 - name: Ensure radvd service is enabled and started
@@ -19,11 +17,3 @@
     name: radvd
     enabled: yes
     state: started
-  when: has_radvd_iface
-
-- name: Ensure radvd service is disabled and stopped
-  service:
-    name: radvd
-    enabled: no
-    state: stopped
-  when: not has_radvd_iface

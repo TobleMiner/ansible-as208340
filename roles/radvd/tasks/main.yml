@@ -1,8 +1,18 @@
 ---
-- name: Ensure radvd is installed
+- name: Configure radvd
   vars:
     pyexp: 'functools.reduce(bool.__or__, [ (iface["radvd"] if "radvd" in iface else False) for iface in data ], False)'
     has_radvd_iface: '{{ interfaces.values() | python(pyexp) }}'
-  import_tasks:
-    file: radvd.yml
-  tags: radvd
+  block:
+  - name: Ensure radvd is installed
+    import_tasks:
+      file: radvd.yml
+    tags: radvd
+    when: has_radvd_iface
+
+  - name: Ensure radvd is not installed
+    apt:
+      name: radvd
+      state: absent
+    tags: radvd
+    when: not has_radvd_iface
