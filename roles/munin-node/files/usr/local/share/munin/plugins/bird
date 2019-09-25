@@ -67,6 +67,7 @@ sub get_stats {
         given($line) {
             when (/1002-([\w-]+)\s+([\w-]+)\s+.*/) {
                 ($name, $protocol) = ($1,$2);
+                $name =~ s/-/_/;
                 next unless $protocol ~~ $protocols;
                 $stats->{$name}->{protocol} = $protocol;
                 $stats->{$name}->{title} = $name;
