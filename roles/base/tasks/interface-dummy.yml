@@ -1,0 +1,16 @@
+---
+- name: Set up dummy interface {{ ifname }}
+  vars:
+    mtu_set_cmd: '{{ [ "ip link set $IFACE mtu " ~ iface.mtu ] if iface.mtu is defined else [ ] }}'
+    interface:
+      name: '{{ ifname }}'
+      virtual: yes
+      ipv4: '{{ iface.ipv4 if iface.ipv4 is defined else [] }}'
+      ipv6: '{{ iface.ipv6 if iface.ipv6 is defined else [] }}'
+      inet_options:
+        pre-up: ip link add $IFACE type dummy || true
+        post-up: '{{ mtu_set_cmd }}'
+        post-down: ip link del $IFACE || true
+  import_role:
+    name: interface
+  tags: base, interfaces
