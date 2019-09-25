@@ -1,6 +1,6 @@
 # Configuration file for AllKnowingDNS v1.3
 
-{% for rdns_ip in rdns_listen %}
+{% for rdns_ip in all_knowing_dns.listen %}
 listen {{ rdns_ip | strip_prefixlen }}
 {% endfor %}
 {% for host in hostvars.values() if host.interfaces is defined %}
@@ -15,14 +15,14 @@ with upstream {{ interface.all_knowing_dns.upstream }}
   {%- endfor %}
 {%- endfor %}
 
-{% if rdns_all_knowing_dns is defined %}
-{%- for config in rdns_all_knowing_dns if config.hostname is defined %}
+{% if all_knowing_dns.networks is defined %}
+  {%- for config in all_knowing_dns.networks if config.hostname is defined %}
 
 network {{ config.net }}
 resolves to {{ config.hostname }}
     {%- if config.upstream is defined %}
 
 with upstream {{ config.upstream }}
-    {%- endif %}
-{%- endfor %}
+      {%- endif %}
+  {%- endfor %}
 {% endif %}
