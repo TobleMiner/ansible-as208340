@@ -39,5 +39,10 @@
     rdns_listen: 
       - <ipv4 net here>
       - <ipv6 net here>
+    rdns_all_knowing_dns: # Optional
+      - net:  "<ipv6 network here>"
+        hostname: "%DIGITS%.<domain_name>"
+        upstream: "<ipv6 address of upstream server>" # Optional
+
   roles: 
     - all_knowing_dns

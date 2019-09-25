@@ -8,8 +8,21 @@ listen {{ rdns_ip | strip_prefixlen }}
 
 network {{ interface.ipv6 | ipaddr('0') }}
 resolves to {{ interface.all_knowing_dns.hostname }}
-{% if interface.all_knowing_dns.upstream is defined %}
+    {%- if interface.all_knowing_dns.upstream is defined %}
+
 with upstream {{ interface.all_knowing_dns.upstream }}
-{%- endif %}
+    {%- endif %}
   {%- endfor %}
 {%- endfor %}
+
+{% if rdns_all_knowing_dns is defined %}
+{%- for config in rdns_all_knowing_dns if config.hostname is defined %}
+
+network {{ config.net }}
+resolves to {{ config.hostname }}
+    {%- if config.upstream is defined %}
+
+with upstream {{ config.upstream }}
+    {%- endif %}
+{%- endfor %}
+{% endif %}
