@@ -28,3 +28,10 @@
     ipv6_net: 2a06:e881:5608::/48
   roles:
     - peering_vultr
+
+- hosts: public_dns
+  vars:
+    any_ipv4: 44.190.22.53
+    any_ipv6: 2a06:e881:5608:ffff::53
+  roles:
+    - { role: unbound, vars: { unbound: { listen_ipv4: '{{ any_ipv4 }}', listen_ipv6: '{{ any_ipv6 }}' } } }
