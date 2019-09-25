@@ -26,33 +26,10 @@
     path: /usr/local/share/munin/plugins
     state: directory
 
-- name: Install bird munin plugin
-  copy:
-    src: usr/local/share/munin/plugins/bird
-    dest: /usr/local/share/munin/plugins/bird
-    mode: 0755
-  notify: Restart munin-node
+- name: Ensure munin-node bird plugin is set up
+  import_tasks:
+    file: bird.yml
 
-- name: Symlink bird plugin
-  file:
-   src: /usr/local/share/munin/plugins/bird
-   dest: /etc/munin/plugins/bird
-   state: link
-  notify: Restart munin-node
-
-- name: Symlink bird6 plugin
-  file:
-   src: /usr/local/share/munin/plugins/bird
-   dest: /etc/munin/plugins/bird6
-   state: link
-  notify: Restart munin-node
-
-- name: Configure bird munin plugin
-  copy:
-    src: etc/munin/plugin-conf.d/bird
-    dest: /etc/munin/plugin-conf.d/bird
-    mode: 0700
-  notify: Restart munin-node
 
 - name: Ensure munin-node service is enabled and started
   service:
