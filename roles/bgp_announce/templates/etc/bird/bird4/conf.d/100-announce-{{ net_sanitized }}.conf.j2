@@ -1,12 +1,12 @@
 protocol static '{{ net_sanitized }}' {
   table t_fulltable;
-{% if ipv4.interface is defined %}
-  route {{ ipv4.net }} via "{{ ipv4.interface }}";
+{% if announce.ipv4.interface is defined %}
+  route {{ announce.ipv4.net }} via "{{ announce.ipv4.interface }}";
 {% else %}
-  {%- if ipv4.address is defined %}
-  route {{ ipv4.net }} via {{ ipv4.address }};
+  {%- if announce.ipv4.address is defined %}
+  route {{ announce.ipv4.net }} via {{ announce.ipv4.address }};
   {%- else %}
-  route {{ ipv4.net }} unreachable;
+  route {{ announce.ipv4.net }} unreachable;
   {%- endif %}
 {% endif %}
 

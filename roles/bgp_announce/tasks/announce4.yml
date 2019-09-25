@@ -4,5 +4,5 @@
     src: '{{ "etc/bird/bird4/conf.d/100-announce-{{ net_sanitized }}.conf.j2" }}'
     dest: '/etc/bird/bird4/conf.d/100-announce-{{ net_sanitized }}.conf'
   vars:
-    net_sanitized: '{{ ipv4.net | regex_replace("/", "_") }}'
+    net_sanitized: '{{ announce.ipv4.net | regex_replace("/", "_") }}'
   notify: Reload bird config

@@ -1,12 +1,12 @@
 protocol static '{{ net_sanitized }}' {
   table t_fulltable;
-{% if ipv6.interface is defined %}
-  route {{ ipv6.net }} via "{{ ipv6.interface }}";
+{% if announce.ipv6.interface is defined %}
+  route {{ announce.ipv6.net }} via "{{ announce.ipv6.interface }}";
 {% else %}
-  {%- if ipv6.address is defined %}
-  route {{ ipv6.net }} via {{ ipv6.address }};
+  {%- if announce.ipv6.address is defined %}
+  route {{ announce.ipv6.net }} via {{ announce.ipv6.address }};
   {%- else %}
-  route {{ ipv6.net }} unreachable;
+  route {{ announce.ipv6.net }} unreachable;
   {%- endif %}
 {% endif %}
 
