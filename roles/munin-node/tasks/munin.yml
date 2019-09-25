@@ -30,6 +30,9 @@
   import_tasks:
     file: bird.yml
 
+- name: Ensure munin-node unbound plugin is set up
+  import_tasks:
+    file: unbound.yml
 
 - name: Ensure munin-node service is enabled and started
   service:

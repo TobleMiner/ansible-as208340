@@ -1,0 +1,31 @@
+---
+- name: Install unbound munin plugin
+  copy:
+    src: usr/local/share/munin/plugins/unbound
+    dest: /usr/local/share/munin/plugins/unbound
+    mode: 0755
+  notify: Restart munin-node
+
+- name: Symlink unbound plugins
+  file:
+   src: /usr/local/share/munin/plugins/unbound
+   dest: /etc/munin/plugins/{{ item }}
+   state: link
+  notify: Restart munin-node
+  loop:
+    - unbound_munin_hits
+    - unbound_munin_queue
+    - unbound_munin_memory
+    - unbound_munin_by_type
+    - unbound_munin_by_class
+    - unbound_munin_by_opcode
+    - unbound_munin_by_rcode
+    - unbound_munin_by_flags
+    - unbound_munin_histogram
+
+- name: Configure unbound munin plugin
+  copy:
+    src: etc/munin/plugin-conf.d/unbound
+    dest: /etc/munin/plugin-conf.d/unbound
+    mode: 0700
+  notify: Restart munin-node
