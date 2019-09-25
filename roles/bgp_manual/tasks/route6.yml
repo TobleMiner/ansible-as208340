@@ -1,0 +1,32 @@
+---
+- name: Ensure IPv6 interface route is advertised
+  vars:
+    announce:
+      ipv6:
+        net: '{{ route.net }}'
+        interface: '{{ route.via }}'
+  import_role:
+    name: bgp_announce
+  when: route.via is defined and not route.via | ipaddr
+  tags: bgp_manual
+
+- name: Ensure IPv6 direct route is advertised
+  vars:
+    announce:
+      ipv6:
+        net: '{{ route.net }}'
+        address: '{{ route.via }}'
+  import_role:
+    name: bgp_announce
+  when: route.via is defined and route.via | ipaddr
+  tags: bgp_manual
+
+- name: Ensure IPv6 unreachable route is advertised
+  vars:
+    announce:
+      ipv6:
+        net: '{{ route.net }}'
+  import_role:
+    name: bgp_announce
+  when: not route.via is defined
+  tags: bgp_manual

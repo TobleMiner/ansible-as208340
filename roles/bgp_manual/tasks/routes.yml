@@ -1,0 +1,16 @@
+---
+- name: Ensure manually configured IPv4 advertisements are sent
+  include_tasks:
+    file: route4.yml
+  loop_control:
+    loop_var: route
+  loop: '{{ bgp.announce }}'
+  when: route.net | ipv4
+
+- name: Ensure manually configured IPv6 advertisements are sent
+  include_tasks:
+    file: route6.yml
+  loop_control:
+    loop_var: route
+  loop: '{{ bgp.announce }}'
+  when: route.net | ipv6

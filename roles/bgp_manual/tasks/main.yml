@@ -1,0 +1,6 @@
+---
+- name: Ensure manual routes are configured
+  import_tasks:
+    file: routes.yml
+  when: bgp.announce is defined
+  tags: bgp_manual
