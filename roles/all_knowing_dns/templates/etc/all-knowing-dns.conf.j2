@@ -4,12 +4,12 @@
 listen {{ rdns_ip | strip_prefixlen }}
 {% endfor %}
 {% for host in hostvars.values() if host.interfaces is defined %}
-  {%- for interface in host.interfaces.values() if interface.all_knowing_dns_hostname is defined %}
+  {%- for interface in host.interfaces.values() if interface.all_knowing_dns.hostname is defined %}
 
 network {{ interface.ipv6 | ipaddr('0') }}
-resolves to {{ interface.all_knowing_dns_hostname }}
-{% if interface.all_knowing_dns_upstream is defined %}
-with upstream {{ interface.all_knowing_dns_upstream }}
+resolves to {{ interface.all_knowing_dns.hostname }}
+{% if interface.all_knowing_dns.upstream is defined %}
+with upstream {{ interface.all_knowing_dns.upstream }}
 {%- endif %}
   {%- endfor %}
 {%- endfor %}
