@@ -65,7 +65,7 @@ sub get_stats {
     my ($protocol,$name);
     while (my $line = <$bird_ctl>) {
         given($line) {
-            when (/1002-(\w+)\s+(\w+)\s+.*/) {
+            when (/1002-([\w-]+)\s+([\w-]+)\s+.*/) {
                 ($name, $protocol) = ($1,$2);
                 next unless $protocol ~~ $protocols;
                 $stats->{$name}->{protocol} = $protocol;
