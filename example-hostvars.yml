@@ -50,6 +50,9 @@ friendly_name: <friendly name>
 bgp:
   router_id: <router id>
   route_reflection: off|client|server|<cluster_id> # Optional, defaults to off
+  announce: # Optional, list of additional static announcements
+    - net: <valid ipv4/ipv6 prefix>
+      via: <either an interface or a valid ipv4/ipv6 nexthop> # Optional, unreachable route if not defined
 
 wireguard:
   key:
