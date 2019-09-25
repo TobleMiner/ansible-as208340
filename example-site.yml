@@ -36,14 +36,13 @@
 
 - hosts: dns
   vars:
-    all_knowing_dns: 
-      listen: 
+    all_knowing_dns:
+      listen:
         - <ipv4 net here>
         - <ipv6 net here>
       networks: # Optional
         - net:  "<ipv6 network here>"
           hostname: "%DIGITS%.<domain_name>"
           upstream: "<ipv6 address of upstream server>" # Optional
-
   roles: 
     - all_knowing_dns
