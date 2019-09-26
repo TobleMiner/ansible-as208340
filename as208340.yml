@@ -43,9 +43,21 @@
 - hosts: dns
   gather_facts: no
   vars:
+    asn: 208340
     all_knowing_dns:
       listen:
         - 44.190.22.52
         - 2a06:e881:5608:ffff::52
+    powerdns:
+      listen:
+        ipv4: 44.190.22.54
+        ipv6: 2a06:e881:5608:ffff::54
+      domains:
+        - domain: as208340.net
+          ttl: 3600
+          records:
+            as208340.net:
+              - soa: 'ns1.as208340.net hostmaster.as208340.net 20190926 7200 3600 1209600 3600'
   roles:
     - all_knowing_dns
+    - powerdns
