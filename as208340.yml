@@ -1,5 +1,6 @@
 ---
 - hosts: pops
+  gather_facts: no
   vars:
     asn: 208340
     ipv4_net: 44.190.22.0/24
@@ -23,6 +24,7 @@
     - peerings_ibgp
 
 - hosts: vultr
+  gather_facts: no
   vars:
     asn: 208340
     ipv4_net: 44.190.22.0/24
@@ -39,6 +41,7 @@
     - { role: unbound, vars: { unbound: { listen_ipv4: '{{ any_ipv4 }}', listen_ipv6: '{{ any_ipv6 }}' } } }
 
 - hosts: dns
+  gather_facts: no
   vars:
     all_knowing_dns:
       listen:
