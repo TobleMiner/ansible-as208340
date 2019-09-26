@@ -33,16 +33,17 @@ interface {{ ifname }}
     
 {% endfor %}
 
-{% if dns_nameservers is defined %}
-{% set nameservers = dns_nameservers if dns_nameservers | is_list else [dns_nameservers] %}
-    RDNSS {% for nameserver in nameservers %}{{nameserver}} {% endfor %}
+{% if radvd.dns_nameservers is defined %}
+{% set nameservers = radvd.dns_nameservers if radvd.dns_nameservers | is_list else [ radvd.dns_nameservers ] %}
+    RDNSS{% for nameserver in nameservers %} {{ nameserver }}{% endfor %}
     {
             AdvRDNSSLifetime 6000;
     }; # End of RDNSS definition
 {% endif %}
 
-{% if dns_searchlist_domain is defined %}
-    DNSSL {{dns_searchlist_domain}}
+{% if radvd.dns_searchlist_domains is defined %}
+{% set searchlist_domains = radvd.dns_searchlist_domains if radvd.dns_searchlist_domains | is_list else [ radvd.dns_searchlist_domains ] %}
+    DNSSL{% for domain in searchlist_domains %} {{ domain }}{% endfor %}
     {
             AdvDNSSLLifetime 6000;
     }; # End of DNSSL definition
