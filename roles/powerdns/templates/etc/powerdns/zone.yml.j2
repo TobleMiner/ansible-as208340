@@ -1,0 +1,17 @@
+{% set domains = powerdns.domains %}
+{% for (hostname, host) in hostvars | dict2tuples if host.domains is defined %}
+  {%- set domains = domains | pdns_zone_unite(host.domains) %}
+{% endfor %}
+{% set zone_whoami = {
+  'domain': 'whoami',
+  'ttl': 300,
+  'records': {
+    'whoami': [
+      { 'soa': 'ns1.example.com hostmaster.example.com 2019092600 7200 3600 1209600 3600' },
+      { 'txt': friendly_name }
+    ]
+  }
+}
+%}
+{% set domains = domains | pdns_zone_unite([ zone_whoami ]) %}
+{{ { 'domains': domains | pdns_zone_fixup } | yaml }}

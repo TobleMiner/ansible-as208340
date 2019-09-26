@@ -1,0 +1,26 @@
+---
+- name: Ensure powerdns is installed
+  apt:
+    name: '{{ item }}'
+    state: present
+  loop:
+    - pdns-server
+    - pdns-backend-geoip
+
+- name: Ensure powerdns geoip backend is configured
+  template:
+    src:  etc/powerdns/zone.yml.j2
+    dest: /etc/powerdns/zone.yml
+  notify: Restart powerdns
+
+- name: Ensure powerdns server is configured
+  template:
+    src:  etc/powerdns/pdns.conf.j2
+    dest: /etc/powerdns/pdns.conf
+  notify: Restart powerdns
+
+- name: Ensure powerdns server is enabled and started
+  service:
+    name: pdns
+    state: started
+    enabled: yes
