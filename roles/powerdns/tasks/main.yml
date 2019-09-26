@@ -1,0 +1,5 @@
+---
+- name: Install powerdns
+  import_tasks:
+    file: pdns.yml
+  tags: powerdns

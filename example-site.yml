@@ -44,5 +44,16 @@
         - net:  "<ipv6 network here>"
           hostname: "%DIGITS%.<domain_name>"
           upstream: "<ipv6 address of upstream server>" # Optional
+    powerdns:
+      listen:
+        ipv4: <ipv4 address here> # Optional
+        ipv6: <ipv6 address here> # Optional
+      domains:
+        - domain: <your domain>
+          ttl: <default ttl>
+          records:
+            <name>:
+              - <type>: <content> # DNS resource record
+              - <type>: { ttl: <ttl>, content: <content> } # DNS resource record with no-default ttl
   roles: 
     - all_knowing_dns
