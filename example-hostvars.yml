@@ -31,6 +31,14 @@ addresses:
     ipv4: <ipv4 address in as/prefixlen>
     ipv6: <ipv6 address in as/prefixlen>
 
+domains: # Optional
+  - domain: <your domain>
+    ttl: <default ttl> # Optional, overwrites site ttl
+    records:
+      <name>:
+        - <type>: <content> # DNS resource record
+        - <type>: { ttl: <ttl>, content: <content> } # DNS resource record with non-default ttl
+
 # friendly name, don't exceed length of 12 character for readability
 friendly_name: <friendly name>
 
