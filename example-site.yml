@@ -8,6 +8,9 @@
     monitoring_hosts:
       - <host 1>
       - <host 2>
+    radvd:
+      dns_nameservers: [ <nameserver 1>, <nameserver 2> ] # Optional, either list or sigle entry
+      dns_searchlist_domains: [ <dns searchdomain 1>, <dns searchdomain 2> ] # Optional, list of searchdomains, either list or single entry
   roles:
     - base
     - bgp
@@ -15,6 +18,8 @@
     - { role: bgp_announce, vars: { announce: { ipv6: { net: '{{ ipv6_net }}' } } } }
     - asn_interfaces
     - bgp_manual
+    - dhcp_server
+    - radvd
     - { role: munin-node, vars: { allow: '{{ monitoring_hosts }}' } }
     - clamp_mss
     - peerings_direct
@@ -27,14 +32,6 @@
     ipv6_net: <ipv6 net here>
   roles:
     - peering_vultr
-
-- hosts: dhcp
-  vars: 
-    radvd:
-      dns_nameservers: [ <nameserver 1>, <nameserver 2> ] # Optional, either list or sigle entry
-      dns_searchlist_domains: [ <dns searchdomain 1>, <dns searchdomain 2> ] # Optional, list of searchdomains, either list or single entry
-  roles:
-    - radvd
 
 - hosts: dns
   vars:
