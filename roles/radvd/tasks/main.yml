@@ -1,7 +1,7 @@
 ---
 - name: Configure radvd
   vars:
-    pyexp: 'functools.reduce(bool.__or__, [ (iface["radvd"] if "radvd" in iface else False) for iface in data ], False)'
+    pyexp: 'functools.reduce(bool.__or__, [ "radvd" in iface for iface in data ], False)'
     has_radvd_iface: '{{ interfaces.values() | python(pyexp) }}'
   block:
   - name: Ensure radvd is installed

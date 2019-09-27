@@ -1,6 +1,7 @@
-{% for ifname in interfaces.keys() %}
-    {%- set iface = interfaces[ifname] %}
-    {%- if iface.radvd is defined and iface.radvd %}
+{% for (ifname, iface) in interfaces.items() if iface.radvd is defined %}
+{% if iface.radvd | is_dict %}
+  {%- set radvd = radvd | merge(iface.radvd) %}
+{% endif %}
 interface {{ ifname }}
 {
     AdvSendAdvert on;
@@ -50,5 +51,4 @@ interface {{ ifname }}
 {% endif %}
 
 }; # End of interface definition
-    {%- endif %}
 {% endfor %}
