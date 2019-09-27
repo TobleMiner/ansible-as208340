@@ -11,7 +11,7 @@
       - 2a02:8106:19:4900::/56
     radvd:
       dns_nameservers: 2a06:e881:5608:FFFF::53
-      dns_searchlist_domains: access.as208340.net
+      dns_searchlist_domains: as208340.net
   roles:
     - base
     - bgp
