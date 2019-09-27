@@ -1,0 +1,5 @@
+- name: Flush ubnound dns cache
+  hosts: dns
+  tasks:
+    - name: Flush unbound dns cache
+      command: unbound-control reload
