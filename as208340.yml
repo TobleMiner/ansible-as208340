@@ -60,7 +60,16 @@
           ttl: 3600
           records:
             as208340.net:
-              - soa: 'ns1.as208340.net hostmaster.as208340.net 20190926 7200 3600 1209600 3600'
+              - soa: 'ns1.as208340.net as208340.t-sys.eu 2019092702 7200 3600 1209600 3600'
+              - ns: ns1.as208340.net
+              - ns: ns2.as208340.net
+            ns1.as208340.net:
+              - a: 44.190.22.54
+              - aaaa: 2a06:e881:5608:ffff::54
+            ns2.as208340.net:
+              - a: 44.190.22.54
+              - aaaa: 2a06:e881:5608:ffff::54
+
   roles:
     - all_knowing_dns
     - powerdns
