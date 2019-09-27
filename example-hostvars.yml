@@ -21,7 +21,9 @@ interfaces:
         end: <last dhcp address> # Optional
       options: # Optional, can be used to override dhcp server options
         <option_name>: <option_value>|[ <option_value>, ... ] # Any valid isc-dhcp-server option
-    radvd: yes|no # Optional, defaults to no, enables IPv6 RAs
+    radvd: # Optional, enables IPv6 RAs when defined
+      dns_nameservers: [ <nameserver 1>, <nameserver 2> ] # Optional, either list or sigle entry
+      dns_searchlist_domains: [ <dns searchdomain 1>, <dns searchdomain 2> ] # Optional, list of searchdomains, either list or single entry
     all_knowing_dns: # Optional
       hostname: "%DIGITS%.<domain_name>" # hostname for IPv6 RDNS
       upstream: "<IPv6 address>"  # Optional, upstream server for RDNS queries
