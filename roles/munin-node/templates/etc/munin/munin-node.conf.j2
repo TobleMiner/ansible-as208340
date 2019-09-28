@@ -55,8 +55,9 @@ allow ^::1$
 # cidr_allow 192.0.2.0/24
 # cidr_deny  192.0.2.42/32
 
-{% for allowedIP in allow %}
-cidr_allow {{ allowedIP }}
+{% set whitelist = munin_node.allow | default(allow) %}
+{% for allowed_net in (whitelist if whitelist | is_list else [ whitelist ]) %}
+cidr_allow {{ allowed_net }}
 {% endfor %}
 
 # Which address to bind to;
