@@ -44,6 +44,11 @@ domains: # Optional
 # friendly name, don't exceed length of 12 character for readability
 friendly_name: <friendly name>
 
+munin_node: # Optional
+  allow: # Hosts that are allowed to query this munin node, overrides ACL specified in site
+    - <ip address>
+    - <ip address>
+
 bgp:
   router_id: <router id>
   route_reflection: off|client|server|<cluster_id> # Optional, defaults to off
