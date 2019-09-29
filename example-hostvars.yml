@@ -8,7 +8,25 @@ interfaces:
   <inteface name>:
     announce: yes # Optional, defaults to no, controls wether addresses on this interface will be announced via BGP
     managed: yes|no # Optional, defaults to no, only interfaces with managed set to yes will be configured in /etc/network/interfaces.d
-    type: <physical|bridge|dummy> # Interface type, physical denotes interfaces
+    type: <physical|bridge|dummy|manual> # Interface type, physical denotes interfaces
+    manual: # Use only together with type manual
+      name: <ifname> # Optional, overrides name set by dictionary key
+      ipv4: # Optional, list of ipv4 addresses, can also be string or dict if interface has only one address
+        - <ipv4 address>
+        - { address: <ipv4 address>, flags: <list of flags for this address>, options: <list of options (see inet_options)> }
+      ipv6: # Optional, list of ipv6 addresses, can also be string or dict if interface has only one address
+        - <ipv6 address>
+        - { address: <ipv6 address>, flags: <list of flags for this address>, options: <list of options (see inet6_options)> }
+      method: <ifupdown method> # Optional, defaults to static, a valid ifupdown method
+      family: inet|inet6 # Optional, defaults to inet, family of the ifupdown method
+      inet_options: # Optional, dict of options applied to the first entry of type inet only
+        <option>: # List of values for <option>, option could e.g. be 'post-up' or 'netmask', may be a string if there is only one value
+          - <value 1>
+          - <value 2>
+      inet6_options: # Optional, dict of options applied to the first entry of type inet6 only
+        <option>: # List of values for <option>, option could e.g. be 'post-up' or 'netmask', may be a string if there is only one value
+          - <value 1>
+          - <value 2>
     slaves: <list of slaves> # Optional, defaults to [], slave of this interface (currently only supported on bridges)
     ipv4: <ipv4 address in as/prefixlen>
     ipv6: <ipv6 address in as/prefixlen>
