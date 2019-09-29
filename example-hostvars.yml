@@ -11,6 +11,7 @@ interfaces:
     type: <physical|bridge|dummy|manual> # Interface type, physical denotes interfaces
     manual: # Use only together with type manual
       name: <ifname> # Optional, overrides name set by dictionary key
+      virtual: yes|no # Optional, defaults to false, set to yes if interface is not present before ifup
       ipv4: # Optional, list of ipv4 addresses, can also be string or dict if interface has only one address
         - <ipv4 address>
         - { address: <ipv4 address>, flags: <list of flags for this address>, options: <list of options (see inet_options)> }
