@@ -1,7 +1,7 @@
 ---
 - name: Set up manual interface {{ ifname }}
   vars:
-    interface: '{{ { 'name': ifname } | merge(iface.manual) }}'
+    interface: '{{ { "name": ifname } | merge(iface.manual) }}'
   import_role:
     name: interface
   tags: base, interfaces
