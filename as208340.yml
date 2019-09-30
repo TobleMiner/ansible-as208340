@@ -60,7 +60,7 @@
           ttl: 3600
           records:
             as208340.net:
-              - soa: 'ns1.as208340.net as208340.t-sys.eu 2019092702 7200 3600 1209600 3600'
+              - soa: 'ns1.as208340.net as208340.t-sys.eu 2019093001 7200 3600 1209600 3600'
               - ns: ns1.as208340.net
               - ns: ns2.as208340.net
             ns1.as208340.net:
@@ -69,6 +69,25 @@
             ns2.as208340.net:
               - a: 44.190.22.54
               - aaaa: 2a06:e881:5608:ffff::54
+            rdns1.as208340.net:
+              - a: 44.190.22.52
+              - aaaa: 2a06:e881:5608:ffff::52
+            rdns2.as208340.net:
+              - a: 44.190.22.52
+              - aaaa: 2a06:e881:5608:ffff::52
+
+        - domain: 8.0.6.5.1.8.8.e.6.0.a.2.ip6.arpa
+          ttl: 3600
+          records:
+            8.0.6.5.1.8.8.e.6.0.a.2.ip6.arpa:
+              - soa: 'ns1.as208340.net as208340.t-sys.eu 2019093002 7200 3600 1209600 3600'
+              - ns: ns1.as208340.net
+              - ns: ns2.as208340.net
+            9.2.1.0.8.0.6.5.1.8.8.e.6.0.a.2.ip6.arpa:
+              - ns: rdns1.as208340.net
+              - ns: rdns2.as208340.net
+            4.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.f.f.f.8.0.6.5.1.8.8.e.6.0.a.2.ip6.arpa:
+              - ptr: ns1.as208340.net.
 
   roles:
     - all_knowing_dns
