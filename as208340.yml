@@ -102,6 +102,14 @@
             2.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.f.f.f.8.0.6.5.1.8.8.e.6.0.a.2.ip6.arpa:
               - ptr: rdns.anycast.as208340.net.
 
+        - domain: 22.190.44.in-addr.arpa
+          ttl: 3600
+          records:
+            22.190.44.in-addr.arpa:
+              - soa: 'ns1.as208340.net as208340.t-sys.eu 2019100100 7200 3600 1209600 3600'
+              - ns: ns1.as208340.net
+              - ns: ns2.as208340.net
+
   roles:
     - all_knowing_dns
     - powerdns
