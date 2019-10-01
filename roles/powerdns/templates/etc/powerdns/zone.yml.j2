@@ -1,4 +1,4 @@
-{% set domains = powerdns.domains %}
+{% set domains = powerdns.domains | deepcopy %}
 {% for (hostname, host) in hostvars | dict2tuples if host.domains is defined %}
   {%- set domains = domains | pdns_zone_unite(host.domains) %}
 {% endfor %}
