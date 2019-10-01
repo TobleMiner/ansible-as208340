@@ -1,24 +1,26 @@
+from copy import deepcopy
+
 def sanitize_domain(z):
   zone = { }
   zone['domain'] = str(z['domain'])
   if 'ttl' in z:
     zone['ttl'] = int(z['ttl'])
   zone['records'] = { }
-  records = z['records'] if 'records' in z else { }
+  records = deepcopy(z['records']) if 'records' in z else { }
   for (record_name, records_name) in records.items():
-    zone['records'][str(record_name)] = [ { str(k): str(v) } for record in records_name for (k, v) in record.items() ]
+    zone['records'][str(record_name)] = [ { str(k): str(v) } for record in deepcopy(records_name) for (k, v) in record.items() ]
 
   return zone
 
 def zone_fixup(zone):
-  zone = [ sanitize_domain(domain) for domain in zone ]
+  zone = [ sanitize_domain(domain) for domain in deepcopy(zone) ]
   for domain in zone:
     if not 'services' in domain:
       domain['services'] = [ ]
   return zone
 
 def zone_unite(a, b):
-  a = { domain['domain']: domain for domain in a }
+  a = { domain['domain']: domain for domain in deepcopy(a) }
   b = { domain['domain']: domain for domain in b }
 
   for domain_name in b.keys():
