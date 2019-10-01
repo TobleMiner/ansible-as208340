@@ -19,9 +19,11 @@ def zone_fixup(zone):
       domain['services'] = [ ]
   return zone
 
-def zone_unite(a, b):
-  a = { domain['domain']: domain for domain in deepcopy(a) }
-  b = { domain['domain']: domain for domain in b }
+def zone_unite(zone1, zone2):
+  a = { domain['domain']: domain for domain in deepcopy(zone1) }
+  b = { domain['domain']: domain for domain in zone2 }
+
+  zone1.clear()
 
   for domain_name in b.keys():
     if not domain_name in a:
@@ -46,7 +48,8 @@ def zone_unite(a, b):
     domain_a['records'] = records_a
     a[domain_name] = domain_a
 
-  return list(a.values())
+  zone1.extend(a.values())
+  return zone1
 
 class FilterModule(object):
   def filters(self):
