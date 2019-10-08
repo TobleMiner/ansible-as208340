@@ -108,4 +108,9 @@ peerings: # Optional
       ifname: <name of peering interface>
       ipv4: <ipv4 source address> # optional, required only if peer.ipv4 is set
       ipv6: <ipv6 source address> # optional
+    filter: # Optional
+      import: # Optional
+        prepend: <n> # Optional, prepend local as to as path n times
+      export: # Optional
+        prepend: <n> # Optional, prepend local as to as path n times
     password: <MD5 auth password> # optional
