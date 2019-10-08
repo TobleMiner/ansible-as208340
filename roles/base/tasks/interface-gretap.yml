@@ -1,0 +1,17 @@
+---
+- name: Set up gretap {{ ifname }}
+  vars:
+    mtu_set_cmd: '{{ [ "ip link set $IFACE mtu " ~ iface.mtu ] if iface.mtu is defined else [ ] }}'
+    interface:
+      name: '{{ ifname }}'
+      virtual: yes
+      ipv4: '{{ iface.ipv4 if iface.ipv4 is defined else [] }}'
+      ipv6: '{{ iface.ipv6 if iface.ipv6 is defined else [] }}'
+      inet_options:
+        pre-up:
+          - 'ip link add $IFACE type gretap local {{ iface.local }} remote {{ iface.endpoint }} ttl 255 || true'
+          - 'ip link set $IFACE address {{ iface.mac }}'
+        post-up: '{{ mtu_set_cmd }}'
+  import_role:
+    name: interface
+  tags: base, interfaces
