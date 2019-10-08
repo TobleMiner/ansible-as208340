@@ -8,7 +8,7 @@ interfaces:
   <inteface name>:
     announce: yes # Optional, defaults to no, controls wether addresses on this interface will be announced via BGP
     managed: yes|no # Optional, defaults to no, only interfaces with managed set to yes will be configured in /etc/network/interfaces.d
-    type: <physical|bridge|dummy|manual> # Interface type, physical denotes interfaces
+    type: <physical|bridge|dummy|manual|gretap> # Interface type, physical denotes interfaces
     manual: # Use only together with type manual
       name: <ifname> # Optional, overrides name set by dictionary key
       virtual: yes|no # Optional, defaults to false, set to yes if interface is not present before ifup
@@ -31,6 +31,9 @@ interfaces:
     slaves: <list of slaves> # Optional, defaults to [], slave of this interface (currently only supported on bridges)
     ipv4: <ipv4 address in as/prefixlen>
     ipv6: <ipv6 address in as/prefixlen>
+    endpoint: <ip address of endpoint> # Optional, used for gretap only
+    local: <local source ip address> # Optional, source address for gretap encapsulated packets, used for gretap only
+    mac: <mac address> # Optional, interface mac address, currently only supported on gretap
     forwarding: yes|no # Optional, allow forwarding of asn traffic
     mtu: <mtu of interface> # Optional
     dhcp:
