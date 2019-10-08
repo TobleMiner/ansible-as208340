@@ -106,9 +106,15 @@
           ttl: 3600
           records:
             22.190.44.in-addr.arpa:
-              - soa: 'ns1.as208340.net as208340.t-sys.eu 2019100100 7200 3600 1209600 3600'
+              - soa: 'ns1.as208340.net as208340.t-sys.eu 2019100800 7200 3600 1209600 3600'
               - ns: ns1.as208340.net
               - ns: ns2.as208340.net
+            54.22.190.44.in-addr.arpa:
+              - ptr: dns.anycast.as208340.net.
+            53.22.190.44.in-addr.arpa:
+              - ptr: resolver.anycast.as208340.net.
+            52.22.190.44.in-addr.arpa:
+              - ptr: rdns.anycast.as208340.net.
 
   roles:
     - all_knowing_dns
