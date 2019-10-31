@@ -8,7 +8,7 @@ interfaces:
   <inteface name>:
     announce: yes # Optional, defaults to no, controls wether addresses on this interface will be announced via BGP
     managed: yes|no # Optional, defaults to no, only interfaces with managed set to yes will be configured in /etc/network/interfaces.d
-    type: <physical|bridge|dummy|manual|gretap> # Interface type, physical denotes interfaces
+    type: <physical|bridge|dummy|manual|gretap|wireguard> # Interface type, physical denotes interfaces
     manual: # Use only together with type manual
       name: <ifname> # Optional, overrides name set by dictionary key
       virtual: yes|no # Optional, defaults to false, set to yes if interface is not present before ifup
@@ -28,10 +28,19 @@ interfaces:
         <option>: # List of values for <option>, option could e.g. be 'post-up' or 'netmask', may be a string if there is only one value
           - <value 1>
           - <value 2>
+    wireguard: # Use only with type wireguard
+      self:
+        port: <listen port> # Port to listen on
+        key:
+          private: <private key> # Private key of host
+      peer:
+        port: <remote port> # Optional, port to connect to, can be ommited if peer is floating
+        key:
+          public: <public key> # Public key of peer
     slaves: <list of slaves> # Optional, defaults to [], slave of this interface (currently only supported on bridges)
     ipv4: <ipv4 address in as/prefixlen>
     ipv6: <ipv6 address in as/prefixlen>
-    endpoint: <ip address of endpoint> # Optional, used for gretap only
+    endpoint: <ip address of endpoint> # Optional, used for gretap and wireguard only, can be ommited for floating wireguard peers
     local: <local source ip address> # Optional, source address for gretap encapsulated packets, used for gretap only
     mac: <mac address> # Optional, interface mac address, currently only supported on gretap
     forwarding: yes|no # Optional, allow forwarding of asn traffic
