@@ -43,6 +43,13 @@ protocol bgp '{{ peername }}' from bgp_transit {
     reject res_export_{{ res_var_suffix }};
   };
 {% endif %}
+{% if peering.multihop | default(False) %}
+  multihop;
+{% else %}
   direct;
+{% endif %}
+{% if peering.config.ipv6 is defined %}
+  {{ peering.config.ipv6 }}
+{% endif %}
 };
 
