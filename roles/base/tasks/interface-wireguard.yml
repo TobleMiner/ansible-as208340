@@ -1,0 +1,20 @@
+---
+- name: Set up wireguard interface {{ ifname }}
+  vars:
+    wg_iface: '{{ ifname }}'
+    wg_self:
+      iface: '{{ ifname }}'
+      key:
+        private: '{{ iface.wireguard.self.key.private }}'
+      port: '{{ iface.wireguard.self.port }}'
+      mtu: '{{ iface.mtu | default(False) }}'
+      ipv4: '{{ iface.ipv4 | default([]) }}'
+      ipv6: '{{ iface.ipv6 | default([]) }}'
+    wg_peer:
+      key:
+        public: '{{ iface.wireguard.peer.key.public }}'
+      port: '{{ iface.wireguard.peer.port | default("") }}'
+      endpoint: '{{ iface.endpoint | default(False) }}'
+  include_role:
+    name: wireguard_p2p
+  tags: base, interfaces
