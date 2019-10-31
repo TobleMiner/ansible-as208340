@@ -12,7 +12,7 @@ iface {{ interface.name }} {{ entry_family }} {{ entry_method }}
     {%- endfor %}
   {%- endfor %}
 {% endif %}
-{% if address.flags %}
+{% if address.flags is defined and address.flags %}
 {% set entry_flags = address.flags if address.flags | is_list else [ address.flags ] %}
 
   post-up ip addr change {{ address.address }} dev $IFACE{% for flag in entry_flags %} {{ flag }}{% endfor %}
