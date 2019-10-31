@@ -43,7 +43,7 @@
         pre-up:
           - ip link add $IFACE type wireguard || true
           - wg setconf $IFACE /etc/wireguard/{{ wg_iface }}.conf
-          - '{{ "ip link set $IFACE mtu " ~ wg_self.mtu if wg_self.mtu is defined else "true" }}'
+          - '{{ "ip link set $IFACE mtu " ~ wg_self.mtu if wg_self.mtu is defined and wg_self.mtu != False else "true" }}'
         post-down:
           - ip link del $IFACE || true
   import_role:
