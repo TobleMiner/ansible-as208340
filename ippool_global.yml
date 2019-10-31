@@ -9,4 +9,5 @@ transfer:
       kel1.backbone.as208340.netfra1.backbone.as208340.net_4: 100.72.0.0/31
   ranges:
   - 100.64.0.0/10
-  reserved: []
+  reserved:
+  - 100.64.42.0/31
