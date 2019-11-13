@@ -1,4 +1,4 @@
-protocol bgp '{{ peername }}' from bgp_transit {
+protocol bgp '{{ peername }}' from {% if peering.template is defined %}{{peering.template}}{% else %}bgp_transit{% endif %} {
   source address {{ peering.self.ipv4 }};
   neighbor {{ peering.peer.ipv4 }} as {{ peering.peer.asn }};
 {% if peering.password is defined %}

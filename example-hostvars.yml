@@ -124,6 +124,7 @@ peerings: # Optional
         prepend: <n> # Optional, prepend local as to as path n times
     password: <MD5 auth password> # optional
     multihop: True|False # Optional
+    template: <bird template> # Optional, bgp_upstream is default, possible value: bgp_downstream, bgp_upstream, bgp_vultr
     config: # Optional
       ipv4: <bird config directives here> # Optional
       ipv6: <bird6 config directives here> # Optional
