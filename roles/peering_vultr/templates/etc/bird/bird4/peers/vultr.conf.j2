@@ -3,7 +3,7 @@ protocol static vultr_gw {
   route {{ vultr.ipv4.peer }}/32 via {{ vultr.ipv4.gateway }};
 }
 
-protocol bgp vultr from bgp_transit {
+protocol bgp vultr from bgp_vultr {
   source address {{ vultr.ipv4.address }};
   neighbor {{ vultr.ipv4.peer }} as {{ vultr_asn }};
   password "{{ vultr.password }}";
