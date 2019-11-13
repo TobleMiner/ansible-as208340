@@ -34,6 +34,22 @@ template bgp 'bgp_transit' {
   export filter upstream_export;
 }
 
+template bgp 'bgp_vultr' {
+  local as OWN_AS;
+  table t_fulltable;
+  import keep filtered;
+  import filter upstream_import;
+  export filter upstream_vultr_export;
+}
+
+template bgp 'bgp_downstream' {
+  local as OWN_AS;
+  table t_fulltable;
+  import keep filtered;
+  import filter downstream_import;
+  export filter downstream_export;
+}
+
 template bgp 'bgp_internal' {
   local as OWN_AS;
 {% if bgp.route_reflection is defined and bgp.route_reflection %}
