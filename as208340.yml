@@ -38,6 +38,7 @@
 - hosts: public_dns
   gather_facts: no
   vars:
+    asn: 208340
     any_ipv4: 44.190.22.53
     any_ipv6: 2a06:e881:5608:ffff::53
   roles:
