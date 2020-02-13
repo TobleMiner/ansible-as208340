@@ -85,6 +85,9 @@
             rdns.anycast.as208340.net:
               - a: 44.190.22.52
               - aaaa: 2a06:e881:5608:ffff::52
+            avr32.kink.as208340.net:
+              - a: 44.190.22.130
+              - aaaa: 2a06:e881:5608:0129:44:190:22:130
 
         - domain: 8.0.6.5.1.8.8.e.6.0.a.2.ip6.arpa
           ttl: 3600
@@ -102,6 +105,8 @@
               - ptr: resolver.anycast.as208340.net.
             2.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0.f.f.f.f.8.0.6.5.1.8.8.e.6.0.a.2.ip6.arpa:
               - ptr: rdns.anycast.as208340.net.
+            0.3.1.0.2.2.0.0.0.9.1.0.4.4.0.0.9.2.1.0.8.0.6.5.1.8.8.e.6.0.a.2.ip6.arpa:
+              - ptr: avr32.kink.as208340.net.
 
         - domain: 22.190.44.in-addr.arpa
           ttl: 3600
@@ -116,6 +121,8 @@
               - ptr: resolver.anycast.as208340.net.
             52.22.190.44.in-addr.arpa:
               - ptr: rdns.anycast.as208340.net.
+            130.22.190.44.in-addr.arpa:
+              - ptr: avr32.kink.as208340.net.
 
   roles:
     - all_knowing_dns
