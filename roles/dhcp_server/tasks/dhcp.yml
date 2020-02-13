@@ -33,7 +33,7 @@
     primary_ipv4: '{{ interface.ipv4[0] if interface.ipv4 | is_list else interface.ipv4 }}'
     dhcp_ipv4: '{{ interface.dhcp.address if interface.dhcp.address is defined else primary_ipv4 }}'
     dhcp_start: '{{ interface.dhcp.range.start if interface.dhcp.range.start is defined else (dhcp_ipv4 | ipaddr(2)) }}'
-    dhcp_end: '{{ interface.dhcp.range.end if interface.dhcp.range.start is defined else (dhcp_ipv4 | ipaddr(-2)) }}'
+    dhcp_end: '{{ interface.dhcp.range.end if interface.dhcp.range.end is defined else (dhcp_ipv4 | ipaddr(-2)) }}'
     default_options:
       routers: '{{ dhcp_ipv4 | strip_prefixlen }}'
       subnet-mask: '{{ dhcp_ipv4 | ipaddr("netmask") }}'
