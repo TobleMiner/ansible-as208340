@@ -1,4 +1,5 @@
-protocol bgp '{{ peername }}' from {% if peering.type is defined %}{{peering.type}}{% else %}bgp_upstream{% endif %} {
+{% set peering_type = peering.type | default('upstream') %}
+protocol bgp '{{ peername }}' from bgp_{{ peering_type }} {
 {% if peering.self.ipv6 is defined %}
   source address {{ peering.self.ipv6 }};
 {% endif %}
@@ -29,7 +30,7 @@ protocol bgp '{{ peername }}' from {% if peering.type is defined %}{{peering.typ
   export filter
   string res_export_{{ res_var_suffix }};
   {
-    res_export_{{ res_var_suffix }} = f_upstream_export();
+    res_export_{{ res_var_suffix }} = f_upstream_export({{ 'true' if peering_type == 'upstream_transitive' else 'false' }});
     if res_export_{{ res_var_suffix }} = "" then {
   {%- if peering.filter.export.prepend is defined %}
     {%- for _ in range(peering.filter.export.prepend) %}

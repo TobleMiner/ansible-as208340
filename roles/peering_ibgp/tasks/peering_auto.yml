@@ -1,5 +1,5 @@
 ---
-- name: Configure ibg peering
+- name: Configure ibgp peering
   block:
     - name: Ensure wireguard is set up
       include_role:
@@ -10,6 +10,12 @@
         src:  '{{ "etc/iptables.d/500-allow-BGP4-ibgp-{{ peername }}.conf.j2" }}'
         dest: '/etc/iptables.d/500-allow-BGP4-ibgp-{{ peername }}.conf'
       notify: Restart iptables daemon
+
+    - name: Ensure all traffic on ibgp links is routed via fulltable
+      template:
+        src: '{{ "etc/routing-rules.d/ibgp-{{ peername }}.conf.j2" }}'
+        dest: /etc/routing-rules.d/ibgp-{{ peername }}.conf
+      notify: Restart routing rule daemon
 
     - name: Ensure peering firewall is set up
       vars:

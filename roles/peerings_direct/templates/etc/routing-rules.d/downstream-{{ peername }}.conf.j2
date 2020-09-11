@@ -1,0 +1,4 @@
+iprule4 add pref 20000 iif {{ peering.self.ifname }} lookup {{ asn }}
+iprule4 add pref 20001 iif {{ peering.self.ifname }} unreachable
+iprule6 add pref 20000 iif {{ peering.self.ifname }} lookup {{ asn }}
+iprule6 add pref 20001 iif {{ peering.self.ifname }} unreachable
