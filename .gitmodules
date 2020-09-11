@@ -1,3 +1,0 @@
-[submodule "host_vars"]
-	path = host_vars
-	url = tsys@home.t-sys.eu:/home/tsys/work/as208340/host_vars

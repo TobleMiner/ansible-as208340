@@ -120,8 +120,7 @@ class IPPool():
     self._save()
     return net
 
-def pool46(id, dom, pool, prefixlen, family):
-  fname = 'ippool_{}.yml'.format(dom)
+def pool46(id, fname, pool, prefixlen, family):
   pool = IPPool.from_file(fname, pool)
 
   id = "{}_{}".format(id, family)
@@ -132,11 +131,11 @@ def pool46(id, dom, pool, prefixlen, family):
 
   return str(net)
 
-def pool4(id, dom, pool, prefixlen):
-  return pool46(id, dom, pool, prefixlen, IPPool.IPV4)
+def pool4(id, fname, pool, prefixlen):
+  return pool46(id, fname, pool, prefixlen, IPPool.IPV4)
 
-def pool6(id, dom, pool, prefixlen):
-  return pool46(id, dom, pool, prefixlen, IPPool.IPV6)
+def pool6(id, fname, pool, prefixlen):
+  return pool46(id, fname, pool, prefixlen, IPPool.IPV6)
 
 def ippoolid(prefix, *args):
   args = map(str, args)

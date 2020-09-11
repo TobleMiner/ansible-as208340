@@ -1,4 +1,4 @@
 ---
 ippool:
   transfer: "transfer"
-  global: "global"
+  global: "../ippool_global.yml"

@@ -1,16 +1,1 @@
-[pops]
-fra1.backbone.as208340.net
-ams1.backbone.as208340.net
-kel1.backbone.as208340.net
-
-[vultr]
-fra1.backbone.as208340.net
-ams1.backbone.as208340.net
-
-[public_dns]
-fra1.backbone.as208340.net
-ams1.backbone.as208340.net
-
-[dns]
-fra1.backbone.as208340.net
-ams1.backbone.as208340.net
+../inventory
