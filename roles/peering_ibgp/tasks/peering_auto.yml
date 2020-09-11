@@ -78,3 +78,4 @@
       key: '{{ peer.wireguard.key }}'
       port: '{{ (peername ~ inventory_hostname) | hashnum(peer_port_start, peer_port_end) }}'
       endpoint: '{% if (peer.wireguard.float | default(False)) %}False{% else %}{{ peer.interfaces.wan.ipv4 | strip_prefixlen }}{% endif %}'
+  when: wireguard is defined and peer.wireguard is defined
