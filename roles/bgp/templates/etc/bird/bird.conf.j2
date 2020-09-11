@@ -4,8 +4,8 @@ log syslog { fatal };
 
 include "bird4/defines/*.conf";
 
-table t_kernel;
 table t_fulltable;
+table t_as_set;
 table t_ibgp;
 
 router id ROUTER_ID;
@@ -14,15 +14,30 @@ include "bird4/filters/*.conf";
 
 include "bird4/conf.d/*.conf";
 
-
 protocol device {
   scan time 10;
 };
 
-protocol kernel {
+protocol kernel 'fulltable' {
   kernel table OWN_AS;
   table t_fulltable;
   export filter kernel_export;
+  import none;
+};
+
+protocol kernel 'as-set' {
+  kernel table 42;
+  table t_as_set;
+  export all;
+  import none;
+};
+
+protocol pipe 'fulltable_to_as-set' {
+  table t_fulltable;
+  peer table t_as_set;
+  # Table shall only contain routes we would also
+  # export to a proper upstream
+  export filter upstream_export_transitive;
   import none;
 };
 

@@ -4,6 +4,13 @@
     name: peering
   tags: peerings_direct, peering_direct4, peering_direct6  
 
+- name: Ensure IPv4 ingress from {{ peername }} is forwarded through as set table
+  template:
+    src: '{{ "etc/routing-rules.d/upstream_transitive-{{ peername }}.conf.j2" }}'
+    dest: etc/routing-rules.d/upstream_transitive-{{ peername }}.conf
+  notify: Restart routing rule daemon
+  when: peering.peer.type is defined and peering.peer.type == "upstream_transitive"
+
 - name: Ensure IPv4 direct peering with {{ peername }} is set up
   import_tasks:
     file: direct4.yml
