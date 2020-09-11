@@ -2,3 +2,12 @@
 ippool:
   transfer: "transfer"
   global: "../ippool_global.yml"
+
+module_defaults:
+  file:
+    mode: '644'
+  template:
+    mode: '644'
+  copy:
+    directory_mode: '755'
+    mode: '644'
