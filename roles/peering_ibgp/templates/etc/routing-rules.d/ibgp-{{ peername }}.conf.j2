@@ -1,0 +1,4 @@
+iprule4 add pref 25000 iif {{ wg_iface }} lookup {{ asn }}
+iprule4 add pref 25001 iif {{ wg_iface }} unreachable
+iprule6 add pref 25000 iif {{ wg_iface }} lookup {{ asn }}
+iprule6 add pref 25001 iif {{ wg_iface }} unreachable
