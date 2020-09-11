@@ -3,7 +3,37 @@
   apt:
     name: bird
     state: present
-  tags: bgp, bird
+  tags: bgp, bird,  bird4, bird6
+
+- name: Ensure common config directory exists
+  file:
+    path: /etc/bird/common
+    state: directory
+  tags: bgp, bird, bird4, bird6
+
+- name: Ensure common configs are installed
+  copy:
+    src: etc/bird/common
+    dest: /etc/bird
+  notify:
+    - Reload bird config
+    - Reload bird6 config
+  tags: bgp, bird, bird4, bird6
+
+- name: Ensure common protcols directory exists
+  file:
+    path: /etc/bird/common/protocols
+    state: directory
+  tags: bgp, bird, bird4, bird6
+
+- name: Ensure common templates are installed
+  template:
+    src: etc/bird/common/protocols/020-templates.conf.j2
+    dest: /etc/bird/common/protocols/020-templates.conf
+  notify:
+    - Reload bird config
+    - Reload bird6 config
+  tags: bgp, bird, bird4, bird6
 
 - name: Configure bird (IPv4)
   import_tasks:

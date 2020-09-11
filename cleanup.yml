@@ -5,6 +5,7 @@
       shell: |
         rm -rf /etc/bird/bird4
         rm -rf /etc/bird/bird6
+        rm -rf /etc/bird/common
 
     - name: Remove interface config
       shell: |

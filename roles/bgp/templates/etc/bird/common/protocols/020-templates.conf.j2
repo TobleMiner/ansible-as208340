@@ -1,44 +1,3 @@
-# Don't log below fatal, else high risk of logspam through tons
-# of 'strange next-hop' message
-log syslog { fatal };
-
-include "bird4/defines/*.conf";
-
-table t_fulltable;
-table t_as_set;
-table t_ibgp;
-
-router id ROUTER_ID;
-
-include "bird4/filters/*.conf";
-
-include "bird4/conf.d/*.conf";
-
-protocol device {
-  scan time 10;
-};
-
-protocol kernel 'fulltable' {
-  kernel table OWN_AS;
-  table t_fulltable;
-  export filter kernel_export;
-  import none;
-};
-
-protocol kernel 'as-set' {
-  kernel table 42;
-  table t_as_set;
-  export all;
-  import none;
-};
-
-protocol pipe 'fulltable_to_as-set' {
-  table t_fulltable;
-  peer table t_as_set;
-  export filter as_set_export;
-  import none;
-};
-
 # Peer is provided with transit by us
 template bgp 'bgp_downstream' {
   local as OWN_AS;
@@ -89,5 +48,3 @@ template bgp 'bgp_internal' {
   import filter ibgp_import;
   export filter ibgp_export;
 }
-
-include "bird4/peers/*.conf";

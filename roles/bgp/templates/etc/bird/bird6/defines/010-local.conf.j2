@@ -5,3 +5,7 @@ define OWN_AS={{ asn }};
 function is_own_net() {
   return net ~ [ {{ ipv6_net }}+ ];
 }
+
+filter kernel_export {
+  accept;
+};
