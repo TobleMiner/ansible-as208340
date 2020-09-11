@@ -1,4 +1,5 @@
-  protocol bgp '{{ peername }}' from bgp_{{ peering.type | default('upstream') }} {
+{% set peering_type = peering.type | default('upstream') %}
+protocol bgp '{{ peername }}' from bgp_{{ peering_type }} {
   source address {{ peering.self.ipv4 }};
   neighbor {{ peering.peer.ipv4 }} as {{ peering.peer.asn }};
 {% if peering.password is defined %}
@@ -27,7 +28,7 @@
   export filter
   string res_export_{{ res_var_suffix }};
   {
-    res_export_{{ res_var_suffix }} = f_upstream_export();
+    res_export_{{ res_var_suffix }} = f_upstream_export({{ 'true' if peering_type == 'upstream_transitive' else 'false' }});
     if res_export_{{ res_var_suffix }} = "" then {
   {%- if peering.filter.export.prepend is defined %}
     {%- for _ in range(peering.filter.export.prepend) %}
