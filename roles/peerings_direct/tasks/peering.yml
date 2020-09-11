@@ -9,7 +9,7 @@
     src: '{{ "etc/routing-rules.d/upstream_transitive-{{ peername }}.conf.j2" }}'
     dest: etc/routing-rules.d/upstream_transitive-{{ peername }}.conf
   notify: Restart routing rule daemon
-  when: peering.peer.type is defined and peering.peer.type == "upstream_transitive"
+  when: peering.type is defined and peering.type == "upstream_transitive"
 
 - name: Ensure IPv4 direct peering with {{ peername }} is set up
   import_tasks:
