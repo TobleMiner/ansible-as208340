@@ -33,9 +33,7 @@ protocol kernel 'as-set' {
 protocol pipe 'fulltable_to_as-set' {
   table t_fulltable;
   peer table t_as_set;
-  # Table shall only contain routes we would also
-  # export to a proper upstream
-  export filter upstream_export_transitive;
+  export filter as_set_export;
   import none;
 };
 
