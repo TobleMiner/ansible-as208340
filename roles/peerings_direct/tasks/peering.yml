@@ -7,7 +7,7 @@
 - name: Ensure IPv4 ingress from {{ peername }} is forwarded through as set table
   template:
     src: '{{ "etc/routing-rules.d/upstream_transitive-{{ peername }}.conf.j2" }}'
-    dest: etc/routing-rules.d/upstream_transitive-{{ peername }}.conf
+    dest: /etc/routing-rules.d/upstream_transitive-{{ peername }}.conf
   notify: Restart routing rule daemon
   when: peering.type is defined and peering.type == "upstream_transitive"
 
