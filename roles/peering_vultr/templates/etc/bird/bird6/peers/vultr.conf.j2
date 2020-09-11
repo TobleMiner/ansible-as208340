@@ -3,7 +3,7 @@ protocol static vultr_gw {
   route {{ vultr.ipv6.peer }}/128 via {{ vultr.ipv6.gateway }};
 }
 
-protocol bgp vultr from bgp_transit {
+protocol bgp vultr from bgp_upstream {
   source address {{ vultr.ipv6.address }};
   neighbor {{ vultr.ipv6.peer }} as {{ vultr_asn }};
   password "{{ vultr.password }}";

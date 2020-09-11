@@ -1,4 +1,4 @@
-protocol bgp '{{ peername }}' from bgp_transit {
+protocol bgp '{{ peername }}' from {% if peering.type is defined %}{{peering.type}}{% else %}bgp_upstream{% endif %} {
 {% if peering.self.ipv6 is defined %}
   source address {{ peering.self.ipv6 }};
 {% endif %}
