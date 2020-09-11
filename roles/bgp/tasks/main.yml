@@ -15,6 +15,7 @@
   copy:
     src: etc/bird/common
     dest: /etc/bird
+    mode: 0644
   notify:
     - Reload bird config
     - Reload bird6 config
@@ -30,6 +31,7 @@
   template:
     src: etc/bird/common/protocols/020-templates.conf.j2
     dest: /etc/bird/common/protocols/020-templates.conf
+    mode: 0644
   notify:
     - Reload bird config
     - Reload bird6 config

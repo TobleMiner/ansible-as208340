@@ -37,18 +37,21 @@
   copy:
     src: etc/bird/bird.conf
     dest: /etc/bird/bird.conf
+    mode: 0644
   notify: Reload bird config
 
 - name: Ensure bird base defines are present
   copy:
     src: etc/bird/bird4/defines/010-base.conf
     dest: /etc/bird/bird4/defines/010-base.conf
+    mode: 0644
   notify: Reload bird config
 
 - name: Ensure bird local defines are present
   template:
     src: etc/bird/bird4/defines/010-local.conf.j2
     dest: /etc/bird/bird4/defines/010-local.conf
+    mode: 0644
   notify: Reload bird config
 
 # Handle service

@@ -9,4 +9,6 @@
   template:
     src: etc/bird/bird6/peers/vultr.conf.j2
     dest: /etc/bird/bird6/peers/vultr.conf
+    mode: 0600
+    owner: bird
   notify: Reload bird6 config

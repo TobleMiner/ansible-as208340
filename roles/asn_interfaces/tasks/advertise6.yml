@@ -6,6 +6,7 @@
   template:
     src:  '{{ "etc/bird/bird6/conf.d/100-announce-{{ ifname }}.conf.j2" }}'
     dest: '/etc/bird/bird6/conf.d/100-announce-{{ ifname }}.conf'
+    mode: 0644
   notify: Reload bird6 config
   loop: '{{ interfaces | dict2items }}'
   when: item.value.announce is defined and item.value.announce

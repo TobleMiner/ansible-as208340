@@ -3,6 +3,7 @@
   template:
     src: '{{ "etc/bird/bird6/conf.d/100-announce-{{ net_sanitized }}.conf.j2" }}'
     dest: '/etc/bird/bird6/conf.d/100-announce-{{ net_sanitized }}.conf'
+    mode: 0644
   vars:
     net_sanitized: '{{ announce.ipv6.net | regex_replace("/", "_") }}'
   notify: Reload bird6 config

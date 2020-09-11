@@ -32,6 +32,8 @@
       template:
         src: '{{ "etc/bird/bird4/peers/ibgp-{{ friendly_name }}.conf.j2" }}'
         dest: '/etc/bird/bird4/peers/ibgp-{{ friendly_name }}.conf'
+        mode: 0600
+        owner: bird
       notify: Reload bird config
 
     - name: Ensure bgp connections via IPv6 from peering interface are allowed
@@ -48,6 +50,8 @@
       template:
         src: '{{ "etc/bird/bird6/peers/ibgp-{{ friendly_name }}.conf.j2" }}'
         dest: '/etc/bird/bird6/peers/ibgp-{{ friendly_name }}.conf'
+        mode: 0600
+        owner: bird
       notify: Reload bird6 config
 
   vars:

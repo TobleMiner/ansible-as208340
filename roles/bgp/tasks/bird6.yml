@@ -37,18 +37,21 @@
   copy:
     src: etc/bird/bird6.conf
     dest: /etc/bird/bird6.conf
+    mode: 0644
   notify: Reload bird6 config
 
 - name: Ensure bird6 base defines is present
   copy:
     src: etc/bird/bird6/defines/010-base.conf
     dest: /etc/bird/bird6/defines/010-base.conf
+    mode: 0644
   notify: Reload bird6 config
 
 - name: Ensure bird6 local defines is present
   template:
     src: etc/bird/bird6/defines/010-local.conf.j2
     dest: /etc/bird/bird6/defines/010-local.conf
+    mode: 0644
   notify: Reload bird6 config
 
 # Handle service
