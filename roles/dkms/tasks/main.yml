@@ -12,6 +12,7 @@
   shell: uname -r
   register: kernel_version
   changed_when: no
+  check_mode: no
   tags: dkms
 
 # Install kernel headers
