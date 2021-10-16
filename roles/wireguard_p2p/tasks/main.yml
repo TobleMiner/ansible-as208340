@@ -15,7 +15,7 @@
 #  when: 'wireguard is defined'
 #  tags: wireguard_p2p, firewall
 
-- name: Ensure wireguard cofig directory exists
+- name: Ensure wireguard config directory exists
   file:
     path: /etc/wireguard
     state: directory
