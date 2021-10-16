@@ -1,4 +1,9 @@
 ---
+- name: Ensure iptables is installed
+  apt:
+    name: iptables
+    state: present
+
 - name: Ensure iptables rule directory exists
   file:
     path: /etc/iptables.d
@@ -8,6 +13,7 @@
   copy:
     src: usr/local/sbin/iptablesd
     dest: /usr/local/sbin/iptablesd
+  notify: Restart iptables daemon
 
 - name: Ensure iptables setup script is executable
   file:
