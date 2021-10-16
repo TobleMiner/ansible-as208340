@@ -1,4 +1,0 @@
----
-dependencies:
-  - { role: dkms }
-  - { role: apt_multi_tag, vars: { pins: { unstable: [] } } }

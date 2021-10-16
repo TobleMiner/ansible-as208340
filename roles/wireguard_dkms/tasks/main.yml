@@ -1,7 +1,7 @@
 ---
 - name: Ensure wireguard is installed
   apt:
-    name: wireguard
+    name: wireguard-tools
     state: present
     update_cache: yes
   tags: wireguard_dkms
