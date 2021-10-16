@@ -1,3 +1,0 @@
----
-dependencies:
-  - { role: apt_multi_tag, vars: { pins: { testing: libnet-cidr-perl } } }
