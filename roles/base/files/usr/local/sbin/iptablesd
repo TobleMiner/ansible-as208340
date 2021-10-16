@@ -50,6 +50,9 @@ ip6tables -t mangle --flush || true
 ip6tables -t security --flush || true
 
 for file in "$RULE_DIR"/*.conf; do
+  if ! [ -f "$file" ]; then
+    break
+  fi
   echo Running rules file "\"$file\""
   if ! (. "$file"); then
     warn Execution of rules from "\"$file\"" failed
