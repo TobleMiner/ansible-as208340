@@ -7,6 +7,14 @@ RULE_DIR='/etc/iptables.d'
 IPTABLES="$(command -v iptables)"
 IP6TABLES="$(command -v ip6tables)"
 
+if ! "$IPTABLES" -V &> /dev/null; then
+	IPTABLES="$(command -v iptables-legacy)"
+fi
+
+if ! "$IP6TABLES" -V &> /dev/null; then
+	IP6TABLES="$(command -v ip6tables-legacy)"
+fi
+
 warn() {
   ( 1>&2 echo $@ )
 }
