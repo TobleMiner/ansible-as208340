@@ -37,17 +37,17 @@ if ! [ -d "$RULE_DIR" ]; then
   exit 1
 fi
 
-iptables -t raw --flush
-iptables -t filter --flush
-iptables -t nat --flush
-iptables -t mangle --flush
-iptables -t security --flush
+ip4tables -t raw --flush || true
+ip4tables -t filter --flush || true
+ip4tables -t nat --flush || true
+ip4tables -t mangle --flush || true
+ip4tables -t security --flush || true
 
-ip6tables -t raw --flush
-ip6tables -t filter --flush
-ip6tables -t nat --flush
-ip6tables -t mangle --flush
-ip6tables -t security --flush
+ip6tables -t raw --flush || true
+ip6tables -t filter --flush || true
+ip6tables -t nat --flush || true
+ip6tables -t mangle --flush || true
+ip6tables -t security --flush || true
 
 for file in "$RULE_DIR"/*.conf; do
   echo Running rules file "\"$file\""
