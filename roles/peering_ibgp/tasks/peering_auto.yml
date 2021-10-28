@@ -72,6 +72,7 @@
     port_end: '{{ wireguard.port_range.end | default(wireguard_defaults.port_range.end) }}'
     peer_port_start: '{{ peer.wireguard.port_range.start | default(wireguard_defaults.port_range.start) }}'
     peer_port_end: '{{ peer.wireguard.port_range.end | default(wireguard_defaults.port_range.end) }}'
+    rr_role: '{{ peer.bgp.rr | default(None) }}'
     wg_iface: '{{ ("wg-" ~ peer.friendly_name) | trunc(15) }}'
     wg_self:
       iface: '{{ wg_iface }}'
