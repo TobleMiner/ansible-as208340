@@ -83,6 +83,7 @@ munin_node: # Optional
 bgp:
   router_id: <router id>
   route_reflection: off|client|server|<cluster_id> # Optional, defaults to off
+  rr: off|client # Optional, defaults to off, per peering route reflection setting (affects only remote side)
   announce: # Optional, list of additional static announcements
     - net: <valid ipv4/ipv6 prefix>
       via: <either an interface or a valid ipv4/ipv6 nexthop> # Optional, unreachable route if not defined
