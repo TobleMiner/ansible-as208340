@@ -12,6 +12,10 @@ iface {{ interface.name }} {{ entry_family }} {{ entry_method }}
     {%- endfor %}
   {%- endfor %}
 {% endif %}
+{% if entry_family == 'inet6' and entry_method == 'static' %}
+
+  dad-attempts 0
+{% endif %}
 {% if address.flags is defined and address.flags %}
 {% set entry_flags = address.flags if address.flags | is_list else [ address.flags ] %}
 
