@@ -9,26 +9,26 @@
     inet6_options: <dict of options, each option may be a list. Applied to primary entry> # Optional
 #}
 
-{# Prepare variables #}
+{#- Prepare variables #}
 {% set has_ipv4 = False %}
 {% set has_ipv6 = False %}
 {% if interface.ipv4 is defined and interface.ipv4 %}
   {%- set has_ipv4 = True %}
-  {# Normalize ipv4 addresses #}
+  {#- Normalize ipv4 addresses #}
   {%- set (ipv4_primary, ipv4_addresses) = interface.ipv4 | interface_normalize_addresses %}
 {% endif %}
 {% if interface.ipv6 is defined and interface.ipv6 %}
   {%- set has_ipv6 = True %}
-  {# Normalize ipv6 addresses #}
+  {#- Normalize ipv6 addresses #}
   {%- set (ipv6_primary, ipv6_addresses) = interface.ipv6 | interface_normalize_addresses %}
-  {# Ensure home flag is set on primary ipv6 address #}
+  {#- Ensure home flag is set on primary ipv6 address #}
   {%- set ipv6_primary = ipv6_primary | interface_set_home_flag %}
 {% endif %}
 
-{% set method = interface.method if interface.method is defined else 'static' %}
+{%- set method = interface.method if interface.method is defined else 'static' %}
 {% set family = interface.family if interface.family is defined else 'inet' %}
 {% set inet_options = interface.inet_options if interface.inet_options is defined else { } %}
-{% set inet6_options = interface.inet6_options if interface.inet6_options is defined else { } %}
+{% set inet6_options = interface.inet6_options if interface.inet6_options is defined else { } -%}
 
 auto {{ interface.name }}
 allow-hotplug {{ interface.name }}
@@ -45,7 +45,6 @@ allow-hotplug {{ interface.name }}
     {%- set address = address | merge({ 'options': inet_options }) %}
   {%- endif %}
   {%- include '_family_block.j2' %}
-
   {%- if has_ipv6 %}
     {%- set entry_family = 'inet6' %}
     {%- set entry_method = 'static' %}
@@ -53,9 +52,9 @@ allow-hotplug {{ interface.name }}
     {%- if inet6_options is defined %}
       {%- set address = address | merge({ 'options': inet6_options }) %}
     {%- endif %}
-  {%- include '_family_block.j2' %}
+    {%- include '_family_block.j2' %}
   {%- endif %} 
-{%- else %}
+{%- else -%}
   {%- set address = { } %}
   {%- if has_ipv6 %}
     {%- set address = ipv6_primary %}
@@ -64,7 +63,6 @@ allow-hotplug {{ interface.name }}
     {%- set address = address | merge({ 'options': inet6_options }) %}
   {%- endif %}
   {%- include '_family_block.j2' %}
-
   {%- if has_ipv4 %}
     {%- set entry_family = 'inet' %}
     {%- set entry_method = 'static' %}
@@ -72,24 +70,24 @@ allow-hotplug {{ interface.name }}
     {%- if inet_options is defined %}
       {%- set address = address | merge({ 'options': inet_options }) %}
     {%- endif %}
-  {%- include '_family_block.j2' %}
+    {%- include '_family_block.j2' %}
   {%- endif %} 
-{%- endif %}
+{%- endif -%}
 
-{# Handle all secondary IPv4 addresses #}
+{#- Secondary IPv4 addresses #}
 {% if has_ipv4 %}
   {%- set entry_family = 'inet' %}
   {%- set entry_method = 'static' %}
   {%- for address in ipv4_addresses %}
     {%- include '_family_block.j2' %}
   {%- endfor %}
-{%- endif %}
+{% endif %}
 
-{# Handle all secondary IPv6 addresses #}
+{#- Secondary IPv6 addresses #}
 {% if has_ipv6 %}
   {%- set entry_family = 'inet6' %}
   {%- set entry_method = 'static' %}
   {%- for address in ipv6_addresses %}
     {%- include '_family_block.j2' %}
   {%- endfor %}
-{%- endif %}
+{% endif %}

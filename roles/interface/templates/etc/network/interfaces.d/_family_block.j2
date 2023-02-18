@@ -3,7 +3,7 @@ iface {{ interface.name }} {{ entry_family }} {{ entry_method }}
 {% if address.address is defined %}
   address {{ address.address }}
 {%- endif %}
-{% if address.options is defined -%}
+{%- if address.options is defined -%}
   {%- for option in address.options.keys() -%}
     {%- set option_values = address.options[option] if address.options[option] | is_list else [ address.options[option] ] -%}
     {%- for value in option_values %}
@@ -11,14 +11,16 @@ iface {{ interface.name }} {{ entry_family }} {{ entry_method }}
   {{ option }} {{ value }}
     {%- endfor %}
   {%- endfor %}
-{% endif %}
-{% if entry_family == 'inet6' and entry_method == 'static' %}
+{%- endif %}
+
+{%- if entry_family == 'inet6' and entry_method == 'static' %}
 
   dad-attempts 0
-{% endif %}
-{% if address.flags is defined and address.flags %}
-{% set entry_flags = address.flags if address.flags | is_list else [ address.flags ] %}
+{%- endif %}
+{%- if address.flags is defined and address.flags %}
+  {%- set entry_flags = address.flags if address.flags | is_list else [ address.flags ] %}
 
   post-up ip addr change {{ address.address }} dev $IFACE{% for flag in entry_flags %} {{ flag }}{% endfor %}
-{% endif %}
+{%- endif %}
 
+{# Intentional newline #}
