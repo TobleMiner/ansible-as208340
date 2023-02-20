@@ -16,3 +16,9 @@
     src: etc/sysctl.d/10-icmp-errors-use-inbound-interface-address.conf
     dest: /etc/sysctl.d/10-icmp-errors-use-inbound-interface-address.conf
   notify: Reload sysctl
+
+- name: Ensure fq_codel is used as default queue mgmt method
+  copy:
+    src: etc/sysctl.d/10-default-queue-mgmt-fq-codel.conf
+    dest: /etc/sysctl.d/10-default-queue-mgmt-fq-codel.conf
+  notify: Reload sysctl
