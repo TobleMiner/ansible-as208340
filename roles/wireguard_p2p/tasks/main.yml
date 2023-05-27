@@ -52,8 +52,9 @@
 
 - name: Restart {{ interface.name }}
   vars:
-    ifname: '{{ wg_iface }}'
-    virtual: True
+    restart:
+      ifname: '{{ wg_iface }}'
+      virtual: True
   import_role:
     name: restart_interface
   when: ensure_wg_config.changed

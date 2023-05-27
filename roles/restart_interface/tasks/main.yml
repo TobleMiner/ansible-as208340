@@ -1,13 +1,13 @@
 ---
-- name: Restart virtual interface {{ ifname }}
+- name: Restart virtual interface {{ restart.ifname }}
   shell: |
-    ifdown --force {{ ifname }} || (ip link set down {{ ifname }} && ip link del {{ ifname }}) || true
-    ifup {{ ifname }}
-  when: virtual | default(False)
+    ifdown --force {{ restart.ifname }} || (ip link set down {{ restart.ifname }} && ip link del {{ restart.ifname }}) || true
+    ifup {{ restart.ifname }}
+  when: restart.virtual | default(False)
 
-- name: Restart physical interface {{ ifname }}
+- name: Restart physical interface {{ restart.ifname }}
   shell: |
-    ifdown --force {{ ifname }} || ip link set down {{ ifname }} || true
-    ifup {{ ifname }}
-  when: not (virtual | default(False))
+    ifdown --force {{ restart.ifname }} || ip link set down {{ restart.ifname }} || true
+    ifup {{ restart.ifname }}
+  when: not (restart.virtual | default(False))
 
