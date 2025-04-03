@@ -7,8 +7,8 @@
 
 - name: Ensure IPv6 vultr peering is set up
   template:
-    src: etc/bird/bird6/peers/vultr.conf.j2
-    dest: /etc/bird/bird6/peers/vultr.conf
+    src: etc/bird/peers/vultr-v6.conf.j2
+    dest: /etc/bird/peers/vultr-v6.conf
     mode: 0600
     owner: bird
-  notify: Reload bird6 config
+  notify: Reload bird config
