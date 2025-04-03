@@ -1,6 +1,8 @@
-protocol static 'announce_{{ ifname }}' {
-  table t_fulltable;
-  import all;
+protocol static 'announce_{{ ifname }}_v6' {
+  ipv6 {
+    table t_fulltable_v6;
+    import all;
+  };
 {% for address in ipv6_addresses %}
   route {{ address | ipaddr('0') }} via "{{ ifname }}";
 {% endfor %}

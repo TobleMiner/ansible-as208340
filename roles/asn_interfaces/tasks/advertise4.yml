@@ -4,8 +4,8 @@
     ifname: '{{ item.key }}'
     ipv4_addresses: '{{ item.value.ipv4 if item.value.ipv4 | is_list else [ item.value.ipv4 ] }}'
   template:
-    src:  '{{ "etc/bird/bird4/conf.d/100-announce-{{ ifname }}.conf.j2" }}'
-    dest: '/etc/bird/bird4/conf.d/100-announce-{{ ifname }}.conf'
+    src:  '{{ "etc/bird/conf.d/100-announce-{{ ifname }}-v4.conf.j2" }}'
+    dest: '/etc/bird/conf.d/100-announce-{{ ifname }}-v4.conf'
     mode: 0644
   notify: Reload bird config
   loop: '{{ interfaces | dict2items }}'
