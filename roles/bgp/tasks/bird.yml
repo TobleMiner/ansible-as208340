@@ -6,51 +6,42 @@
     dest: /etc/iptables.d/900-block-BGP4.conf
   notify: Restart iptables daemon
 
+- name: Ensure IPv6 BGP firwall filter is deployed
+  copy:
+    src: etc/iptables.d/900-block-BGP6.conf
+    dest: /etc/iptables.d/900-block-BGP6.conf
+  notify: Restart iptables daemon
+
 # Build directory structure
 - name: Ensure bird dir exists
   file:
-    path: /etc/bird/bird4
+    path: /etc/bird/
     state: directory
 
 - name: Ensure bird define dir exists
   file:
-    path: /etc/bird/bird4/defines
+    path: /etc/bird/defines
     state: directory
 
 - name: Ensure bird config dir exists
   file:
-    path: /etc/bird/bird4/conf.d
+    path: /etc/bird/conf.d
     state: directory
 
 - name: Ensure bird filter dir exists
   file:
-    path: /etc/bird/bird4/filters
+    path: /etc/bird/filters
     state: directory
 
 - name: Ensure bird peer dir exists
   file:
-    path: /etc/bird/bird4/peers
+    path: /etc/bird/peers
     state: directory
-    
-# Place config files
-- name: Ensure bird config file is present
-  copy:
-    src: etc/bird/bird.conf
-    dest: /etc/bird/bird.conf
-    mode: 0644
-  notify: Reload bird config
-
-- name: Ensure bird base defines are present
-  copy:
-    src: etc/bird/bird4/defines/010-base.conf
-    dest: /etc/bird/bird4/defines/010-base.conf
-    mode: 0644
-  notify: Reload bird config
 
 - name: Ensure bird local defines are present
   template:
-    src: etc/bird/bird4/defines/010-local.conf.j2
-    dest: /etc/bird/bird4/defines/010-local.conf
+    src: etc/bird/defines/010-local.conf.j2
+    dest: /etc/bird/defines/010-local.conf
     mode: 0644
   notify: Reload bird config
 

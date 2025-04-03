@@ -2,11 +2,19 @@ define ROUTER_ID={{ bgp.router_id }};
 
 define OWN_AS={{ asn }};
 
-function is_own_net() {
+function is_own_net_v4() {
   return net ~ [ {{ ipv4_net }}+ ];
 }
 
-filter kernel_export {
+function is_own_net_v6() {
+  return net ~ [ {{ ipv6_net }}+ ];
+}
+
+filter kernel_export_v4 {
   krt_prefsrc = {{ addresses["as" ~ asn].ipv4 | strip_prefixlen }};
+  accept;
+};
+
+filter kernel_export_v6 {
   accept;
 };
