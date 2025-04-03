@@ -4,6 +4,23 @@
     name: unbound
     state: present
 
+- name: Ensure AppArmor allows access to TLS certificates
+  template:
+    src:  'etc/apparmor.d/local/usr.sbin.unbound'
+    dest: '/etc/apparmor.d/local/usr.sbin.unbound'
+  register: apparmor_config
+  when: unbound.tls_service_key is defined
+
+- name: Ensure AppArmor profile is loaded
+  command: apparmor_parser --replace "/etc/apparmor.d/usr.sbin.unbound"
+  when: apparmor_config.changed
+
+- name: Ensure AppArmor is restarted
+  service:
+    name: 'apparmor'
+    state: 'restarted'
+  when: apparmor_config.changed
+
 - name: Ensure unbound is configured
   template:
     src:  'etc/unbound/unbound.conf'
