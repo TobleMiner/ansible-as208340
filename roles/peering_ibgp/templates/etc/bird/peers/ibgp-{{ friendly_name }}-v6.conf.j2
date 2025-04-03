@@ -1,0 +1,11 @@
+protocol bgp '{{ friendly_name }}_v6' from bgp_internal {
+  neighbor {{ peer_address }}%'{{ peer_interface }}' as OWN_AS;
+  ipv6 {
+    gateway direct;
+    next hop self;
+  };
+  direct;
+{% if rr_role == "client" %}
+  rr client;
+{% endif %}
+};

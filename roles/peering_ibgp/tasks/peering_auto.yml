@@ -30,8 +30,8 @@
         friendly_name: '{{ peer.friendly_name }}'
         peer_address: '{{ ipv4_address_peer | strip_prefixlen }}'
       template:
-        src: '{{ "etc/bird/bird4/peers/ibgp-{{ friendly_name }}.conf.j2" }}'
-        dest: '/etc/bird/bird4/peers/ibgp-{{ friendly_name }}.conf'
+        src: '{{ "etc/bird/peers/ibgp-{{ friendly_name }}-v4.conf.j2" }}'
+        dest: '/etc/bird/peers/ibgp-{{ friendly_name }}-v4.conf'
         mode: 0600
         owner: bird
       notify: Reload bird config
@@ -48,11 +48,11 @@
         peer_address: '{{ ipv6_address_peer | strip_prefixlen }}'
         peer_interface: '{{ wg_iface }}'
       template:
-        src: '{{ "etc/bird/bird6/peers/ibgp-{{ friendly_name }}.conf.j2" }}'
-        dest: '/etc/bird/bird6/peers/ibgp-{{ friendly_name }}.conf'
+        src: '{{ "etc/bird/peers/ibgp-{{ friendly_name }}-v6.conf.j2" }}'
+        dest: '/etc/bird/peers/ibgp-{{ friendly_name }}-v6.conf'
         mode: 0600
         owner: bird
-      notify: Reload bird6 config
+      notify: Reload bird config
 
   vars:
     peer: '{{ hostvars[peername] }}'
