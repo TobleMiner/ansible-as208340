@@ -3,8 +3,3 @@
   service:
     name: bird
     state: reloaded
-
-- name: Reload bird6 config
-  service:
-    name: bird6
-    state: reloaded

@@ -4,61 +4,54 @@
   lineinfile: dest=/var/lib/dpkg/arch line="i386" create=yes
   register: add_i386
   when: bgp.i386_bird | default(False)
-  tags: bgp, bird,  bird4, bird6
+  tags: bgp, bird
 
 - name: Ensure bird (32bit/i386) is installed
   apt:
-    name: bird:i386
+    name: bird2:i386
     state: present
     update_cache: "{{add_i386.changed}}"
   when: bgp.i386_bird | default(False)
-  tags: bgp, bird,  bird4, bird6
+  tags: bgp, bird
 
 - name: Ensure bird (native) is installed
   apt:
-    name: bird
+    name: bird2
     state: present
   when: not (bgp.i386_bird | default(False))
-  tags: bgp, bird,  bird4, bird6
+  tags: bgp, bird
 
-- name: Ensure common config directory exists
+- name: Ensure bird config directory exists
   file:
-    path: /etc/bird/common
+    path: /etc/bird/
     state: directory
-  tags: bgp, bird, bird4, bird6
+  tags: bgp, bird
 
-- name: Ensure common configs are installed
+- name: Ensure bird configs are installed
   copy:
-    src: etc/bird/common
+    src: etc/bird/
     dest: /etc/bird
     mode: 0644
   notify:
     - Reload bird config
-    - Reload bird6 config
-  tags: bgp, bird, bird4, bird6
+  tags: bgp, bird
 
-- name: Ensure common protcols directory exists
+- name: Ensure bird protcols directory exists
   file:
-    path: /etc/bird/common/protocols
+    path: /etc/bird/protocols
     state: directory
-  tags: bgp, bird, bird4, bird6
+  tags: bgp, bird
 
-- name: Ensure common templates are installed
+- name: Ensure bird templates are installed
   template:
-    src: etc/bird/common/protocols/020-templates.conf.j2
-    dest: /etc/bird/common/protocols/020-templates.conf
+    src: etc/bird/protocols/020-templates.conf.j2
+    dest: /etc/bird/protocols/020-templates.conf
     mode: 0644
   notify:
     - Reload bird config
-    - Reload bird6 config
-  tags: bgp, bird, bird4, bird6
+  tags: bgp, bird
 
-- name: Configure bird (IPv4)
+- name: Configure bird
   import_tasks:
     file: bird.yml
-  tags: bgp, bird, bird4
-
-- name: Configure bird6 (IPv6)
-  import_tasks:
-    file: bird6.yml
-  tags: bgp, bird, bird6
+  tags: bgp, bird
