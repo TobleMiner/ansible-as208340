@@ -3,6 +3,11 @@
   apt:
     name: unbound
     state: present
+  
+- name: Ensure unbound control socket certificates exist 
+  command: unbound-control-setup
+  args: 
+    creates: /etc/unbound/unbound_server.pem
 
 - name: Ensure unbound is configured
   template:
