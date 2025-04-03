@@ -1,8 +1,24 @@
 ---
-- name: Ensure bird is installed
+
+- name: Ensure 32bit/i386 architecture is enabled
+  lineinfile: dest=/var/lib/dpkg/arch line="i386" create=yes
+  register: add_i386
+  when: bgp.i386_bird | default(False)
+  tags: bgp, bird,  bird4, bird6
+
+- name: Ensure bird (32bit/i386) is installed
+  apt:
+    name: bird:i386
+    state: present
+    update_cache: "{{add_i386.changed}}"
+  when: bgp.i386_bird | default(False)
+  tags: bgp, bird,  bird4, bird6
+
+- name: Ensure bird (native) is installed
   apt:
     name: bird
     state: present
+  when: not (bgp.i386_bird | default(False))
   tags: bgp, bird,  bird4, bird6
 
 - name: Ensure common config directory exists
