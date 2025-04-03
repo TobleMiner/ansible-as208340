@@ -2,6 +2,7 @@ protocol bgp '{{ friendly_name }}' from bgp_internal {
   neighbor {{ peer_address }}%'{{ peer_interface }}' as OWN_AS;
   gateway direct;
   direct;
+  next hop self;
 {% if rr_role == "client" %}
   rr client;
 {%- endif %}
