@@ -1,5 +1,7 @@
 protocol static '{{ net_sanitized }}' {
-  table t_fulltable;
+  ipv6 {
+    table t_fulltable_v6;
+  };
 {% if announce.ipv6.interface is defined %}
   route {{ announce.ipv6.net }} via "{{ announce.ipv6.interface }}";
 {% else %}

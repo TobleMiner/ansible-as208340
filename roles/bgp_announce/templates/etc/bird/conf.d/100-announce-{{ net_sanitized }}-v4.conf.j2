@@ -1,5 +1,7 @@
 protocol static '{{ net_sanitized }}' {
-  table t_fulltable;
+  ipv4 {
+    table t_fulltable_v4;
+  };
 {% if announce.ipv4.interface is defined %}
   route {{ announce.ipv4.net }} via "{{ announce.ipv4.interface }}";
 {% else %}
