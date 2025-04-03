@@ -88,5 +88,5 @@
     wg_peer:
       key: '{{ peer.wireguard.key }}'
       port: '{{ (peername ~ inventory_hostname) | hashnum(peer_port_start, peer_port_end) }}'
-      endpoint: '{% if (peer.wireguard.float | default(False)) %}False{% else %}{% if (interfaces.wan.ipv4 | default(False)) and (peer.interfaces.wan.ipv4 | default(False)) %}{{ peer.interfaces.wan.ipv4 | strip_prefixlen }}{% else %}[{{ peer.interfaces.wan.ipv6 | strip_prefixlen }}]{% endif %}{% endif %}'
+      endpoint: '{% if (peer.wireguard.float | default(False)) %}False{% else %}{% if (interfaces.wan.ipv6 | default(False)) and (peer.interfaces.wan.ipv6 | default(False) and not ((interfaces.wan.ipv4 | default(False)) and (peer.interfaces.wan.ipv4 | default(False)))) %}{{ peer.interfaces.wan.ipv6 | strip_prefixlen }}{% else %}[{{ peer.interfaces.wan.ipv4 | strip_prefixlen }}]{% endif %}{% endif %}'
   when: wireguard is defined and peer.wireguard is defined
