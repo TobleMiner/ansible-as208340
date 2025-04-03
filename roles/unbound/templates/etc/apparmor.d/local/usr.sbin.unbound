@@ -1,0 +1,2 @@
+{{ unbound.tls_service_key }} r,
+{{ unbound.tls_service_pem }} r,
