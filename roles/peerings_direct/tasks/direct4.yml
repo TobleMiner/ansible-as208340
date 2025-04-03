@@ -8,8 +8,8 @@
 
 - name: Ensure IPv4 peering with {{ peername }} is set up
   template:
-    src: '{{ "etc/bird/bird4/peers/direct-{{ peername }}.conf.j2" }}'
-    dest: /etc/bird/bird4/peers/direct-{{ peername }}.conf
+    src: '{{ "etc/bird/peers/direct-{{ peername }}-v4.conf.j2" }}'
+    dest: /etc/bird/peers/direct-{{ peername }}-v4.conf
     mode: 0600
     owner: bird
   notify: Reload bird config
