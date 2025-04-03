@@ -1,5 +1,4 @@
-local-address={{ powerdns.listen.ipv4 | default('127.0.0.1') }}
-local-address={{ powerdns.listen.ipv6 | default('::1') }}
+local-address={{ powerdns.listen.ipv4 | default('127.0.0.1') }}, {{ powerdns.listen.ipv6 | default('::1') }}
 version-string=AS{{ asn }}
 geoip-zones-file=/etc/powerdns/zone.yml
 launch=geoip
