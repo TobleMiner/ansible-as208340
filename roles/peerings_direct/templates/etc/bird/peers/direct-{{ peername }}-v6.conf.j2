@@ -13,7 +13,7 @@ protocol bgp '{{ peername }}_v6' from bgp_{{ peering_type }} {
     import filter
     string res_import_{{ res_var_suffix }};
     {
-      res_import_{{ res_var_suffix }} = f_upstream_import();
+      res_import_{{ res_var_suffix }} = f_upstream_import_v6();
       if res_import_{{ res_var_suffix }} = "" then {
     {%- if peering.filter.import.prepend is defined %}
       {%- for _ in range(peering.filter.import.prepend) %}
@@ -31,7 +31,7 @@ protocol bgp '{{ peername }}_v6' from bgp_{{ peering_type }} {
     export filter
     string res_export_{{ res_var_suffix }};
     {
-      res_export_{{ res_var_suffix }} = f_upstream_export({{ 'true' if peering_type == 'upstream_transitive' else 'false' }});
+      res_export_{{ res_var_suffix }} = f_upstream_export_v6({{ 'true' if peering_type == 'upstream_transitive' else 'false' }});
       if res_export_{{ res_var_suffix }} = "" then {
     {%- if peering.filter.export.prepend is defined %}
       {%- for _ in range(peering.filter.export.prepend) %}
