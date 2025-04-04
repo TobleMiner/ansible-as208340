@@ -2,11 +2,11 @@ define ROUTER_ID={{ bgp.router_id }};
 
 define OWN_AS={{ asn }};
 
-function is_own_net_v4() {
+function is_own_net_v4() -> bool {
   return net ~ [ {{ ipv4_net }}+ ];
 }
 
-function is_own_net_v6() {
+function is_own_net_v6() -> bool {
   return net ~ [ {{ ipv6_net }}+ ];
 }
 
