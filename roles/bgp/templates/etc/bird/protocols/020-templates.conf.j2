@@ -52,6 +52,7 @@ template bgp 'bgp_upstream_transitive' {
 
 template bgp 'bgp_internal' {
   local as OWN_AS;
+  bfd graceful;
 {% if bgp.route_reflection is defined and bgp.route_reflection %}
   {%- if bgp.route_reflection == 'off' %}
   {# Same as false and not defined, don't do anything #}

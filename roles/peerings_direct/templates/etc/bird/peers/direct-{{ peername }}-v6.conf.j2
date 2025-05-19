@@ -7,6 +7,9 @@ protocol bgp '{{ peername }}_v6' from bgp_{{ peering_type }} {
 {% if peering.password is defined %}
   password "{{ peering.password }}";
 {% endif %}
+{% if peering.bfd is defined %}
+  bfd graceful;
+{% endif %}
 {% set res_var_suffix = peername | regex_replace('[^a-zA-Z0-9_]', '_') %}
   ipv6 {
   {% if peering.filter.import is defined %}
