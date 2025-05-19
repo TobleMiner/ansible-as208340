@@ -1,2 +1,5 @@
 # Allow incoming BGP connections from {{ peername }} via IPv6
 ip6tables -A INPUT -p tcp --dport 179 -i {{ peering.self.ifname }} -s {{ peering.peer.ipv6 }}/32 -j ACCEPT -m comment --comment "Accept BGP from {{ peername }}"
+# Allow incoming BFD connections from {{ peername }} via IPv6
+ip6tables -A INPUT --dport 3784 -i {{ peering.self.ifname }} -s {{ peering.peer.ipv6 }}/128 -j ACCEPT -m comment --comment "Accept BFD from {{ peername }}"
+ip6tables -A INPUT --dport 4784 -i {{ peering.self.ifname }} -s {{ peering.peer.ipv6 }}/128 -j ACCEPT -m comment --comment "Accept BFD multi-hop from {{ peername }}"
