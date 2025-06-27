@@ -1,0 +1,12 @@
+bird_exporter:
+  binaries:
+    x86_64:
+      url: https://github.com/czerwonk/bird_exporter/releases/download/1.4.3/bird_exporter_1.4.3_linux_amd64.tar.gz
+      checksum: sha256:d461e186f64bd484f9bfddd8b692d86a5ba418cb0af643ddaa4a3bee3edc99c2
+      dest: /tmp/bird_exporter_amd64.tar.gz
+      path: /tmp/bird_exporter_amd64/
+    arm64:
+      url: https://github.com/czerwonk/bird_exporter/releases/download/1.4.3/bird_exporter_1.4.3_linux_arm64.tar.gz
+      checksum: sha256:b1f8a8288e77a61558c4fa4b53d4a53e405ecf837871a028ce93e4826f9be1f0
+      dest: /tmp/bird_exporter_arm64.tar.gz
+      path: /tmp/bird_exporter_arm64/
