@@ -1,0 +1,68 @@
+---
+- name: Ensure Prometheus connections are allowed
+  template:
+    src:  'etc/iptables.d/500-allow-unbound-exporter.conf.j2'
+    dest: '/etc/iptables.d/500-allow-unbound-exporter.conf'
+    mode: 0644
+  notify: Restart iptables daemon
+  tags: unbound_exporter
+
+- name: Download unbound_exporter (locally)
+  ansible.builtin.get_url:
+    url: "{{ unbound_exporter.binaries[ansible_facts.architecture].url }}"
+    dest: "{{ unbound_exporter.binaries[ansible_facts.architecture].dest }}"
+    checksum: "{{ unbound_exporter.binaries[ansible_facts.architecture].checksum }}"
+  delegate_to: localhost
+  tags: unbound_exporter
+
+- name: Ensure unbound_exporter folder exists (locally)
+  ansible.builtin.file:
+    path: "{{ unbound_exporter.binaries[ansible_facts.architecture].path }}"
+    state: directory
+    mode: '0755'
+  delegate_to: localhost
+  tags: unbound_exporter
+
+- name: Extract unbound_exporter (locally)
+  ansible.builtin.unarchive:
+    src: "{{ unbound_exporter.binaries[ansible_facts.architecture].dest }}"
+    dest: "{{ unbound_exporter.binaries[ansible_facts.architecture].path }}"
+  delegate_to: localhost
+  tags: unbound_exporter
+
+- name: Upload unbound_exporter
+  ansible.builtin.copy:
+    src: "{{ unbound_exporter.binaries[ansible_facts.architecture].path }}/unbound-exporter"
+    dest: /opt/unbound_exporter
+    owner: root
+    group: root
+    mode: '0755'
+  tags: unbound_exporter
+
+- name: Ensure unbound_exporter blocklist folder exist
+  ansible.builtin.file:
+    path: "/opt/unbound/blocklists/"
+    state: directory
+    mode: '0755'
+  tags: unbound_exporter
+
+- name: Ensure (empty) unbound_exporter blocklist file exist
+  ansible.builtin.file:
+    path: "/opt/unbound/blocklists/unbound.block.conf"
+    state: touch
+    mode: '0644'
+  tags: unbound_exporter
+
+- name: Ensure unbound_exporter daemon service file is deployed
+  copy:
+    src: etc/systemd/system/unbound-exporter.service
+    dest: /etc/systemd/system/unbound-exporter.service
+  notify: Restart unbound-exporter daemon
+  tags: unbound_exporter
+
+- name: Ensure unbound-exporter daemon is started
+  service:
+    name: unbound-exporter
+    enabled: yes
+    state: started
+  tags: unbound_exporter

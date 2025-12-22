@@ -1,0 +1,12 @@
+unbound_exporter:
+  binaries:
+    x86_64:
+      url: https://github.com/Manawyrm/unbound-exporter/releases/download/v1.0.0/unbound-exporter_1.0.0_linux_amd64.tar.gz
+      checksum: sha256:6b823eeeb8e8bb2a787f59ae87c379651170b0712dcd9f61124c78e95b6a0da0
+      dest: /tmp/unbound_exporter_amd64.tar.gz
+      path: /tmp/unbound_exporter_amd64/
+    arm64:
+      url: https://github.com/Manawyrm/unbound-exporter/releases/download/v1.0.0/unbound-exporter_1.0.0_linux_arm64.tar.gz
+      checksum: sha256:5c554991643796ba7c99e2599b39f2f350f3d2fbf73c3a45f7e75a8ce6d6b794
+      dest: /tmp/unbound_exporter_arm64.tar.gz
+      path: /tmp/unbound_exporter_arm64/
