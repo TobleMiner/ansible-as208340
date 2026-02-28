@@ -3,6 +3,9 @@ PrivateKey = {{ wg_self.key.private }}
 ListenPort = {{ wg_self.port }}
 
 {% for wg_peer in wg_peers %}
+{%- if wg_peer.name is defined %}
+# {{ wg_peer.name }}
+{% endif %}
 [Peer]
 PublicKey = {{ wg_peer.key.public }}
 AllowedIPs = 0.0.0.0/0, ::/0
