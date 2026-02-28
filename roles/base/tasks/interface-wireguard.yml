@@ -10,11 +10,7 @@
       mtu: '{{ iface.mtu | default(False) }}'
       ipv4: '{{ iface.ipv4 | default([]) }}'
       ipv6: '{{ iface.ipv6 | default([]) }}'
-    wg_peer:
-      key:
-        public: '{{ iface.wireguard.peer.key.public }}'
-      port: '{{ iface.wireguard.peer.port | default("") }}'
-      endpoint: '{{ iface.endpoint | default(False) }}'
+    wg_peers: '{{ iface.wireguard.peers if iface.wireguard.peers is defined else [ { "key": { "public": iface.wireguard.peer.key.public }, "port": iface.wireguard.peer.port | default(""), "endpoint": iface.endpoint | default(False) } ] }}'
   include_role:
-    name: wireguard_p2p
+    name: wireguard
   tags: base, interfaces

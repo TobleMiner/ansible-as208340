@@ -2,6 +2,7 @@
 PrivateKey = {{ wg_self.key.private }}
 ListenPort = {{ wg_self.port }}
 
+{% for wg_peer in wg_peers %}
 [Peer]
 PublicKey = {{ wg_peer.key.public }}
 AllowedIPs = 0.0.0.0/0, ::/0
@@ -9,3 +10,4 @@ AllowedIPs = 0.0.0.0/0, ::/0
 Endpoint = {{wg_peer.endpoint}}:{{ wg_peer.port }}
 {% endif %}
 PersistentKeepalive = 25
+{% endfor %}

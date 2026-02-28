@@ -13,13 +13,13 @@
 #      dest: /etc/iptables.d/100-device-wg-{{ site.code }}
 #    notify: restart firewall
 #  when: 'wireguard is defined'
-#  tags: wireguard_p2p, firewall
+#  tags: wireguard, firewall
 
 - name: Ensure wireguard config directory exists
   file:
     path: /etc/wireguard
     state: directory
-  tags: wireguard_p2p
+  tags: wireguard
 
 - name: Ensure wireguard config is deployed
   vars:
@@ -28,7 +28,7 @@
     src: '{{ "etc/wireguard/{{ ifname }}.conf.j2" }}'
     dest: '/etc/wireguard/{{ ifname }}.conf'
   register: ensure_wg_config
-  tags: wireguard_p2p
+  tags: wireguard
 
 - name: Ensure wireguard interface config is deployed
   vars:
@@ -48,7 +48,7 @@
           - ip link del $IFACE || true
   import_role:
     name: interface
-  tags: wireguard_p2p
+  tags: wireguard
 
 - name: Restart {{ interface.name }}
   vars:
