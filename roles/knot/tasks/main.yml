@@ -1,0 +1,15 @@
+---
+- name: Install knot
+  vars:
+    knot_zone_whoami:
+      domain: whoami
+      ttl: 300
+      records:
+        whoami:
+          - soa: 'ns1.example.com hostmaster.example.com 2019092600 7200 3600 1209600 3600'
+          - txt: '{{ friendly_name }}'
+    knot_domains: '{{ knot.domains | default([]) | pdns_host_zone_unite(hostvars) | pdns_zone_unite([ knot_zone_whoami ]) }}'
+
+  import_tasks:
+    file: knot.yml
+  tags: knot

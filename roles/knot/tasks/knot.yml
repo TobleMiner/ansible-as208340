@@ -1,0 +1,38 @@
+---
+- name: Ensure knot is installed
+  apt:
+    name: knot
+    state: present
+
+- name: Ensure knot zone directory exists
+  file:
+    path: /etc/knot/zones
+    state: directory
+  notify: Restart knot
+
+- name: Ensure knot zone configuration exists
+  template:
+    src:  etc/knot/zones.conf.j2
+    dest: /etc/knot/zones.conf
+  notify: Restart knot
+
+- name: Ensure knot zonefiles exists
+  vars:
+    domain: '{{ item }}'
+  template:
+    src:  '{{ "etc/knot/zones/{{ item }}.zone.j2" }}'
+    dest: '/etc/knot/zones/{{ domain.domain }}.zone'
+  notify: Restart knot
+  with_items: '{{ knot_domains }}'
+
+- name: Ensure knot is configured
+  template:
+    src:  etc/knot/knot.conf.j2
+    dest: /etc/knot/knot.conf
+  notify: Restart knot
+
+- name: Ensure knot server is enabled and started
+  service:
+    name: knot
+    state: started
+    enabled: yes

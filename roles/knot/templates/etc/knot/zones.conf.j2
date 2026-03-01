@@ -1,0 +1,31 @@
+mod-synthrecord:
+{% for domain in knot_domains %}
+{% for dynamic_record in domain.dynamic_records | default([]) %}
+{% if dynamic_record.type == 'reverse' %}
+  - id: {{ domain.domain }}-reverse-{{ dynamic_record.network | replace(':', '-') | replace('/', '_') }}
+    type: reverse
+    ttl: {{ domain.ttl }}
+    prefix: {{ dynamic_record.prefix }}
+    origin: {{ dynamic_record.domain }}
+    network: {{ dynamic_record.network }}
+{% elif dynamic_record.type == 'forward' %}
+  - id: {{ domain.domain }}-forward-{{ dynamic_record.network | replace(':', '-') | replace('/', '_') }}
+    type: forward
+    ttl: {{ domain.ttl }}
+    prefix: {{ dynamic_record.prefix }}
+    network: {{ dynamic_record.network }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+zone:
+{% for domain in knot_domains %}
+  - domain: {{ domain.domain }}
+{% for dynamic_record in domain.dynamic_records | default([]) %}
+{% if dynamic_record.type == 'reverse' %}
+    module: mod-synthrecord/{{ domain.domain }}-reverse-{{ dynamic_record.network | replace(':', '-') | replace('/', '_') }}
+{% elif dynamic_record.type == 'forward' %}
+    module: mod-synthrecord/{{ domain.domain }}-forward-{{ dynamic_record.network | replace(':', '-') | replace('/', '_') }}
+{% endif %}
+{% endfor %}
+{% endfor %}

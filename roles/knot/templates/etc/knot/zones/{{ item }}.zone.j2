@@ -1,0 +1,10 @@
+$ORIGIN {{ domain.domain }}.
+$TTL {{ domain.ttl }}
+
+{% for (name, entries) in domain.records.items() %}
+{% for entry in entries %}
+{% for (type, value) in entry.items() %}
+{{ name }}. IN {{ type | upper }} {{ value }}
+{% endfor %}
+{% endfor %}
+{% endfor %}
