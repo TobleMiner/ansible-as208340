@@ -57,9 +57,17 @@ def zone_unite(zone1, zone2):
   zone1.extend(a.values())
   return zone1
 
+def host_zone_unite(domains, hosts):
+  domains_mut = deepcopy(domains)
+  for (_, host) in hosts.items():
+    host_domains = host.get('domains', [])
+    domains_mut = zone_unite(domains_mut, host_domains)
+  return domains_mut
+
 class FilterModule(object):
   def filters(self):
     return {
       'pdns_zone_fixup': zone_fixup,
-      'pdns_zone_unite': zone_unite
+      'pdns_zone_unite': zone_unite,
+      'pdns_host_zone_unite': host_zone_unite
     }
