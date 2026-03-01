@@ -46,6 +46,12 @@ def zone_unite(zone1, zone2):
         records_a[record_name].append(record)
 
     domain_a['records'] = records_a
+
+    dnyamic_records_a = domain_a.get('dynamic_records', [])
+    dynamic_records_b = domain_b.get('dynamic_records', [])
+    dnyamic_records_a.extend(dynamic_records_b)
+    domain_a['dynamic_records'] = dnyamic_records_a
+
     a[domain_name] = domain_a
 
   zone1.extend(a.values())
