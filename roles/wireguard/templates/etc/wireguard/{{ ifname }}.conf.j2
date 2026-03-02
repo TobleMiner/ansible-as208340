@@ -8,7 +8,11 @@ ListenPort = {{ wg_self.port }}
 {% endif %}
 [Peer]
 PublicKey = {{ wg_peer.key.public }}
+{% if wg_peer.allowed_ips is defined and wg_peer.allowed_ips != False %}
+AllowedIPs = {{ wg_peer.allowed_ips }}
+{% else %}
 AllowedIPs = 0.0.0.0/0, ::/0
+{% endif %}
 {% if wg_peer.endpoint is defined and wg_peer.endpoint != False %}
 Endpoint = {{wg_peer.endpoint}}:{{ wg_peer.port }}
 {% endif %}
