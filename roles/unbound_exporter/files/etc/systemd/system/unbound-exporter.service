@@ -1,0 +1,31 @@
+[Unit]
+Description=Unbound Exporter
+After=network.target
+Requires=unbound.service
+
+[Service]
+Type=simple
+ExecStart=/opt/unbound_exporter
+Restart=on-abort
+
+LimitMEMLOCK=256M
+
+PrivateTmp=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+ProtectSystem=strict
+
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=cap_dac_override
+ProtectClock=yes
+ProtectHome=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+ProtectHostname=yes
+
+[Install]
+WantedBy=multi-user.target

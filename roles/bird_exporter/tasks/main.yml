@@ -1,0 +1,54 @@
+---
+- name: Ensure Prometheus connections are allowed
+  template:
+    src:  'etc/iptables.d/500-allow-bird-exporter.conf.j2'
+    dest: '/etc/iptables.d/500-allow-bird-exporter.conf'
+    mode: 0644
+  notify: Restart iptables daemon
+  tags: bird_exporter
+
+- name: Download bird_exporter (locally)
+  ansible.builtin.get_url:
+    url: "{{ bird_exporter.binaries[ansible_facts.architecture].url }}"
+    dest: "{{ bird_exporter.binaries[ansible_facts.architecture].dest }}"
+    checksum: "{{ bird_exporter.binaries[ansible_facts.architecture].checksum }}"
+  delegate_to: localhost
+  tags: bird_exporter
+
+- name: Ensure bird_exporter folder exists (locally)
+  ansible.builtin.file:
+    path: "{{ bird_exporter.binaries[ansible_facts.architecture].path }}"
+    state: directory
+    mode: '0755'
+  delegate_to: localhost
+  tags: bird_exporter
+
+- name: Extract bird_exporter (locally)
+  ansible.builtin.unarchive:
+    src: "{{ bird_exporter.binaries[ansible_facts.architecture].dest }}"
+    dest: "{{ bird_exporter.binaries[ansible_facts.architecture].path }}"
+  delegate_to: localhost
+  tags: bird_exporter
+
+- name: Upload bird_exporter
+  ansible.builtin.copy:
+    src: "{{ bird_exporter.binaries[ansible_facts.architecture].path }}/bird_exporter"
+    dest: /opt/bird_exporter
+    owner: bird
+    group: bird
+    mode: '0755'
+  tags: bird_exporter
+
+- name: Ensure bird_exporter daemon service file is deployed
+  copy:
+    src: etc/systemd/system/bird-exporter.service
+    dest: /etc/systemd/system/bird-exporter.service
+  notify: Restart bird-exporter daemon
+  tags: bird_exporter
+
+- name: Ensure bird-exporter daemon is started
+  service:
+    name: bird-exporter
+    enabled: yes
+    state: started
+  tags: bird_exporter

@@ -1,0 +1,11 @@
+# Allow incoming unbound_exporter Prometheus connections
+{% for allowed_net in prometheus_exporter.allow.ipv4 | default([]) %}
+ip4tables -A INPUT -p tcp --dport 9167 -s {{ allowed_net }} -j ACCEPT -m comment --comment "Accept unbound_exporter Prometheus"
+{% endfor %}
+{% for allowed_net in prometheus_exporter.allow.ipv6 | default([]) %}
+ip6tables -A INPUT -p tcp --dport 9167 -s {{ allowed_net }} -j ACCEPT -m comment --comment "Accept unbound_exporter Prometheus"
+{% endfor %}
+
+# Block incoming unbound_exporter Prometheus
+ip4tables -A INPUT -p tcp --dport 9167 -j DROP -m comment --comment 'Block unbound_exporter Prometheus'
+ip6tables -A INPUT -p tcp --dport 9167 -j DROP -m comment --comment 'Block unbound_exporter Prometheus'
